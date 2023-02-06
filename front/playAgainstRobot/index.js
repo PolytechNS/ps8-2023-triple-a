@@ -1,5 +1,3 @@
-
-
 var playerRed = "RED";
 var playerYellow = "YELLOW";
 var playerToStart;
@@ -26,14 +24,54 @@ function setBoard() {
         let row = [];
         for (let c = 0; c < columns; c++) {
             row.push(' ');
+
             let tile = document.createElement("div");
+
             tile.id = r.toString() + "-" + c.toString();
             tile.classList.add("tile");
+
             tile.addEventListener("click", fillCercle);
+            document.getElementById("board").append(tile);
+
+            tile.addEventListener("click", IAFillsARandomCercle);
             document.getElementById("board").append(tile);
         }
         board.push(row);
+        console.log(board);
     }
+}
+
+function IAFillsARandomCercle() {
+    setTimeout(fillRandomCercle, 500);
+}
+
+//function that fill random circle
+function fillRandomCercle() {
+
+    if (gameOver) {
+        return;
+    }
+
+    let c = Math.floor(Math.random() * columns);
+    let r = rows - 1;
+
+    for (let i = rows - 1; i >= 0; i--) {
+        if (board[i][c] == ' ') {
+            r = i;
+            break;
+        }
+    }
+
+    let tile = document.getElementById(r.toString() + "-" + c.toString());
+    if (currentPlayer == playerRed) {
+        tile.classList.add("red-piece");
+        currentPlayer = playerYellow;
+    }
+    else {
+        tile.classList.add("yellow-piece");
+        currentPlayer = playerRed;
+    }
+    checkWinner();
 }
 
 function fillCercle() {
@@ -115,3 +153,4 @@ function checkVertical(r, c) {
     }
     return false;
 }
+

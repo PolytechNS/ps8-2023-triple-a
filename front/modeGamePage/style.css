@@ -18,8 +18,8 @@ image {
 
 #board {
     margin-top: 1.5cm;
-    height: 440px;
-    width: 500px;
+    height: 420px;
+    width: 480px;
     background-color: rgb(129, 196, 235);
     border: 5px solid navy;
     border-radius: 5%;
@@ -30,8 +30,8 @@ image {
 }
 
 .tile {
-    height: 60px;
-    width: 60px;
+    height: 56px;
+    width: 56px;
     margin: 5px;
 
     /* Circle */
@@ -170,6 +170,9 @@ h1 {
 }
 
 .button {
-    background-image: url("../images/Board-image.jpg");
-    background-color: #62b4e4;
+  height: auto;
+  width: 5cm;
+  background-image: url("../images/Board-image.jpg");
+  background-color: #62b4e4;
+  color: #1751bb;
 }
