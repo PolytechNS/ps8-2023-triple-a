@@ -152,3 +152,24 @@ h1 {
   text-align: center;
   padding-top: 15px;
 }
+
+.back {
+  width: 600px;
+  text-align: center;
+  height: auto;
+  border: 2px solid;
+  justify-content: center;
+  text-align: center;
+  margin: 1cm;
+  padding: 1cm;
+  box-shadow: tomato;
+  border-radius: 10px;
+  background-color: #fafafa;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button {
+    background-image: url("../images/Board-image.jpg");
+    background-color: #62b4e4;
+}
