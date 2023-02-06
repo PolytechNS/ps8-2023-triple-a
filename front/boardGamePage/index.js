@@ -99,12 +99,16 @@ function fillCercle() {
     currColumns[c] = r;
 
     checkWinner();
-    if (!gameOver ) {
+    if (!gameOver && buttonClicked) {
         // only play AI if the game isn't over
         playAI();
     }
 }
+let buttonClicked = false;
 
+function toggleButton() {
+    buttonClicked = !buttonClicked;
+}
 
 function playAI() {
     let c = Math.floor(Math.random() * columns);
