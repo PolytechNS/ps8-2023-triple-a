@@ -62,6 +62,9 @@ function fillRandomCercle() {
         }
     }
 
+    r = currColumns[c]; 
+
+    board[r][c] = currentPlayer;
     let tile = document.getElementById(r.toString() + "-" + c.toString());
     if (currentPlayer == playerRed) {
         tile.classList.add("red-piece");
@@ -71,6 +74,10 @@ function fillRandomCercle() {
         tile.classList.add("yellow-piece");
         currentPlayer = playerRed;
     }
+
+    r -= 1;
+    currColumns[c] = r;
+
     checkWinner();
 }
 
