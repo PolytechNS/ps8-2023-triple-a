@@ -1,5 +1,3 @@
-
-
 var playerRed = "RED";
 var playerYellow = "YELLOW";
 var playerToStart;
@@ -26,51 +24,62 @@ function setBoard() {
         let row = [];
         for (let c = 0; c < columns; c++) {
             row.push(' ');
+
             let tile = document.createElement("div");
+
             tile.id = r.toString() + "-" + c.toString();
             tile.classList.add("tile");
+
             tile.addEventListener("click", fillCercle);
+            document.getElementById("board").append(tile);
+
+            tile.addEventListener("click", IAFillsARandomCercle);
             document.getElementById("board").append(tile);
         }
         board.push(row);
+        console.log(board);
     }
 }
 
-function isAIGame() {
-    console.log(document.getElementById("play-against-ai").checked);
-
-    return document.getElementById("play-against-ai").checked;
+function IAFillsARandomCercle() {
+    setTimeout(fillRandomCercle, 500);
 }
 
-// function fillCercle() {
-//
-//     if (gameOver) {
-//         return;
-//     }
-//
-//     let coords = this.id.split("-");
-//     let r = parseInt(coords[0]);
-//     let c = parseInt(coords[1]);
-//
-//     r = currColumns[c];
-//
-//     board[r][c] = currentPlayer;
-//     let tile = document.getElementById(r.toString() + "-" + c.toString());
-//     if (currentPlayer == playerRed) {
-//         tile.classList.add("red-piece");
-//         currentPlayer = playerYellow;
-//     }
-//     else {
-//         tile.classList.add("yellow-piece");
-//         currentPlayer = playerRed;
-//     }
-//
-//     r -= 1;
-//     currColumns[c] = r;
-//
-//     checkWinner();
-// }
-var aiMakingMove = false;
+//function that fill random circle
+function fillRandomCercle() {
+
+    if (gameOver) {
+        return;
+    }
+
+    let c = Math.floor(Math.random() * columns);
+    let r = rows - 1;
+
+    for (let i = rows - 1; i >= 0; i--) {
+        if (board[i][c] == ' ') {
+            r = i;
+            break;
+        }
+    }
+
+    r = currColumns[c]; 
+
+    board[r][c] = currentPlayer;
+    let tile = document.getElementById(r.toString() + "-" + c.toString());
+    if (currentPlayer == playerRed) {
+        tile.classList.add("red-piece");
+        currentPlayer = playerYellow;
+    }
+    else {
+        tile.classList.add("yellow-piece");
+        currentPlayer = playerRed;
+    }
+
+    r -= 1;
+    currColumns[c] = r;
+
+    checkWinner();
+}
 
 function fillCercle() {
 
@@ -82,7 +91,7 @@ function fillCercle() {
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
 
-    r = currColumns[c];
+    r = currColumns[c]; 
 
     board[r][c] = currentPlayer;
     let tile = document.getElementById(r.toString() + "-" + c.toString());
@@ -99,53 +108,12 @@ function fillCercle() {
     currColumns[c] = r;
 
     checkWinner();
-    if (!gameOver && buttonClicked) {
-        // only play AI if the game isn't over
-        playAI();
-    }
-}
-let buttonClicked = false;
-
-function toggleButton() {
-    buttonClicked = !buttonClicked;
-}
-
-function playAI() {
-    let c = Math.floor(Math.random() * columns);
-    while (currColumns[c] < 0) {
-        c = Math.floor(Math.random() * columns);
-    }
-    let r = currColumns[c];
-    board[r][c] = currentPlayer;
-    let tile = document.getElementById(r.toString() + "-" + c.toString());
-    if (currentPlayer == playerRed) {
-        tile.classList.add("red-piece");
-        currentPlayer = playerYellow;
-    }
-    else {
-        tile.classList.add("yellow-piece");
-        currentPlayer = playerRed;
-    }
-
-    r -= 1;
-    currColumns[c] = r;
-
-    checkWinner();
-}
-
-function isBoardFull() {
-    for (let c = 0; c < columns; c++) {
-        if (currColumns[c] >= 0) {
-            return false;
-        }
-    }
-    return true;
 }
 
 function checkWinner() {
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
-            if (board[r][c] !== ' ') {
+            if (board[r][c] != ' ') {
                 if (checkHorizontal(r, c) || checkVertical(r, c) || checkDiagonal(r, c)) {
                     if ( currentPlayer == "RED" ) {
                         currentPlayer = "YELLOW";
@@ -177,14 +145,12 @@ function checkDiagonal(r, c) {
 
 function checkHorizontal(r, c) {
     if (c < 4) {
-        if (board[r][c] === board[r][c+1] && board[r][c] === board[r][c+2] && board[r][c] === board[r][c+3]) {
+        if (board[r][c] == board[r][c+1] && board[r][c] == board[r][c+2] && board[r][c] == board[r][c+3]) {
             return true;
         }
     }
     return false;
 }
-
-
 
 function checkVertical(r, c) {
     if (r < 3) {
@@ -194,3 +160,4 @@ function checkVertical(r, c) {
     }
     return false;
 }
+
