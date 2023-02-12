@@ -60,7 +60,17 @@ window.onload = function() {
 function main() {
     setBoard();
     fillTheClickedTile();
-    return boardGame;
+    let a = getAvailableCoordinates();
+    console.log("available", a);
+}
+
+function playOneVsOne() {
+    fillTheClickedTile();    
+}
+
+function playOneVsIA() {
+    fillTheClickedTile();
+    fillRandomTile();
 }
 
 function setBoard() {
@@ -102,6 +112,18 @@ function getCoordinatesOfTheClickedTile() {
             }
         });
     });
+}
+
+function getAvailableCoordinates() {
+    let availableCoordinates = [];
+    for (let i = 0; i < boardGame.length; i++) {
+        for (let j = 0; j < boardGame[i].length; j++) {
+            if (boardGame[i][j] == ' ') {
+                availableCoordinates.push([i, j]);
+            }
+        }
+    }
+    return availableCoordinates;
 }
 
 function fillTheClickedTile() {
