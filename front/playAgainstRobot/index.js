@@ -18,97 +18,6 @@ window.onload = function() {
     setBoard();
 }
 
-///////////////////////////////////////////////////////////////////////////////////////
-// Better version but need to be fixed
-/**
-function setTheBoard() {
-    board = [];
-    for (let r = 0; r < rows; r++) {
-        let row = [];
-        for (let c = 0; c < columns; c++) {
-            row.push(' ');
-            let tile = document.createElement("div");
-            tile.id = r.toString() + "-" + c.toString();
-            tile.classList.add("tile");
-            document.getElementById("board").append(tile);
-        }
-        board.push(row);
-    }
-}
-
-function userPlay() {
-
-    if (gameOver) {
-        return;
-    }
-
-    let coords = this.id.split("-");
-    let r = parseInt(coords[0]);
-    let c = parseInt(coords[1]);
-
-    r = currColumns[c]; 
-
-    board[r][c] = itsTheTurnOf;
-    let tile = document.getElementById(r.toString() + "-" + c.toString());
-    if (itsTheTurnOf == playerRed) {
-        tile.classList.add("red-piece");
-        itsTheTurnOf = playerYellow;
-    }
-    
-
-    r -= 1;
-    currColumns[c] = r;
-
-    checkWinner();
-
-}
-
-//function that fill random circle
-function fillRandomCercle() {
-
-    if (gameOver) {
-        return;
-    }
-
-    let c = Math.floor(Math.random() * columns);
-    let r = rows - 1;
-    console.log("Choosen r c before :", r, c);
-    console.log("board r c :", board[r][c]);
-    for (let i = rows - 1; i >= 0; i--) {
-        if (board[i][c] == ' ') {
-            r = i;
-            break;
-        }
-    }
-
-    console.log("Choosen r c :", r, c);
-    console.log("board r c :", board[r][c]);
-
-    r = currColumns[c]; 
-
-    board[r][c] = itsTheTurnOf;
-    let tile = document.getElementById(r.toString() + "-" + c.toString());
-    if (itsTheTurnOf == playerRed) {
-        tile.classList.add("red-piece");
-        itsTheTurnOf = playerYellow;
-    }
-    else {
-        tile.classList.add("yellow-piece");
-        itsTheTurnOf = playerRed;
-    }
-
-    r -= 1;
-    currColumns[c] = r;
-
-    checkWinner();
-}
-
-function IAplay() {
-    setTimeout(fillRandomCercle, 500);
-}
-*/
-///////////////////////////////////////////////////////////////////////////////////////
-
 function setBoard() {
     board = [];
     currColumns = [5, 5, 5, 5, 5, 5, 5];
@@ -182,25 +91,6 @@ function randomAvailableCoordinates() {
             }
         }
     }
-
-/*
-    let matrix = [];
-    for ( let i = 0; i < rows - 1; ++i ) {
-        matrix[i] = [];
-        for ( let j = 0; j < columns - 1; ++j ) {
-            matrix[i][j] = [];
-            if ( intermediate.indexOf([i, j]) == -1 ) {
-                matrix[i][j] = [i, j];
-            }
-            else {
-                matrix[i][j] = 'X';
-            }
-        }
-    }
-    
-    console.log(matrix.toString());
-*/
-
 
     let index = Math.floor(Math.random() * (intermediate.length - 1));
 
