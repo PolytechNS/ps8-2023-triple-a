@@ -1,6 +1,8 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    background-image: url("../images/sky-background.jpg");
+    background-color: #62b4e4;
 }
 
 .box {
@@ -10,42 +12,20 @@ body {
   margin-right: auto;
 }
 
+form input {
+  width: 92%;
+  outline: none;
+  border: 2px solid rgb(3, 3, 128);
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background: #e4e4e4;
+}
+
 /*the image should be 50% of the box*/
 image {
   width: 50%;
   height: 50%; 
-}
-
-#board {
-    margin-top: 1.5cm;
-    height: 420px;
-    width: 480px;
-    background-color: rgb(129, 196, 235);
-    border: 5px solid navy;
-    border-radius: 5%;
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.tile {
-    height: 56px;
-    width: 56px;
-    margin: 5px;
-
-    /* Circle */
-    background-color: rgb(183, 226, 229);
-    border-radius: 70%;
-    border: 3px solid navy;
-}
-
-.red-piece {
-    background-color: red;
-}
-
-.yellow-piece {
-    background-color: yellow;
 }
 
 *{
@@ -83,19 +63,6 @@ form input {
   margin-bottom: 10px;
   border-radius: 20px;
   background: #e4e4e4;
-}
-
-button {
-  font-size: 1rem;
-  margin-top: 1.8rem;
-  padding: 10px 0px;
-  border-radius: 20px;
-  outline: none;
-  border: none;
-  width: 90%;
-  color: #fff;
-  cursor: pointer;
-  background: rgb(17, 107, 143);
 }
 
 button:hover {
@@ -157,7 +124,7 @@ h1 {
   width: 600px;
   text-align: center;
   height: auto;
-  border: 2px solid;
+  border: 2px solid rgb(3, 3, 128);
   justify-content: center;
   text-align: center;
   margin: 1cm;
@@ -169,10 +136,23 @@ h1 {
   margin-right: auto;
 }
 
-.button {
+button {
+  font-size: 1rem;
+  margin-top: 1.8rem;
+  padding: 10px 0px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 90%;
+  color: #fff;
+  cursor: pointer;
+  background: rgb(17, 107, 143);
+}
+
+.choose {
+  color: rgb(3, 3, 128);
   height: auto;
   width: 5cm;
+  border: 1px solid rgb(3, 3, 128);
   background-image: url("../images/Board-image.jpg");
-  background-color: #62b4e4;
-  color: #1751bb;
 }
