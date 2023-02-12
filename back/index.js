@@ -29,3 +29,35 @@ http.createServer(function (request, response) {
     }
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 }).listen(8000);
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+//const uri = "mongodb+srv://admin:admin@ps8cluster.ceqcgq2.mongodb.net/?retryWrites=true&w=majority";
+const url = 'mongodb://admin:admin@mongodb/admin?directConnection=true';
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+//const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+async function createDatabaseAndUser() {
+    try {
+        await client.connect();
+        console.log('Connected to MongoDB');
+        //NAME OF THE DATABASE
+        const db = client.db("connect4");
+        //NAME OF THE COLLECTION
+        const usersCollection = db.collection("log");
+        //VALUES TO INSERT
+        const values = { username: "admin" , password: "admin" , mail : "aze@gmail.com" };
+
+        const result = await usersCollection.insertOne(values);
+        console.log('Document inserted', result.insertedId);
+    } catch (err) {
+        console.error('Failed to create database or user', err);
+    } finally {
+        await client.close();
+    }
+}
+createDatabaseAndUser();

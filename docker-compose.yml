@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27023:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
+    volumes:
+      - mongodb:/data/db
+  
+
+  nodejs:
+    build: .
+    ports:
+      - "8000:8000"
+volumes:
+    mongodb: {}
+    

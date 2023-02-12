@@ -1,7 +1,27 @@
+const apiLogin = require('./login/login.js')
+const apiRegister = require('./login/register.js')
+//const apiGame = require('./game/game.js')
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
 function manageRequest(request, response) {
-    response.statusCode = 200;
-    response.end(`Thanks for calling ${request.url}`);
+    let filePath = request.url.split("/").filter(function(elem) {
+        return elem !== "..";
+    });
+    if (filePath[2] === "login") {
+        apiLogin.manage(request, response);
+        // If it doesn't start by /api, then it's a request for a file.
+    }
+    else if (filePath[2] === "register") {
+        apiRegister.manage(request, response);
+        // If it doesn't start by /api, then it's a request for a file.
+    }
+    //else if (filePath[2] === "game") {
+        //apiGame.manage(request, response);
+        // If it doesn't start by /api, then it's a request for a file.
+    
+    else {
+        response.statusCode = 400;
+        response.end(`Something in your request (${request.url}) is strange...`);
+    }
 }
 
 /* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:
