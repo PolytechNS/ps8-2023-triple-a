@@ -1,37 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-    
-  <head>
-    <title>Sign Up | By Code Info</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-          background-image: url("../images/sky-background.jpg");
-          background-color: #62b4e4;
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--    -->
+<!--  <head>-->
+<!--    <title>Sign Up | By Code Info</title>-->
+<!--    <link rel="stylesheet" href="style.css">-->
+<!--    <style>-->
+<!--        body {-->
+<!--          background-image: url("../images/sky-background.jpg");-->
+<!--          background-color: #62b4e4;-->
+<!--        }-->
+<!--    </style>-->
+<!--  </head>-->
+
+<!--  <body>-->
+<!--    <div class="back">-->
+<!--        <h1>Sign Up</h1>-->
+<!--        <form action="#">-->
+<!--            -->
+<!--            <input type="text" placeholder="Name" name="reg_name"/>-->
+<!--            <input type="text" placeholder="Addres mail" name="reg_email"/>-->
+<!--            <input type="password" placeholder="Password" name="reg_pswd" />-->
+<!--            <input type="password" placeholder="Confirm password" name="reg_pswd2" />-->
+<!--        </form>-->
+<!--        <div class="terms">-->
+<!--            <input type="checkbox" id="checkbox">-->
+<!--            <label for="checkbox">I agree to these-->
+<!--                <a href="#"> Terms and Conditions</a>-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <a href="../modeGamePage/selectMode.html"><button class="button" id="registerButton">Sign Up</button></a>-->
+<!--        <div class="member">-->
+<!--            Already have an account? <a href="logIn.html">Login here</a>-->
+<!--        </div>-->
+<!--  </body>-->
+
+<!--</html>--><!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<h1>Register</h1>
+<form id="registerForm">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+    </div>
+    <button type="submit">Register</button>
+</form>
+<script>
+    const registerForm = document.querySelector('#registerForm');
+    registerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(registerForm);
+        const username = formData.get('username');
+        const password = formData.get('password');
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+        if (response.ok) {
+            console.log(response.data);
+            alert('Registration successful. Please log in.');
+            window.location.href = 'logIn.html';
+        } else {
+            alert('Registration failed. Please try again.');
         }
-    </style>
-  </head>
-
-  <body>
-    <div class="back">
-        <h1>Sign Up</h1>
-        <form action="#">
-            
-            <input type="text" placeholder="Name" name="reg_name"/>
-            <input type="text" placeholder="Addres mail" name="reg_email"/>
-            <input type="password" placeholder="Password" name="reg_pswd" />
-            <input type="password" placeholder="Confirm password" name="reg_pswd2" />
-        </form>
-        <div class="terms">
-            <input type="checkbox" id="checkbox">
-            <label for="checkbox">I agree to these
-                <a href="#"> Terms and Conditions</a>
-            </label>
-        </div>
-        <a href="../modeGamePage/selectMode.html"><button class="button" id="registerButton">Sign Up</button></a>
-        <div class="member">
-            Already have an account? <a href="logIn.html">Login here</a>
-        </div>
-  </body>
-
+    });
+</script>
+</body>
 </html>

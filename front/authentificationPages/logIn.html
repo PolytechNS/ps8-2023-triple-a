@@ -1,29 +1,84 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--    -->
+<!--  <head>-->
+<!--    <title>Sign Up | By Code Info</title>-->
+<!--    <link rel="stylesheet" href="style.css">-->
+<!--  </head>-->
+
+<!--  <body>-->
+<!--    -->
+<!--    <div class="back">-->
+<!--      <div class="signup-box">-->
+<!--        <h1>Log In</h1>-->
+<!--        <form action="#">-->
+<!--            <input type="text" placeholder="Username" name="log_name" />-->
+<!--            <input type="password" placeholder="Password" name="log_pswd" />-->
+<!--            <div class="recover">-->
+<!--              <a href="#">Forgot Password ?</a>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--        </div>-->
+<!--        <a href="../modeGamePage/selectMode.html"><button class="button" id="loginButton">LogIn</button></a>-->
+<!--        <div class="member">-->
+<!--            Not yet a member ? <a href="signUp.html">Register Now</a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--  </body>-->
+
+<!--</html>-->
 <!DOCTYPE html>
-<html lang="en">
-    
-  <head>
-    <title>Sign Up | By Code Info</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-
-  <body>
-    
-    <div class="back">
-      <div class="signup-box">
-        <h1>Log In</h1>
-        <form action="#">
-            <input type="text" placeholder="Username" name="log_name" />
-            <input type="password" placeholder="Password" name="log_pswd" />
-            <div class="recover">
-              <a href="#">Forgot Password ?</a>
-            </div>
-        </form>
-        </div>
-        <a href="../modeGamePage/selectMode.html"><button class="button" id="loginButton">LogIn</button></a>
-        <div class="member">
-            Not yet a member ? <a href="signUp.html">Register Now</a>
-        </div>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<form id="loginForm">
+    <div>
+        <label>
+            <input type="text" placeholder="Enter Username" name="log_name" class="inp" required>
+        </label>
+        <label>
+            <input type="password" placeholder="Enter Password" name="log_pswd" class="inp" required>
+        </label>
     </div>
-  </body>
 
+    <button class ="button" type="submit" id="loginButton" >Login</button>
+</form>
+<script>
+    const loginForm = document.querySelector('#loginForm');
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(loginForm);
+        const username = formData.get('log_name');
+        const password = formData.get('log_pswd');
+        const response = await fetch('http://localhost:8000/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+        if (response.ok) {
+
+            console.log('data' +response.data)
+            const { token } = await response.json();
+
+            localStorage.setItem('token', token);
+            console.log('tocken : ' +token)
+            console.log('status ' +response.status)
+            fetch('modeGamePage/selectMode.html')
+                .then(response => response.text())
+                .then(html => document.body.innerHTML = html)
+                .catch(error => console.log('Error:', error));
+        } else {
+            console.log('status ' +response.status)
+
+            alert('Login failed. Please try again.');
+        }
+    });
+</script>
+</body>
 </html>

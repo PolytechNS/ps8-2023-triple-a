@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Connect4 Game</title>
+</head>
+  <head>
+    <title>Sign Up | By Code Info</title>
+    <link rel="stylesheet" href="front/authentificationPages/style.css">
+    <style>
+        body {
+          background-image: url("../images/sky-background.jpg");
+          background-color: #62b4e4;
+        }
+    </style>
+  </head>
+<body>
+<h1>Welcome to Connect4 Game!</h1>
+<p>Please login or sign up to start playing</p>
+<button id="loginButton" class = "button">Login</button>
+<button id="signupButton" class = "button">Sign up</button>
+<script>
+    const loginButton = document.querySelector('#loginButton');
+    loginButton.addEventListener('click', () => {
+        window.location.href = 'authentificationPages/logIn.html';
+    });
+
+    const signupButton = document.querySelector('#signupButton');
+    signupButton.addEventListener('click', () => {
+        window.location.href = 'authentificationPages/signUp.html';
+    });
+</script>
+</body>
+</html>
