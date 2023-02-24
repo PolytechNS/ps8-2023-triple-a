@@ -1,4 +1,5 @@
 const mongoDBConnection = require('../mongoConnection');
+
 function manageRequest(request, response) {
     console.log("in manageRequest in game.js")
 
@@ -9,6 +10,7 @@ function manageRequest(request, response) {
     let filePath = request.url.split("/").filter(function (elem) {
         return elem !== "..";
     });
+
     if (request.method === 'POST') {
         let body = '';
         request.on('data', function (data) {
@@ -27,11 +29,26 @@ function manageRequest(request, response) {
                 mongoDBConnection.findEverythingInDataBase(response, userInfo, "games");
             });
         }
-
+    } 
+    /**
+    else if (request.method === 'GET') {
+        let body = '';
+        request.on('data', function (data) {
+            body += data;
+        });
+        response.end("Hello zebi");
+        if (filePath[3] === "retrieve") {
+            request.on('end', function () {
+                let currentUser = JSON.parse(body);
+                let userInfo = {
+                    userToken: currentUser.token,
+                }
+                mongoDBConnection.findEverythingInDataBase(response, userInfo, "games");
+                response.end(currentUser.tab);
+            });
+        }
     }
-    else{
-        response.statusCode = 400;
-        response.end(`Something went bad`);
-    }
+    */
 }
+
 exports.manage = manageRequest;

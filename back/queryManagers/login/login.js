@@ -1,6 +1,7 @@
 const mongoDBConnection = require('../mongoConnection');
 
 function manageRequest(request, response) {
+
     if (request.method === 'POST') {
         let body = '';
         request.on('data', function (data) {
@@ -15,13 +16,18 @@ function manageRequest(request, response) {
             };
             mongoDBConnection.findInDataBase(response, userInfo, "log");
         });
-    } else if (request.method === 'GET') {
+    }
+
+    else if (request.method === 'GET') {
         response.statusCode = 200;
         response.end("Hello World");
-    } else {
+    } 
+    
+    else {
         response.statusCode = 400;
         response.end(`Something in your request (${request.url}) is strange...`);
     }
+
 }
 
 

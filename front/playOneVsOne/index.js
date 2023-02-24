@@ -41,6 +41,7 @@ var previousPlayer = null;
 
 var gameOver = false;
 var winner = null;
+window.resume = false;
 
 // Stoque la matrice du jeu dont les éléments sont, 
 // si remplis, soit 'RED' soit 'YELLOW'
@@ -62,6 +63,23 @@ function main() {
     fillTheClickedTile();
     let a = getAvailableCoordinates();
     console.log("available", a);
+    if ( resume ) {
+        resumeGame();
+    }
+}
+
+function resumeGame() {
+    //let tab = retrieveSavedGame();
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            if (tab[i][j] == "RED") {
+                getTile(i, j).classList.add("red-piece");
+            }
+            if (tab[i][j] == "YELLOW") {
+                getTile(i, j).classList.add("yellow-piece");
+            }
+        }
+    }
 }
 
 function playOneVsOne() {

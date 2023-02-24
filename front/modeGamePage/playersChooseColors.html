@@ -22,6 +22,29 @@
 
         <a href="../playOneVsOne/index.html"><button class="choose">Start The Game</button></a>
 
+        <a href="../playOneVsOne/index.html"><button class="choose" onclick="loadSavedGame()">Resume saved game</button></a>
+        <script>
+
+        function retieveGameState() {
+          
+        }
+
+        function loadSaveGame() {
+            let tab = retieveGameState();
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < columns; j++) {
+                    if (tab[i][j] == "RED") {
+                        getTile(i, j).classList.add("red-piece");
+                    }
+                    if (tab[i][j] == "YELLOW") {
+                        getTile(i, j).classList.add("yellow-piece");
+                    }
+                }
+            }
+        }
+
+        </script>
+
     </div>
 
   </body>
