@@ -27,8 +27,22 @@ function manageRequest(request, response) {
                     userToken: currentUser.token,
                 }
                 mongoDBConnection.findEverythingInDataBase(response, userInfo, "games");
+
             });
         }
+        else if ( filePath[3] === "load"){
+            request.on('end', function () {
+                let currentUser = JSON.parse(body);
+                let userInfo = {
+                    userToken: currentUser.token,
+                }
+                mongoDBConnection.findEverythingInDataBase(response, userInfo, "games");
+                response.end(currentUser.tab);
+
+            });
+
+        }
+
     } 
     /**
     else if (request.method === 'GET') {
