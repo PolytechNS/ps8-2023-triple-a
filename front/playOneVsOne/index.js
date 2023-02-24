@@ -216,22 +216,27 @@ function checkWinner() {
                     }
                     gameOver = true; 
                     winner = currentPlayer;
+
                     console.log(currentPlayer + " wins !");
+
                 }
             }
         }
     }
+    console.log('this is    ' ,boardMatrixCopy());
+
+
     return winner;
 }
 
 function checkDiagonal(r, c) {
     if (r < 3 && c < 4) {
-        if (boardMatrix[r][c] == boardMatrix[r+1][c+1] && boardMatrix[r][c] == boardMatrix[r+2][c+2] && boardMatrix[r][c] == boardMatrix[r+3][c+3]) {
+        if (boardMatrix[r][c] === boardMatrix[r+1][c+1] && boardMatrix[r][c] === boardMatrix[r+2][c+2] && boardMatrix[r][c] === boardMatrix[r+3][c+3]) {
             return true;
         }
     }
     if (r < 3 && c > 2) {
-        if (boardMatrix[r][c] == boardMatrix[r+1][c-1] && boardMatrix[r][c] == boardMatrix[r+2][c-2] && boardMatrix[r][c] == boardMatrix[r+3][c-3]) {
+        if (boardMatrix[r][c] === boardMatrix[r+1][c-1] && boardMatrix[r][c] === boardMatrix[r+2][c-2] && boardMatrix[r][c] === boardMatrix[r+3][c-3]) {
             return true;
         }
     }
@@ -249,9 +254,58 @@ function checkHorizontal(r, c) {
 
 function checkVertical(r, c) {
     if (r < 3) {
-        if (boardMatrix[r][c] == boardMatrix[r+1][c] && boardMatrix[r][c] == boardMatrix[r+2][c] && boardMatrix[r][c] == boardMatrix[r+3][c]) {
+        if (boardMatrix[r][c] === boardMatrix[r+1][c] && boardMatrix[r][c] === boardMatrix[r+2][c] && boardMatrix[r][c] === boardMatrix[r+3][c]) {
             return true;
         }
     }
     return false;
 }
+
+function boardMatrixCopy(){
+    let copy = [];
+    for (let i = 0; i < rows ; i++) {
+        copy[i] = [];
+        for(let j = 0; j < columns ; j++) {
+            copy[i][j] = boardMatrix[i][j];
+        }
+    }
+    return copy;
+}
+
+// document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
+
+async function saveGame(gameType) {
+    console.log("in saveGame")
+    let token = localStorage.getItem("token");
+    console.log(token);
+    const tab = {
+        gameType: gameType,
+        tab: boardMatrixCopy(),
+        userToken: token
+    };
+    console.log(tab)
+
+    const response = await fetch('http://localhost:8000/api/game', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tab)
+
+
+
+    });
+
+    if(response.ok) {
+        console.log("im in" , response.data);
+        console.log("tab ", response.tab);
+        console.log("tab ", tab);
+        window.location.href = '../../modeGamePage/playersChooseColors.html'
+
+    }
+    else{
+        console.log("error");
+    }
+
+}
+

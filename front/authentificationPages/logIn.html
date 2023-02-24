@@ -48,7 +48,10 @@
             const { token } = await response.json();
 
             localStorage.setItem('token', token);
-            console.log('tocken : ' +token)
+            // document.cookie = "token=" + response.token + ";path=/";
+            // document.cookie = "username=" + response.username + ";path=/";
+            //
+            // console.log('tocken : ' +token)
             console.log('status ' +response.status)
             fetch('../modeGamePage/selectMode.html')
                 .then(response => response.text())
