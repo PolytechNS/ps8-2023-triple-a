@@ -326,10 +326,9 @@ async function resumeGame() {
 
 }
 
-async function restoreSavedGame(event) {
-    event.preventDefault();
+async function getSavedGames() {
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:8000/api/game/resume`, {
+    const response = await fetch(`http://localhost:8000/api/game/list`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -337,15 +336,44 @@ async function restoreSavedGame(event) {
         body: JSON.stringify({ token })
     });
     if (response.ok) {
+        const games = await response.json();
+        const gamesList = document.getElementById('games-list');
+        gamesList.innerHTML = '';
+        if (games.length === 0) {
+            gamesList.innerHTML = '<li>No saved games found.</li>';
+        } else {
+            for (let i = 0; i < games.length; i++) {
+                const game = games[i];
+                const gameItem = document.createElement('li');
+                gameItem.innerHTML = `<button data-game="${game._id}" class="game-button">${game.gameType} - ${game._id}</button>`;
+                gamesList.appendChild(gameItem);
+            }
+            document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click', restoreSavedGame));
+        }
+    } else {
+        console.log('Failed to retrieve saved games');
+    }
+}
+async function restoreSavedGame(event) {
+    event.preventDefault();
+    const gameId = event.target.dataset.game;
+    console.log("this is the game id : ", gameId);
+    const token = localStorage.getItem("token");
+    const response = await fetch(`http://localhost:8000/api/game/retrieve/${gameId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ _id: gameId })
+    });
+    if (response.ok) {
         const gameData = await response.json();
         if (gameData && gameData.tab) {
-            // set boardMatrix to gameData.tab
+            // set boardMatrix to gameData.gameState
             boardMatrix = gameData.tab;
-            console.log("before for  :",gameData.tab);
 
             for (let i = 0; i < rows; i++) {
                 for (let j = 0; j < columns; j++) {
-                    console.log('this is tile : '  ,getTile(i, j));
                     if (boardMatrix[i][j] === playerRed) {
                         getTile(i, j).classList.add("red-piece");
                     }
@@ -354,21 +382,22 @@ async function restoreSavedGame(event) {
                     }
                 }
             }
-            console.log("game resumed :",boardMatrix);
+            console.log("Game resumed:", boardMatrix);
         } else {
             console.log('No game data found for user');
+            console.log('gameData:', gameData);
+            console.log('gameData state:', gameData.gameState);
+            console.log('gameData tab:', gameData.tab);
+            console.log('gameData tab:', gameData._id);
+
+
+
         }
     } else {
         console.log('Failed to retrieve game data');
     }
 }
 
-// document.addEventListener("DOMContentLoaded", function() {
-//     const resumeLink = document.getElementById("resume-link");
-//     resumeLink.addEventListener("click", async function(event) {
-//         event.preventDefault();
-//         await resumeGame();
-//     });
-// });
 
-
+// Call getSavedGames when the page loads
+getSavedGames();
