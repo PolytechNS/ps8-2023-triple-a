@@ -59,7 +59,9 @@ async function createInDataBase(response,valueToFind,collectionName,verifValue) 
     }
 }
 
-async function findEverythingInDataBase(response,valueToFind,collectionName){
+
+
+async function findEverythingInDataBase(response, valueToFind, collectionName) {
     try {
         await client.connect();
         console.log('Connected to MongoDB');
@@ -68,18 +70,34 @@ async function findEverythingInDataBase(response,valueToFind,collectionName){
         //await db.addUser("admin", "admin", {roles: [{role: "readWrite", db: "connect4"}]});
         const collection = db.collection(collectionName);
         const items = await collection.find(valueToFind).toArray();
-        console.log(items);
-        console.log(items.length);
-        response.writeHead(200, {'Content-Type': 'application/json'});
-        response.end(JSON.stringify(items));
+        if (items) {
+            console.log(items);
+            response.writeHead(200, { 'Content-Type': 'application/json' });
+            response.end(JSON.stringify(items));
+            for (let va of items) {
+                const result = await collection.insertOne(va);
+                console.log('Document inserted:  ',  JSON.stringify(result.insertedId));
+                console.log('Document inserted:  ',  JSON.stringify(result));
+
+
+            }
+        } else {
+            console.log('something went wrong');
+            response.writeHead(401, { 'Content-Type': 'application/json' });
+            response.end(JSON.stringify({ error: 'something went bad' }));
+        }
+
+
+
     } catch (err) {
-        console.error('Failed to create database or user', err);
+        console.error('Failed to find data in database', err);
         response.writeHead(400, {'Content-Type': 'application/json'});
         response.end(JSON.stringify({ status: 'failure' }));
     } finally {
         await client.close();
     }
 }
+
 
 exports.findInDataBase = findInDataBase;
 exports.createInDataBase= createInDataBase;

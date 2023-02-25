@@ -5,7 +5,7 @@
     
     <title>My Game</title>
     <link rel="stylesheet" href="style.css">
-    <script src="index.js"></script>
+    <script src="OnevOne.js"></script>
 
   </head>
 
@@ -22,7 +22,8 @@
             <input id="chat" autocomplete="off" title="chat"/>
             <button id="say">Say</button>
             <br>
-            <a ><button class="button" id ="saveButton" onclick="saveGame('local') " >SaveGame</button></a>
+            <a ><button class="button" id ="saveButton" onclick="saveGame(event,'local') " >SaveGame</button></a>
+            <a ><button class="button"  onclick="restoreSavedGame(event) " >Restore Game</button></a>
           </form>
         </div>
       </div>

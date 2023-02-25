@@ -50,10 +50,10 @@ async function createDatabaseAndUser() {
         //NAME OF THE COLLECTION
         const usersCollection = db.collection("log");
         //VALUES TO INSERT
-        const values = { username: "admin" , password: "admin" , mail : "aze@gmail.com" };
-
-        const result = await usersCollection.insertOne(values);
-        console.log('Document inserted', result.insertedId);
+        // const values = { username: "admin" , password: "admin" , mail : "aze@gmail.com" };
+        //
+        // const result = await usersCollection.insertOne(values);
+        // console.log('Document inserted', result.insertedId);
     } catch (err) {
         console.error('Failed to create database or user', err);
     } finally {

@@ -63,24 +63,12 @@ function main() {
     fillTheClickedTile();
     let a = getAvailableCoordinates();
     console.log("available", a);
-    if ( resume ) {
-        resumeGame();
-    }
+    // if ( resume ) {
+    //     resumeGame();
+    // }
 }
 
-function resumeGame() {
-    //let tab = retrieveSavedGame();
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < columns; j++) {
-            if (tab[i][j] == "RED") {
-                getTile(i, j).classList.add("red-piece");
-            }
-            if (tab[i][j] == "YELLOW") {
-                getTile(i, j).classList.add("yellow-piece");
-            }
-        }
-    }
-}
+
 
 function playOneVsOne() {
     fillTheClickedTile();    
@@ -292,38 +280,95 @@ function boardMatrixCopy(){
 
 // document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
 
-async function saveGame(gameType) {
+async function saveGame(event, gameType) {
+    event.preventDefault();
+
     console.log("in saveGame")
     let token = localStorage.getItem("token");
+    const savingDate = new Date();
+
     console.log(token);
     const tab = {
         gameType: gameType,
         tab: boardMatrixCopy(),
-        userToken: token
+        userToken: token,
+        date : savingDate.toLocaleDateString()+ " " +  savingDate.toLocaleTimeString()
     };
     console.log(tab)
 
-    const response = await fetch('http://localhost:8000/api/game', {
+    try {
+        const response = await fetch('http://localhost:8000/api/game', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tab)
+        });
+
+        if(response.ok) {
+            console.log("im in" , response.data);
+            console.log("tab ", response.tab);
+            console.log("tab ", tab);
+            window.location.href = '../../modeGamePage/playersChooseColors.html'
+
+        }
+        else{
+            console.log("error");
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function resumeGame() {
+    let redirect = document.getElementById("resume-link");
+    redirect.href ="../playOneVsOne/index.html" ;
+
+}
+
+async function restoreSavedGame(event) {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    const response = await fetch(`http://localhost:8000/api/game/resume`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(tab)
-
-
-
+        body: JSON.stringify({ token })
     });
+    if (response.ok) {
+        const gameData = await response.json();
+        if (gameData && gameData.tab) {
+            // set boardMatrix to gameData.tab
+            boardMatrix = gameData.tab;
+            console.log("before for  :",gameData.tab);
 
-    if(response.ok) {
-        console.log("im in" , response.data);
-        console.log("tab ", response.tab);
-        console.log("tab ", tab);
-        window.location.href = '../../modeGamePage/playersChooseColors.html'
-
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < columns; j++) {
+                    console.log('this is tile : '  ,getTile(i, j));
+                    if (boardMatrix[i][j] === playerRed) {
+                        getTile(i, j).classList.add("red-piece");
+                    }
+                    if (boardMatrix[i][j] === playerYellow) {
+                        getTile(i, j).classList.add("yellow-piece");
+                    }
+                }
+            }
+            console.log("game resumed :",boardMatrix);
+        } else {
+            console.log('No game data found for user');
+        }
+    } else {
+        console.log('Failed to retrieve game data');
     }
-    else{
-        console.log("error");
-    }
-
 }
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     const resumeLink = document.getElementById("resume-link");
+//     resumeLink.addEventListener("click", async function(event) {
+//         event.preventDefault();
+//         await resumeGame();
+//     });
+// });
+
 
