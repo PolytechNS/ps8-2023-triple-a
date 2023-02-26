@@ -13,6 +13,8 @@ var winner = null;
 // si remplis, soit 'RED' soit 'YELLOW'
 var boardMatrix;
 
+var boardMatrix = boardMatrix;
+
 // Stoque la matrice du jeu dont les éléments sont, 
 // si remplis, sont les tiles du DOM
 var boardGame;
@@ -58,11 +60,13 @@ function setBoard() {
             tile.id = r.toString() + "-" + c.toString();
             tile.classList.add("tile");
 
+            tile.addEventListener("click", IAfillsATile);
+            document.getElementById("board").append(tile);
+
             tile.addEventListener("click", fillTheClickedTile);
             document.getElementById("board").append(tile);
 
-            tile.addEventListener("click", IAfillsATile);
-            document.getElementById("board").append(tile);
+            
         }
     }
     return boardGame;
@@ -108,22 +112,23 @@ function getAvailableCoordinates() {
     return availableCoordinates;
 }
 
-// function getAvailableCoordinates(gameState) {
+// function getAvailableCoordinates(boardMatrix) {
 //     let availableCoordinates = [];
-//     for (let i = 0; i < gameState.length - 1 ; i++) {
-//         for (let j = 0; j < gameState[i].length; j++) {
-//             if (gameState[i][j] == ' ' && gameState[i + 1][j] != ' ') {
+//     for (let i = 0; i < boardMatrix.length - 1 ; i++) {
+//         for (let j = 0; j < boardMatrix[i].length; j++) {
+//             if (boardMatrix[i][j] == ' ' && boardMatrix[i + 1][j] != ' ') {
 //                 availableCoordinates.push([i, j]);
 //             }
 //         }
 //     }
-//     for (let j = 0; j < gameState[rows - 1].length; j++) {
-//         if (gameState[rows - 1][j] == ' ') {
+//     for (let j = 0; j < boardMatrix[rows - 1].length; j++) {
+//         if (boardMatrix[rows - 1][j] == ' ') {
 //             availableCoordinates.push([rows - 1, j]);
 //         }
 //     }
 //     return availableCoordinates;
 // }
+let lastMove;
 
 function fillTheClickedTile() {
 
@@ -146,7 +151,9 @@ function fillTheClickedTile() {
     //     fillTheClickedTile();
     // }
 
-    console.log("adjusted coords", adjustedCoords);
+    
+    lastMove = [r, c];
+    console.log("last move", lastMove);
 
     let tile = document.getElementById(r.toString() + "-" + c.toString());
     
@@ -226,8 +233,8 @@ function IAfillsATile() {
         return;
     }
     
-    const availableCoordinates = getAvailableCoordinates();
-    let move = availableCoordinates[ Math.floor(Math.random() * availableCoordinates.length) ];
+    
+    let move = nextMove(lastMove);
     console.log("Thinking ....");
     console.log("L'IA a choisi de remplir :", move);
 
@@ -421,12 +428,12 @@ async function restoreSavedGame(event) {
 
 /////////////////////////////// IA /////////////////////////////////////
 
-// // function computeMove(gameState) {
+// // function computeMove(boardMatrix) {
 // //     while(true) {
 // //         // Get a random column (integer between 0 and 6)
 // //         let i = Math.floor(Math.random() * 7);
 // //         for (let j=0 ; j<=5 ; j++) {
-// //             if (gameState.board[i][j] === 0) {
+// //             if (boardMatrix.board[i][j] === 0) {
 // //                 return [i, j];
 // //             }
 // //         }
@@ -438,3 +445,52 @@ async function restoreSavedGame(event) {
 
 
 ////////////////////////////////// END IA //////////////////////////////////////
+
+
+function getBestMoveOddEven(boardMatrix) {
+    // get the available coordinates
+    let availableCoordinates = getAvailableCoordinates(boardMatrix);
+    // if there are no available coordinates, return null
+    if (availableCoordinates.length === 0) {
+        return null;
+    }
+    // find the first odd coordinate
+    let firstOdd = availableCoordinates.find(coord => coord[0] % 2 === 1);
+    // find the last even coordinate
+    let lastEven = availableCoordinates.slice().reverse().find(coord => coord[0] % 2 === 0);
+    // if there are no odd coordinates, set the best move to the last even coordinate
+    if (!firstOdd) {
+        return lastEven;
+    }
+    // if there are no even coordinates, set the best move to the first odd coordinate
+    if (!lastEven) {
+        return firstOdd;
+    }
+    // if the first odd coordinate comes before the last even coordinate, set the best move to the first odd coordinate
+    if (firstOdd[1] < lastEven[1]) {
+        return firstOdd;
+    }
+    // otherwise, set the best move to the last even coordinate
+    else {
+        return lastEven;
+    }
+}
+
+function combineLastMovewithGameState(lastMove, boardMatrix) {
+    if(lastMove==null || lastMove == undefined){
+    }
+    boardMatrix[lastMove[0]][lastMove[1]] = currentPlayer;
+    console.log("lastMove", lastMove[0], lastMove[1]);
+    console.log("boardMatrix", boardMatrix);
+    
+    
+}
+
+
+
+function nextMove(lastMove) {
+
+    return (lastMove==null) ? getBestMoveOddEven(boardMatrix) :  getBestMoveOddEven(combineLastMovewithGameState(lastMove, boardMatrix));
+
+
+}
