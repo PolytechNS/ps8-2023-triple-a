@@ -20,12 +20,17 @@
 <form id="registerForm">
     <div>
         <label >
+            <input type="text" placeholder="Enter Email" name="email" class="inp" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+
+        </label>
+        <label >
             <input type="text" placeholder="Enter Username" name="username" class="inp" required>
         </label>
         <label >
             <input type="password" placeholder="Enter Password" name="password" class="inp" required>
 
         </label>
+
 
     </div>
     <div>
@@ -41,6 +46,7 @@
     registerForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const formData = new FormData(registerForm);
+        const email = formData.get('email');
         const username = formData.get('username');
         const password = formData.get('password');
         const response = await fetch('/api/register', {
@@ -48,7 +54,7 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email,username, password }),
         });
         if (response.ok) {
             console.log(response.data);
