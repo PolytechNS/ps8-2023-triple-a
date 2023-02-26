@@ -12,6 +12,7 @@
 
 //a node class for the tree to use in the monte carlo tree search
 class Node {
+
     constructor(parent, gameState, move) {
         this.parent = parent;
         this.gameState = gameState;
@@ -20,10 +21,12 @@ class Node {
         this.visits = 0;
         this.wins = 0;
     }
+
     // add a child to the node
     addChild(child) {
         this.children.push(child);
     }
+
     // get the child with the highest UCT value
     getBestChild() {
         let bestChild = this.children[0];
@@ -34,10 +37,12 @@ class Node {
         }
         return bestChild;
     }
+
     // get the UCT value of the node
     getUCT() {
         return this.wins / this.visits + Math.sqrt(2) * Math.sqrt(Math.log(this.parent.visits) / this.visits);
     }
+
     // get the child with the highest number of visits
     getMostVisitedChild() {
         let bestChild = this.children[0];
@@ -48,6 +53,7 @@ class Node {
         }
         return bestChild;
     }
+
     // get the child with the highest number of wins
     getMostWinningChild() {
         let bestChild = this.children[0];
@@ -58,6 +64,7 @@ class Node {
         }
         return bestChild;
     }
+
     // get the child with the highest win rate
     getHighestWinRateChild() {
         let bestChild = this.children[0];
@@ -71,11 +78,13 @@ class Node {
     
 }
 
-//a MCTS class to use in the monte carlo tree search
+//a MCTS class to use in the Monte Carlo tree search
 class MCTS {
+
     constructor() {
         this.root = null;
     }
+
     // get the best move for the current state
     getBestMove(gameState) {
         // if the root is null, create a new root
@@ -98,6 +107,7 @@ class MCTS {
         // return the best move
         return this.root.getBestChild().move;
     }
+
     // run the monte carlo tree search
     monteCarloTreeSearch() {
         // select a leaf node
@@ -109,6 +119,7 @@ class MCTS {
         // backpropagate the result
         this.backpropagate(expandedLeaf, result);
     }
+
     // select a leaf node
     selectLeaf(node) {
         // if the node is a leaf node, return the node
@@ -120,6 +131,7 @@ class MCTS {
             return this.selectLeaf(node.getBestChild());
         }
     }
+
     // expand the leaf node
     expandLeaf(node) {
         // get the possible moves from the state of the node
@@ -139,6 +151,7 @@ class MCTS {
         // return the child
         return child;
     }
+
     // simulate the game from the expanded leaf node
     simulateGame(node) {
         // create a new state from the state of the node
@@ -159,6 +172,7 @@ class MCTS {
         // return the winner of the game
         return newState.getWinner();
     }
+    
     // backpropagate the result
     backpropagate(node, result) {
         // if the node is not null
@@ -175,9 +189,7 @@ class MCTS {
     }   
 }
 
-
 function computeMove(gameState) {
-    
     let mcts = new MCTS();
     let bestMove = mcts.getBestMove(gameState);
     return bestMove;

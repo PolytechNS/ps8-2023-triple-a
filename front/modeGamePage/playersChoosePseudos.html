@@ -4,6 +4,28 @@
   <head>
     <title>Set up players</title>
     <link rel="stylesheet" href="mode.css">
+    <script>
+
+      let playerOnePseudo;
+      let playerTwoPseudo;
+
+      window.addEventListener('load', () => {
+        const form = document.querySelector('form');
+        const player1Input = document.querySelector('#player1Name');
+        const player2Input = document.querySelector('#player2Name');
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          playerOnePseudo = player1Input.value;
+          playerTwoPseudo = player2Input.value;
+          console.log(`Player 1: ${playerOnePseudo}, Player 2: ${playerTwoPseudo}`);
+          localStorage.setItem('playerOnePseudo', playerOnePseudo);
+          localStorage.setItem('playerTwoPseudo', playerTwoPseudo);
+        });
+      });
+
+
+    </script>
   </head>
 
   <body>
@@ -12,11 +34,9 @@
 
         <h1>Type Your Pseudos ...</h1>    
         <form action="#">
-
             <input type="text" id="player1Name" placeholder="Enter player 1's pseudo">
             <input type="text" id="player2Name" placeholder="Enter player 2's pseudo">
             <input type="submit" value="Submit">
-
         </form>
         <a href="playersChooseColors.html"><button class="choose">Choose Colors</button></a>
 

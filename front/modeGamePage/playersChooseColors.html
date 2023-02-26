@@ -4,6 +4,12 @@
   <head>
     <title>Set up players</title>
     <link rel="stylesheet" href="mode.css"><script src ="../playOneVsOne/OnevOne.js"> </script>
+    <script>
+      let playerOnePseudo = localStorage.getItem('playerOnePseudo');
+      let playerTwoPseudo = localStorage.getItem('playerTwoPseudo');
+    
+      document.getElementById('player1Color').placeholder = `Choose ${playerOnePseudo}'s color`;
+    </script>
   </head>
 
   <body>
@@ -13,8 +19,8 @@
         <h1>Choose your Colors ...</h1>
         <form action="#">
 
-            <input type="text" id="player1Color" placeholder="Choose player 1's color"/>
-            <input type="text" id="player2Color" placeholder="Choose player 2's color"/>
+            <input type="text" id="player1Color" placeholder="Choose player 1's color">
+            <input type="text" id="player2Color" placeholder="Choose player 2's color">
             <input type="submit" value="Submit">
 
         </form>
@@ -23,13 +29,6 @@
         <a href="../playOneVsOne/index.html"><button class="choose">Start The Game</button></a>
 
 <!--        <a id ="resume-link" ><button class="choose" onclick="resumeGame()" >Resume saved game</button></a>-->
-
-
-
-
-
-
-
 
     </div>
 
