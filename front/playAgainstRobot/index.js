@@ -60,13 +60,11 @@ function setBoard() {
             tile.id = r.toString() + "-" + c.toString();
             tile.classList.add("tile");
 
-            tile.addEventListener("click", IAfillsATile);
-            document.getElementById("board").append(tile);
-
             tile.addEventListener("click", fillTheClickedTile);
             document.getElementById("board").append(tile);
 
-            
+            tile.addEventListener("click", IAfillsATile);
+            document.getElementById("board").append(tile);
         }
     }
     return boardGame;
@@ -477,20 +475,23 @@ function getBestMoveOddEven(boardMatrix) {
 }
 
 function combineLastMovewithGameState(lastMove, boardMatrix) {
-    if(lastMove==null || lastMove == undefined){
-    }
-    boardMatrix[lastMove[0]][lastMove[1]] = currentPlayer;
     console.log("lastMove", lastMove[0], lastMove[1]);
     console.log("boardMatrix", boardMatrix);
-    
+    boardMatrix[lastMove[0]][lastMove[1]] = currentPlayer;
     
 }
 
 
 
 function nextMove(lastMove) {
+    let bestMove = getBestMoveOddEven(combineLastMovewithGameState(lastMove, boardMatrix));
 
-    return (lastMove==null) ? getBestMoveOddEven(boardMatrix) :  getBestMoveOddEven(combineLastMovewithGameState(lastMove, boardMatrix));
-
-
+    return bestMove;
 }
+
+function setup(AIplays){
+    AIplays = 2;
+    return true;
+}
+
+
