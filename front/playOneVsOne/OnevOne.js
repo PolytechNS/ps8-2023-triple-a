@@ -345,10 +345,18 @@ async function getSavedGames() {
             for (let i = 0; i < games.length; i++) {
                 const game = games[i];
                 const gameItem = document.createElement('li');
-                gameItem.innerHTML = `<button data-game="${game._id}" class="game-button">${game.gameType} - ${game._id}</button>`;
+                // gameItem.innerHTML = `<button data-game="${game._id}" class="game-button">local - ${game.date}</button>`;
+                gameItem.innerHTML = `
+                                        <div class="game-container">
+                                            <button data-game="${game._id}" class="game-button">local - ${game.date}</button>
+                                            <i class="gg-trash" data-game="${game._id}"></i>
+                                        </div>
+    `;
                 gamesList.appendChild(gameItem);
             }
             document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click', restoreSavedGame));
+            document.querySelectorAll('.gg-trash').forEach(icon => icon.addEventListener('click', deleteSavedGame));
+
         }
     } else {
         console.log('Failed to retrieve saved games');
@@ -369,7 +377,13 @@ async function restoreSavedGame(event) {
     if (response.ok) {
         const gameData = await response.json();
         if (gameData && gameData.tab) {
-            // set boardMatrix to gameData.gameState
+            // Clear the board
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < columns; j++) {
+                    getTile(i, j).classList.remove("red-piece", "yellow-piece");
+                }
+            }
+            // Set boardMatrix to gameData.tab
             boardMatrix = gameData.tab;
 
             for (let i = 0; i < rows; i++) {
@@ -389,14 +403,36 @@ async function restoreSavedGame(event) {
             console.log('gameData state:', gameData.gameState);
             console.log('gameData tab:', gameData.tab);
             console.log('gameData tab:', gameData._id);
-
-
-
         }
     } else {
         console.log('Failed to retrieve game data');
     }
 }
+async function deleteSavedGame(event) {
+    event.preventDefault();
+
+    const gameId = event.target.getAttribute('data-game');
+    console.log("this is the game id : ", gameId);
+    const token = localStorage.getItem("token");
+    const response = await fetch(`http://localhost:8000/api/game/delete/${gameId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ _id: gameId })
+    });
+    if (response.ok) {
+        // If the game was successfully deleted, remove the corresponding HTML element
+        event.target.parentElement.remove();
+        console.log("this is the game id : ", gameId);
+
+
+    } else {
+        console.log('Failed to delete saved game');
+    }
+}
+
+
 
 
 // Call getSavedGames when the page loads

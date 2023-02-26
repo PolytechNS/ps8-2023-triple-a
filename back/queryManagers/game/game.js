@@ -66,29 +66,27 @@ const {MongoClient, ObjectId} = require("mongodb");
                  }
                  request.removeAllListeners();
              });
-         }
-         else if (filePath[3] === "retrieve") {
+         } else if (filePath[3] === "retrieve") {
              request.on('end', async function () {
                  let currentUser = JSON.parse(body);
                  const id = new ObjectId(currentUser._id);
                  console.log("Received request to resume game with ID:", typeof currentUser._id);
 
 
-
                  try {
-                     const client = await MongoClient.connect('mongodb://admin:admin@mongodb/admin?directConnection=true', { useUnifiedTopology: true });
+                     const client = await MongoClient.connect('mongodb://admin:admin@mongodb/admin?directConnection=true', {useUnifiedTopology: true});
                      const db = client.db('connect4');
                      console.log("Received request to resume game with ID:", currentUser._id);
                      const idString = currentUser._id.toString();
-                     const game = await db.collection('games').findOne({_id : new ObjectId(currentUser._id)});
+                     const game = await db.collection('games').findOne({_id: new ObjectId(currentUser._id)});
 
                      if (game) {
-                         response.writeHead(200, { 'Content-Type': 'application/json' });
+                         response.writeHead(200, {'Content-Type': 'application/json'});
                          console.log("Game found:", game);
                          response.end(JSON.stringify(game));
                      } else {
-                         response.writeHead(404, { 'Content-Type': 'application/json' });
-                         response.end(JSON.stringify({ status: 'failure', message: 'No game found with that ID' }));
+                         response.writeHead(404, {'Content-Type': 'application/json'});
+                         response.end(JSON.stringify({status: 'failure', message: 'No game found with that ID'}));
                          console.log("No game found with ID:", currentUser._id);
                          console.log("user : ", currentUser);
                      }
@@ -96,15 +94,17 @@ const {MongoClient, ObjectId} = require("mongodb");
                      await client.close();
                  } catch (error) {
                      console.error("Error occurred while retrieving game from database:", error);
-                     response.writeHead(500, { 'Content-Type': 'application/json' });
-                     response.end(JSON.stringify({ status: 'failure', message: 'Error occurred while retrieving game from database' }));
+                     response.writeHead(500, {'Content-Type': 'application/json'});
+                     response.end(JSON.stringify({
+                         status: 'failure',
+                         message: 'Error occurred while retrieving game from database'
+                     }));
                      console.log(error); // log the error message
                  }
 
                  request.removeAllListeners();
              });
-         }
-else if (filePath[3] === "list") {
+         } else if (filePath[3] === "list") {
              request.on('end', async function () {
                  let currentUser = JSON.parse(body);
                  const games = await findAllInDataBase({userToken: currentUser.token}, "games");
@@ -115,6 +115,40 @@ else if (filePath[3] === "list") {
                      response.writeHead(404, {'Content-Type': 'application/json'});
                      response.end(JSON.stringify({status: 'failure', message: 'No games found for user'}));
                  }
+                 request.removeAllListeners();
+             });
+         } else if (filePath[3] === "delete") {
+             request.on('end', async function () {
+                 let currentUser = JSON.parse(body);
+
+                 console.log("Received request to delete game with ID:",  currentUser._id);
+
+                 try {
+                     const client = await MongoClient.connect('mongodb://admin:admin@mongodb/admin?directConnection=true', {useUnifiedTopology: true});
+                     const db = client.db('connect4');
+                     console.log("Received request to delete game with ID:", currentUser._id);
+                     const game = await db.collection('games').deleteOne({_id: new ObjectId(currentUser._id)});
+
+                     if (game.deletedCount > 0) {
+                         response.writeHead(200, {'Content-Type': 'application/json'});
+                         response.end(JSON.stringify({status: 'success', message: 'Game deleted successfully'}));
+                         console.log("Game deleted successfully:", game);
+                     } else {
+                         response.writeHead(404, {'Content-Type': 'application/json'});
+                         response.end(JSON.stringify({status: 'failure', message: 'No game found with that ID'}));
+                         console.log("No game found with ID");
+                     }
+                     await client.close();
+                 } catch (error) {
+                     console.error("Error occurred while retrieving game from database:", error);
+                     response.writeHead(500, {'Content-Type': 'application/json'});
+                     response.end(JSON.stringify({
+                         status: 'failure',
+                         message: 'Error occurred while retrieving game from database'
+                     }));
+                     console.log(error); // log the error message
+                 }
+
                  request.removeAllListeners();
              });
          }
