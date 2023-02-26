@@ -291,6 +291,7 @@ async function saveGame(event, gameType) {
     const tab = {
         gameType: gameType,
         tab: boardMatrixCopy(),
+        playerToPlay: currentPlayer,
         userToken: token,
         date : savingDate.toLocaleDateString()+ " " +  savingDate.toLocaleTimeString()
     };
@@ -385,6 +386,8 @@ async function restoreSavedGame(event) {
             }
             // Set boardMatrix to gameData.tab
             boardMatrix = gameData.tab;
+            console.log("current player : ", currentPlayer);
+
 
             for (let i = 0; i < rows; i++) {
                 for (let j = 0; j < columns; j++) {
@@ -396,6 +399,12 @@ async function restoreSavedGame(event) {
                     }
                 }
             }
+            // Set currentPlayer to gameData.playerToPlay
+            currentPlayer = gameData.playerToPlay;
+
+
+
+
             console.log("Game resumed:", boardMatrix);
         } else {
             console.log('No game data found for user');
