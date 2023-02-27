@@ -1,5 +1,3 @@
-import { nextMove } from "./One.js";
-
 var playerRed = "RED";
 var playerYellow = "YELLOW";
 
@@ -24,6 +22,8 @@ var boardGame;
 var rows = 6;
 var columns = 7;
 
+var durationLimit = 1000;
+
 window.onload = function() {
     main();
 }
@@ -31,7 +31,7 @@ window.onload = function() {
 function main() {
     setPlayerToStart(playerYellow);
     setBoard();
-}
+}      
 
 function copyOfBoard() {
     let copy = [];
@@ -112,22 +112,6 @@ function getAvailableCoordinates() {
     return availableCoordinates;
 }
 
-// function getAvailableCoordinates(boardMatrix) {
-//     let availableCoordinates = [];
-//     for (let i = 0; i < boardMatrix.length - 1 ; i++) {
-//         for (let j = 0; j < boardMatrix[i].length; j++) {
-//             if (boardMatrix[i][j] == ' ' && boardMatrix[i + 1][j] != ' ') {
-//                 availableCoordinates.push([i, j]);
-//             }
-//         }
-//     }
-//     for (let j = 0; j < boardMatrix[rows - 1].length; j++) {
-//         if (boardMatrix[rows - 1][j] == ' ') {
-//             availableCoordinates.push([rows - 1, j]);
-//         }
-//     }
-//     return availableCoordinates;
-// }
 let lastMove;
 
 function fillTheClickedTile() {
@@ -177,8 +161,6 @@ function fillTileOfCoords(i, j) {
     }
 
     boardMatrix[i][j] = previousPlayer;
-
-    checkWinner();
 }
 
 function adjustCoordinates(row, column) {
@@ -213,19 +195,61 @@ function getIdOfClickedTile() {
     });
 }
 
+function fromBoardMatrixToBoardGame() {
+    let board = [];
+    for (let i = 0; i < rows; i++) {
+        board[i] = [];
+        for (let j = 0; j < columns; j++) {
+            if (boardMatrix[i][j] == ' ') {
+                board[i][j] = emptyCercle;
+            }
+            else if (boardMatrix[i][j] == playerRed) {
+                board[i][j] = redCercle;
+            }
+            else if (boardMatrix[i][j] == playerYellow) {
+                board[i][j] = yellowCercle;
+            }
+        }
+    }
+    return board;
+}
+
+let round = 0;
+
 function IAfillsATile() {
+
+    console.log("------------- Tour n° ------------- ", ++round);
     if (gameOver) {
         return;
     }
     
-    let move = nextMove(lastMove);
-    console.log("Thinking ....");
-    console.log("L'IA a choisi de remplir :", move);
+    // let move = getAvailableCoordinates();
+    // console.log("Thinking ....");
+    // move = move[Math.floor(Math.random() * move.length)];
 
-    setTimeout(() => {
-        fillTileOfCoords(move[0], move[1]);
-        checkWinner();
-    }, 1000);
+    let whosTurn;
+    if (currentPlayer == playerRed) {
+        whosTurn = redCercle;
+    }
+    else if (currentPlayer == playerYellow) {
+        whosTurn = yellowCercle;
+    }
+
+    let start = performance.now();
+
+    let moveColumn = suggestMove(fromBoardMatrixToBoardGame(), whosTurn, durationLimit);
+    let moveRow = rows - 1;
+
+    let adjustedCoordinates = adjustCoordinates(moveRow, moveColumn);
+
+    console.log("L'IA a choisi de remplir :", adjustedCoordinates[0], adjustedCoordinates[1]);
+
+    fillTileOfCoords(adjustedCoordinates[0], adjustedCoordinates[1]);
+
+    let end = performance.now() - start;
+    console.log("The process of choosing the best move took ", end, " ms.");
+    checkWinner();
+  
 }
 
 function randomAvailableCoordinates() {
@@ -270,7 +294,7 @@ function checkWinner() {
                     gameOver = true; 
                     winner = previousPlayer;
                     setTimeout(() => {
-                        console.log(winner + " wins !");
+                        // console.log(winner + " wins !");
                         window.alert(winner + " wins !");
                         }, 1000);
                 }
@@ -410,8 +434,6 @@ async function restoreSavedGame(event) {
 
 //////////////////// Fin : Save and Restore Game  //////////////////////
 
-/////////////////////////////// IA /////////////////////////////////////
-
 // // function computeMove(boardMatrix) {
 // //     while(true) {
 // //         // Get a random column (integer between 0 and 6)
@@ -426,42 +448,222 @@ async function restoreSavedGame(event) {
 
 //////////////////////////////// START OUR IA //////////////////////////////////////
 
+var invalidCercle = -1;
+var emptyCercle = 0;
+var yellowCercle = 1;
+var redCercle = 2;
+var drawCercle = 3;
 
+// Tested
+function get(board, row, col) {
+    if ( row < 0 || row >= rows || col < 0 || col >= columns ) {
+        return invalidCercle;
+    }
+    return board[row][col];
+}
+
+// Tested
+function colIsFull(board, col) {
+    return get(board, 0, col) != emptyCercle;
+}
+
+// Tested
+function printBoard(board) {
+    console.log("The BOARD Game:", board);
+}
+
+// Tested
+function generateCopyOfBoard(boardToCopy) {
+    let newBoard = [];
+    for ( let r = 0 ; r < rows ; r++ ) {
+        newBoard[r] = [];
+        for ( let c = 0 ; c < columns ; c++ ) {
+            newBoard[r][c] = boardToCopy[r][c];
+        }
+    }
+    return newBoard;
+}
+
+// Tested
+function generateEmptyBoard() {
+    let newBoard = [];
+    for ( let r = 0 ; r < rows ; r++ ) {
+        newBoard[r] = [];
+        for ( let c = 0 ; c < columns ; c++ ) {
+            newBoard[r][c] = emptyCercle;
+        }
+    }
+    return newBoard;
+}
+
+// Tested
+function fillIndex(board, col, value) {
+    if ( colIsFull(board, col) ) {
+        return 0;
+    }
+    for ( let r = rows - 1 ; r >= 0 ; r-- ) {
+        if ( board[r][col] == emptyCercle ) {
+            board[r][col] = value;
+            break;
+        }
+    }
+    return 1;
+}
+
+// Tested
+function checkDiagonalInBoard(board, r, c) {
+    if (r < 3 && c < 4) {
+        if (board[r][c] === board[r+1][c+1] && board[r][c] === board[r+2][c+2] && board[r][c] === board[r+3][c+3]) {
+            return true;
+        }
+    }
+    if (r < 3 && c > 2) {
+        if (board[r][c] === board[r+1][c-1] && board[r][c] === board[r+2][c-2] && board[r][c] === board[r+3][c-3]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Tested
+function checkHorizontalInBoard(board, r, c) {
+    if (c < 4) {
+        if (board[r][c] == board[r][c+1] && board[r][c] == board[r][c+2] && board[r][c] == board[r][c+3]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Tested
+function checkVerticalInBoard(board, r, c) {
+    if (r < 3) {
+        if (board[r][c] === board[r+1][c] && board[r][c] === board[r+2][c] && board[r][c] === board[r+3][c]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Tested
+function getWinner(board) {
+    let empty = 0;
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            let color = get(board, r, c);
+            if ( color == emptyCercle ) {
+                empty++;
+                continue;
+            }
+            if ( checkHorizontalInBoard(board, r, c) || checkVerticalInBoard(board, r, c) || checkDiagonalInBoard(board, r, c) ) {
+                return color;
+            }
+        }
+    }
+    if ( empty == 0 ) {
+        return drawCercle;
+    }
+    return emptyCercle;
+}
+
+// Tested
+function suggestMove(board, whosTurn, durationLimit) {
+
+    let startTime = performance.now();
+    let endTime;
+    let bestMove = -1;
+    let bestRatio = 0;
+    let gamesPerMove = 2000;
+    for ( let c = 0 ; c < columns ; c++ ) {
+        if (colIsFull(board, c)) {
+            continue;
+        }
+        let wins = 0;
+        let losts = 0;
+        let i = 0;
+
+        let duration;
+        while (  i < gamesPerMove ) {
+            let copy = generateCopyOfBoard(board);
+            fillIndex(copy, c, whosTurn);
+            if (getWinner(copy) == whosTurn) {
+                return c;
+            }
+            let next = ( whosTurn == yellowCercle ) ? redCercle : yellowCercle;
+            let winner = randomGame(copy, next);
+            if (winner == yellowCercle || winner == redCercle) {
+                if (winner == whosTurn) {
+                    wins++;
+                } else {
+                    losts++;
+                }
+            }
+            endTime = performance.now();
+            duration = endTime - startTime;
+            i += 1;
+            if ( duration >= ( ( durationLimit / 7 ) - 2 ) ) {
+                break;
+            }
+        }
+        console.log("L'analyse de la colonne ", c, " a pris ", Math.floor(duration), " ms ==> ", i, " parties simulées !");
+
+        let ratio = wins / losts;
+        // console.log("Move : ", c, " has ratio ", ratio);
+        if (ratio > bestRatio || bestMove == -1) {
+            bestRatio = ratio;
+            bestMove = c;
+        }
+    }
+    return bestMove;
+}
+
+// Tested
+function randomGame(board, whosTurn) {
+    while ( true ) {
+        var col = Math.floor(Math.random() * 7)
+        if ( fillIndex(board, col, whosTurn ) ) {
+            whosTurn = ( whosTurn == yellowCercle ) ? redCercle : yellowCercle;
+        }
+        let winner = getWinner(board);
+        if ( winner != emptyCercle ) {
+            return winner;
+        }
+    }
+}      
 
 ////////////////////////////////// END IA //////////////////////////////////////
 
+// function getBestMoveOddEven(boardMatrix) {
+//     // get the available coordinates
+//     let availableCoordinates = getAvailableCoordinates(boardMatrix);
+//     // if there are no available coordinates, return null
+//     if (availableCoordinates.length === 0) {
+//         return null;
+//     }
+//     // find the first odd coordinate
+//     let firstOdd = availableCoordinates.find(coord => coord[0] % 2 === 1);
+//     // find the last even coordinate
+//     let lastEven = availableCoordinates.slice().reverse().find(coord => coord[0] % 2 === 0);
+//     // if there are no odd coordinates, set the best move to the last even coordinate
+//     if (!firstOdd) {
+//         return lastEven;
+//     }
+//     // if there are no even coordinates, set the best move to the first odd coordinate
+//     if (!lastEven) {
+//         return firstOdd;
+//     }
+//     // if the first odd coordinate comes before the last even coordinate, set the best move to the first odd coordinate
+//     if (firstOdd[1] < lastEven[1]) {
+//         return firstOdd;
+//     }
+//     // otherwise, set the best move to the last even coordinate
+//     else {
+//         return lastEven;
+//     }
+// }
 
-export function getBestMoveOddEven(boardMatrix) {
-    // get the available coordinates
-    let availableCoordinates = getAvailableCoordinates(boardMatrix);
-    // if there are no available coordinates, return null
-    if (availableCoordinates.length === 0) {
-        return null;
-    }
-    // find the first odd coordinate
-    let firstOdd = availableCoordinates.find(coord => coord[0] % 2 === 1);
-    // find the last even coordinate
-    let lastEven = availableCoordinates.slice().reverse().find(coord => coord[0] % 2 === 0);
-    // if there are no odd coordinates, set the best move to the last even coordinate
-    if (!firstOdd) {
-        return lastEven;
-    }
-    // if there are no even coordinates, set the best move to the first odd coordinate
-    if (!lastEven) {
-        return firstOdd;
-    }
-    // if the first odd coordinate comes before the last even coordinate, set the best move to the first odd coordinate
-    if (firstOdd[1] < lastEven[1]) {
-        return firstOdd;
-    }
-    // otherwise, set the best move to the last even coordinate
-    else {
-        return lastEven;
-    }
-}
-
-export function combineLastMovewithGameState(lastMove, boardMatrix) {
-    console.log("lastMove", lastMove[0], lastMove[1]);
-    console.log("boardMatrix", boardMatrix);
-    boardMatrix[lastMove[0]][lastMove[1]] = ( currentPlayer === playerRed ) ? playerYellow : playerRed;
-}
+// function combineLastMovewithGameState(lastMove, boardMatrix) {
+//     console.log("lastMove", lastMove[0], lastMove[1]);
+//     console.log("boardMatrix", boardMatrix);
+//     boardMatrix[lastMove[0]][lastMove[1]] = ( currentPlayer === playerRed ) ? playerYellow : playerRed;
+// }
