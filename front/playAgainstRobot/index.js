@@ -1,3 +1,5 @@
+import { nextMove } from "./One.js";
+
 var playerRed = "RED";
 var playerYellow = "YELLOW";
 
@@ -69,7 +71,7 @@ function setBoard() {
     }
     return boardGame;
 }
-
+ 
 function getTile(i, j) {
     let target = document.getElementById(i.toString() + "-" + j.toString());
     return target;
@@ -137,28 +139,15 @@ function fillTheClickedTile() {
     let coords = this.id.split("-");
     let oldR = parseInt(coords[0]);
     let c = parseInt(coords[1]);
-    // r = currColumns[c]; 
-
     let adjustedCoords = adjustCoordinates(oldR, c);
 
     let r = adjustedCoords[0];
     c = adjustedCoords[1];
-    
-    // if ( r == 0 && oldR == 0 ) {
-    //     window.alert("This column is full");
-    //     fillTheClickedTile();
-    // }
-
-    
     lastMove = [r, c];
-    console.log("last move", lastMove);
 
     let tile = document.getElementById(r.toString() + "-" + c.toString());
     
     fillTile(tile);
-
-    // r -= 1;
-    // currColumns[c] = r;
 
     checkWinner();
 }
@@ -180,13 +169,11 @@ function fillTileOfCoords(i, j) {
         getTile(i, j).classList.add("red-piece");
         previousPlayer = currentPlayer;
         currentPlayer = playerYellow;
-        console.log("current player", currentPlayer);
     }
     else if (currentPlayer == playerYellow) {
         getTile(i, j).classList.add("yellow-piece");
         previousPlayer = currentPlayer;
         currentPlayer = playerRed;
-        console.log("current player", currentPlayer);
     }
 
     boardMatrix[i][j] = previousPlayer;
@@ -230,7 +217,6 @@ function IAfillsATile() {
     if (gameOver) {
         return;
     }
-    
     
     let move = nextMove(lastMove);
     console.log("Thinking ....");
@@ -445,7 +431,7 @@ async function restoreSavedGame(event) {
 ////////////////////////////////// END IA //////////////////////////////////////
 
 
-function getBestMoveOddEven(boardMatrix) {
+export function getBestMoveOddEven(boardMatrix) {
     // get the available coordinates
     let availableCoordinates = getAvailableCoordinates(boardMatrix);
     // if there are no available coordinates, return null
@@ -474,24 +460,8 @@ function getBestMoveOddEven(boardMatrix) {
     }
 }
 
-function combineLastMovewithGameState(lastMove, boardMatrix) {
+export function combineLastMovewithGameState(lastMove, boardMatrix) {
     console.log("lastMove", lastMove[0], lastMove[1]);
     console.log("boardMatrix", boardMatrix);
-    boardMatrix[lastMove[0]][lastMove[1]] = currentPlayer;
-    
+    boardMatrix[lastMove[0]][lastMove[1]] = ( currentPlayer === playerRed ) ? playerYellow : playerRed;
 }
-
-
-
-function nextMove(lastMove) {
-    let bestMove = getBestMoveOddEven(combineLastMovewithGameState(lastMove, boardMatrix));
-
-    return bestMove;
-}
-
-function setup(AIplays){
-    AIplays = 2;
-    return true;
-}
-
-
