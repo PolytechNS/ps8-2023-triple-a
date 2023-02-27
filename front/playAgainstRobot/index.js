@@ -678,6 +678,8 @@ function setup(AIplays){
     return true;
 
 }
+exports.setup = setup;
+exports.nextMove = nextMove;
 
 ////////////////////////////////// END IA //////////////////////////////////////
 
