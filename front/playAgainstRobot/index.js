@@ -23,11 +23,11 @@ var rows = 6;
 var columns = 7;
 
 var durationLimit = 1000;
-let IAStartFirst = true;
+let IAStartFirst = false;
 
 window.onload = function() {
 
-    setup(1);
+    setup(2);
 
     if (IAStartFirst) {
         main();
@@ -37,24 +37,12 @@ window.onload = function() {
         IAfillsATile();
     }
 
-
 }
 
 function main() {
     setPlayerToStart(playerYellow);
     setBoard();
 }      
-
-function copyOfBoard() {
-    let copy = [];
-    for (let r = 0; r < rows; r++) {
-        copy[r] = [];
-        for (let c = 0; c < columns; c++) {
-            copy[r][c] = boardMatrix[r][c];
-        }
-    }
-    return copy;
-}
 
 function setPlayerToStart(player) {
     playerToStart = player;
@@ -74,69 +62,32 @@ function setBoard() {
             tile.id = r.toString() + "-" + c.toString();
             tile.classList.add("tile");
 
-
             tile.addEventListener("click", fillTheClickedTile);
             document.getElementById("board").append(tile);
 
             tile.addEventListener("click", IAfillsATile);
             document.getElementById("board").append(tile);
 
-
-
-
-
-
-
         }
 
     }
     return boardGame;
 }
-function setBoardOneRoundPlayed() {
 
-}
- 
 function getTile(i, j) {
     let target = document.getElementById(i.toString() + "-" + j.toString());
     return target;
 }
 
-function getTileId(i, j) {
-    return getTile(i, j).id;
-}
+let lastMove = [];
 
-function getCoordinatesOfTheClickedTile() {
-    return new Promise((resolve) => {
-        boardGame.addEventListener("click", function(event) {
-            let target = event.target;
-            if (target.classList.contains("tile")) {
-                let tileId = target.id;
-                let row = tileId[0];
-                let column = tileId[2];
-                resolve([row, column]);
-            }
-        });
-    });
-}
-
-function getAvailableCoordinates() {
-    let availableCoordinates = [];
-    for (let i = 0; i < boardMatrix.length - 1 ; i++) {
-        for (let j = 0; j < boardMatrix[i].length; j++) {
-            if (boardMatrix[i][j] == ' ' && boardMatrix[i + 1][j] != ' ') {
-                availableCoordinates.push([i, j]);
-            }
-        }
+function updateLastMove(move) {
+    if (move == []) {
     }
-    for (let j = 0; j < boardMatrix[rows - 1].length; j++) {
-        if (boardMatrix[rows - 1][j] == ' ') {
-            availableCoordinates.push([rows - 1, j]);
-        }
+    else {
+        lastMove = move;
     }
-    return availableCoordinates;
 }
-
-let lastMove;
 
 function fillTheClickedTile() {
 
@@ -147,11 +98,15 @@ function fillTheClickedTile() {
     let coords = this.id.split("-");
     let oldR = parseInt(coords[0]);
     let c = parseInt(coords[1]);
+
     let adjustedCoords = adjustCoordinates(oldR, c);
 
     let r = adjustedCoords[0];
     c = adjustedCoords[1];
-    lastMove = [r, c];
+
+    let humanLastMove = [c, r];
+
+    updateLastMove(humanLastMove);
 
     let tile = document.getElementById(r.toString() + "-" + c.toString());
     
@@ -206,21 +161,6 @@ function adjustCoordinates(row, column) {
 
     return [adjustedRow, adjustedColumn];
 }
-function getAdjustCoords(){
-    return adjustedCoordinates;
-}
-
-function getIdOfClickedTile() {
-    return new Promise((resolve) => {
-        boardGame.addEventListener("click", function(event) {
-            let target = event.target;
-            if (target.classList.contains("tile")) {
-                let tileId = target.id;
-                resolve(tileId);
-            }
-        });
-    });
-}
 
 function fromBoardMatrixToBoardGame() {
     let board = [];
@@ -250,73 +190,43 @@ function IAfillsATile() {
     if (gameOver) {
         return;
     }
-    
-    // let move = getAvailableCoordinates();
-    // console.log("Thinking ....");
-    // move = move[Math.floor(Math.random() * move.length)];
 
-    let whosTurn;
-    if (currentPlayer == playerRed) {
-        whosTurn = redCercle;
-    }
-    else if (currentPlayer == playerYellow) {
-        whosTurn = yellowCercle;
-    }
+    nextMove(lastMove)
+        .then((nextMove) => {
+            let IAmove = nextMove;
+            console.log("IA next move", IAmove);
+            fillTileOfCoords(IAmove[1], IAmove[0]);
+            checkWinner();
+        })
+        .catch((error) => {
+            console.error("An error occurred: ", error);
+        });
 
-    let start = performance.now();
+}
 
-
-
-    let moveColumn = suggestMove(fromBoardMatrixToBoardGame(), whosTurn, durationLimit);
-    let moveRow = rows - 1;
-
-    adjustedCoordinates = adjustCoordinates(moveRow, moveColumn);
-
-    console.log("L'IA a choisi de remplir :", adjustedCoordinates[0], adjustedCoordinates[1]);
-    console.log("next move" ,nextMove([2,6]));
-
-
-    fillTileOfCoords(adjustedCoordinates[0], adjustedCoordinates[1]);
-
-    let end = performance.now() - start;
-    console.log("The process of choosing the best move took ", end, " ms.");
-    checkWinner();
+function nextMove(lastMove) {
+    return new Promise((resolve, reject) => {
+      let start = performance.now();
+      console.log("Human last move was :", lastMove);
+      
+      let whosTurn;
+      if (currentPlayer == playerRed) whosTurn = redCercle;
+      else if (currentPlayer == playerYellow) whosTurn = yellowCercle;
   
-}
-
-function randomAvailableCoordinates() {
-
-    let intermediate = [];
-
-    for ( let j = 0; j < columns; ++j ) {
-        if ( boardMatrix[rows - 1][j] == ' ' ) {
-            intermediate.push([rows - 1, j]);
-        }
-    }
-
-    for ( let j = 0; j < columns; ++j ) {
-        for (let i = rows - 2; i >= 0; --i) {
-            if (boardMatrix[i][j] == ' ' && boardMatrix[i + 1][j] != ' ') {
-                intermediate.push([i, j]);
-            }
-        }
-    }
-
-    let index = Math.floor(Math.random() * (intermediate.length - 1));
-
-    return intermediate[index];
-}
-
-function isBoardFull(board) {
-    for (let i = 0; i < board.length; i++) {
-        for (let j = 0; j < board[i].length; j++) {
-            if (board[i][j] === ' ') {
-                return false;
-            }
-        }
-    }
-    return true;
-}
+      let moveColumn = suggestMove(fromBoardMatrixToBoardGame(), whosTurn, durationLimit);
+      let moveRow = rows - 1;
+  
+      adjustedCoordinates = adjustCoordinates(moveRow, moveColumn);
+  
+      let end = performance.now() - start;
+      console.log("IA thinking .........  ");
+      console.log("The process of choosing the next move took ", end, " ms.");
+  
+      let nextMove = [ adjustedCoordinates[1], adjustedCoordinates[0] ];
+      resolve(nextMove);
+    });
+  }
+  
 
 function checkWinner() {
     for (let r = 0; r < rows; r++) {
@@ -326,9 +236,9 @@ function checkWinner() {
                     gameOver = true; 
                     winner = previousPlayer;
                     setTimeout(() => {
-                        // console.log(winner + " wins !");
+                        console.log("GMAE OVER ! ", winner + " wins !");
                         window.alert(winner + " wins !");
-                        }, 1000);
+                        }, 500);
                 }
             }
         }
@@ -368,116 +278,6 @@ function checkVertical(r, c) {
     return false;
 }
 
-function boardMatrixCopy(){
-    let copy = [];
-    for (let i = 0; i < rows ; i++) {
-        copy[i] = [];
-        for(let j = 0; j < columns ; j++) {
-            copy[i][j] = boardMatrix[i][j];
-        }
-    }
-    return copy;
-}
-
-//////////////////// Début : Save and Restore Game  //////////////////////
-
-async function saveGame(event, gameType) {
-    event.preventDefault();
-
-    console.log("in saveGame")
-    let token = localStorage.getItem("token");
-    const savingDate = new Date();
-
-    console.log(token);
-    const tab = {
-        gameType: gameType,
-        tab: boardMatrixCopy(),
-        userToken: token,
-        date : savingDate.toLocaleDateString()+ " " +  savingDate.toLocaleTimeString()
-    };
-    console.log(tab)
-
-    try {
-        const response = await fetch('http://localhost:8000/api/game', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(tab)
-        });
-
-        if(response.ok) {
-            console.log("im in" , response.data);
-            console.log("tab ", response.tab);
-            console.log("tab ", tab);
-            window.location.href = '../../modeGamePage/playersChooseColors.html'
-
-        }
-        else{
-            console.log("error");
-        }
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-async function resumeGame() {
-    let redirect = document.getElementById("resume-link");
-    redirect.href ="../playOneVsOne/index.html" ;
-
-}
-
-async function restoreSavedGame(event) {
-    event.preventDefault();
-    const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:8000/api/game/resume`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token })
-    });
-    if (response.ok) {
-        const gameData = await response.json();
-        if (gameData && gameData.tab) {
-            // set boardMatrix to gameData.tab
-            boardMatrix = gameData.tab;
-            console.log("before for  :",gameData.tab);
-
-            for (let i = 0; i < rows; i++) {
-                for (let j = 0; j < columns; j++) {
-                    console.log('this is tile : '  ,getTile(i, j));
-                    if (boardMatrix[i][j] === playerRed) {
-                        getTile(i, j).classList.add("red-piece");
-                    }
-                    if (boardMatrix[i][j] === playerYellow) {
-                        getTile(i, j).classList.add("yellow-piece");
-                    }
-                }
-            }
-            console.log("game resumed :",boardMatrix);
-        } else {
-            console.log('No game data found for user');
-        }
-    } else {
-        console.log('Failed to retrieve game data');
-    }
-}
-
-//////////////////// Fin : Save and Restore Game  //////////////////////
-
-// // function computeMove(boardMatrix) {
-// //     while(true) {
-// //         // Get a random column (integer between 0 and 6)
-// //         let i = Math.floor(Math.random() * 7);
-// //         for (let j=0 ; j<=5 ; j++) {
-// //             if (boardMatrix.board[i][j] === 0) {
-// //                 return [i, j];
-// //             }
-// //         }
-// //     }
-// // }
-
 //////////////////////////////// START OUR IA //////////////////////////////////////
 
 var invalidCercle = -1;
@@ -500,29 +300,12 @@ function colIsFull(board, col) {
 }
 
 // Tested
-function printBoard(board) {
-    console.log("The BOARD Game:", board);
-}
-
-// Tested
 function generateCopyOfBoard(boardToCopy) {
     let newBoard = [];
     for ( let r = 0 ; r < rows ; r++ ) {
         newBoard[r] = [];
         for ( let c = 0 ; c < columns ; c++ ) {
             newBoard[r][c] = boardToCopy[r][c];
-        }
-    }
-    return newBoard;
-}
-
-// Tested
-function generateEmptyBoard() {
-    let newBoard = [];
-    for ( let r = 0 ; r < rows ; r++ ) {
-        newBoard[r] = [];
-        for ( let c = 0 ; c < columns ; c++ ) {
-            newBoard[r][c] = emptyCercle;
         }
     }
     return newBoard;
@@ -601,12 +384,12 @@ function getWinner(board) {
 // Tested
 function suggestMove(board, whosTurn, durationLimit) {
 
-    let startTime = performance.now();
     let endTime;
     let bestMove = -1;
     let bestRatio = 0;
-    let gamesPerMove = 2000;
+    let gamesPerMove = 100;
     for ( let c = 0 ; c < columns ; c++ ) {
+        let startTime = performance.now();
         if (colIsFull(board, c)) {
             continue;
         }
@@ -633,14 +416,12 @@ function suggestMove(board, whosTurn, durationLimit) {
             endTime = performance.now();
             duration = endTime - startTime;
             i += 1;
-            if ( duration >= ( ( durationLimit / 7 ) - 2 ) ) {
-                break;
-            }
+            // if ( duration >= ( ( durationLimit / 7 ) - 2 ) ) {
+            //     break;
+            // }
         }
-        console.log("L'analyse de la colonne ", c, " a pris ", Math.floor(duration), " ms ==> ", i, " parties simulées !");
-
         let ratio = wins / losts;
-        // console.log("Move : ", c, " has ratio ", ratio);
+        // console.log("Move : ", c, " has ratio ", (Math.round(ratio * 100) / 100), " took : ", Math.floor(duration), " ms ", i, " parties simulées !");
         if (ratio > bestRatio || bestMove == -1) {
             bestRatio = ratio;
             bestMove = c;
@@ -663,57 +444,17 @@ function randomGame(board, whosTurn) {
     }
 }
 
-
-function nextMove(lastMove) {
-    return adjustedCoordinates;
-
-}
-function setup(AIplays){
-    if (AIplays === 1){
-        IAStartFirst = false;
-    }
-    else if (AIplays === 2){
+function setup(AIplays) {
+    if (AIplays === 2){
         IAStartFirst = true;
     }
+    else if (AIplays === 1) {
+        IAStartFirst = false;
+    }
     return true;
-
 }
+
 exports.setup = setup;
 exports.nextMove = nextMove;
 
 ////////////////////////////////// END IA //////////////////////////////////////
-
-// function getBestMoveOddEven(boardMatrix) {
-//     // get the available coordinates
-//     let availableCoordinates = getAvailableCoordinates(boardMatrix);
-//     // if there are no available coordinates, return null
-//     if (availableCoordinates.length === 0) {
-//         return null;
-//     }
-//     // find the first odd coordinate
-//     let firstOdd = availableCoordinates.find(coord => coord[0] % 2 === 1);
-//     // find the last even coordinate
-//     let lastEven = availableCoordinates.slice().reverse().find(coord => coord[0] % 2 === 0);
-//     // if there are no odd coordinates, set the best move to the last even coordinate
-//     if (!firstOdd) {
-//         return lastEven;
-//     }
-//     // if there are no even coordinates, set the best move to the first odd coordinate
-//     if (!lastEven) {
-//         return firstOdd;
-//     }
-//     // if the first odd coordinate comes before the last even coordinate, set the best move to the first odd coordinate
-//     if (firstOdd[1] < lastEven[1]) {
-//         return firstOdd;
-//     }
-//     // otherwise, set the best move to the last even coordinate
-//     else {
-//         return lastEven;
-//     }
-// }
-
-// function combineLastMovewithGameState(lastMove, boardMatrix) {
-//     console.log("lastMove", lastMove[0], lastMove[1]);
-//     console.log("boardMatrix", boardMatrix);
-//     boardMatrix[lastMove[0]][lastMove[1]] = ( currentPlayer === playerRed ) ? playerYellow : playerRed;
-// }
