@@ -23,9 +23,21 @@ var rows = 6;
 var columns = 7;
 
 var durationLimit = 1000;
+let IAStartFirst = true;
 
 window.onload = function() {
-    main();
+
+    setup(1);
+
+    if (IAStartFirst) {
+        main();
+    }
+    else {
+        main();
+        IAfillsATile();
+    }
+
+
 }
 
 function main() {
@@ -62,14 +74,26 @@ function setBoard() {
             tile.id = r.toString() + "-" + c.toString();
             tile.classList.add("tile");
 
+
             tile.addEventListener("click", fillTheClickedTile);
             document.getElementById("board").append(tile);
 
             tile.addEventListener("click", IAfillsATile);
             document.getElementById("board").append(tile);
+
+
+
+
+
+
+
         }
+
     }
     return boardGame;
+}
+function setBoardOneRoundPlayed() {
+
 }
  
 function getTile(i, j) {
@@ -182,6 +206,9 @@ function adjustCoordinates(row, column) {
 
     return [adjustedRow, adjustedColumn];
 }
+function getAdjustCoords(){
+    return adjustedCoordinates;
+}
 
 function getIdOfClickedTile() {
     return new Promise((resolve) => {
@@ -215,6 +242,7 @@ function fromBoardMatrixToBoardGame() {
 }
 
 let round = 0;
+let adjustedCoordinates;
 
 function IAfillsATile() {
 
@@ -237,12 +265,16 @@ function IAfillsATile() {
 
     let start = performance.now();
 
+
+
     let moveColumn = suggestMove(fromBoardMatrixToBoardGame(), whosTurn, durationLimit);
     let moveRow = rows - 1;
 
-    let adjustedCoordinates = adjustCoordinates(moveRow, moveColumn);
+    adjustedCoordinates = adjustCoordinates(moveRow, moveColumn);
 
     console.log("L'IA a choisi de remplir :", adjustedCoordinates[0], adjustedCoordinates[1]);
+    console.log("next move" ,nextMove([2,6]));
+
 
     fillTileOfCoords(adjustedCoordinates[0], adjustedCoordinates[1]);
 
@@ -629,7 +661,23 @@ function randomGame(board, whosTurn) {
             return winner;
         }
     }
-}      
+}
+
+
+function nextMove(lastMove) {
+    return adjustedCoordinates;
+
+}
+function setup(AIplays){
+    if (AIplays === 1){
+        IAStartFirst = false;
+    }
+    else if (AIplays === 2){
+        IAStartFirst = true;
+    }
+    return true;
+
+}
 
 ////////////////////////////////// END IA //////////////////////////////////////
 
