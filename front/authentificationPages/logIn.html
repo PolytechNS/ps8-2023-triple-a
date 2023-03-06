@@ -29,13 +29,16 @@
 
 </form>
 <script>
+    const localHost = 'lohalhost';
+    const url = '15.236.164.81';
+
     const loginForm = document.querySelector('#loginForm');
     loginForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const formData = new FormData(loginForm);
         const username = formData.get('log_name');
         const password = formData.get('log_pswd');
-        const response = await fetch('http://localhost:8000/api/login', {
+        const response = await fetch('http://' + url + ':8000/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -281,6 +281,9 @@ function boardMatrixCopy(){
 // document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
 
 async function saveGame(event, gameType) {
+    const localHost = 'lohalhost';
+    const url = '15.236.164.81';
+
     event.preventDefault();
 
     console.log("in saveGame")
@@ -298,7 +301,7 @@ async function saveGame(event, gameType) {
     console.log(tab)
 
     try {
-        const response = await fetch('http://localhost:8000/api/game', {
+        const response = await fetch('http://' + url + ':8000/api/game', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -328,8 +331,11 @@ async function resumeGame() {
 }
 
 async function getSavedGames() {
+    const localHost = 'lohalhost';
+    const url = '15.236.164.81';
+
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:8000/api/game/list`, {
+    const response = await fetch('http://' + url + ':8000/api/game/list', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -364,11 +370,14 @@ async function getSavedGames() {
     }
 }
 async function restoreSavedGame(event) {
+    const localHost = 'lohalhost';
+    const url = '15.236.164.81';
+
     event.preventDefault();
     const gameId = event.target.dataset.game;
     console.log("this is the game id : ", gameId);
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:8000/api/game/retrieve/${gameId}`, {
+    const response = await fetch('http://' + url + ':8000/api/game/retrieve/${gameId}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -418,12 +427,15 @@ async function restoreSavedGame(event) {
     }
 }
 async function deleteSavedGame(event) {
+    const localHost = 'lohalhost';
+    const url = '15.236.164.81';
+
     event.preventDefault();
 
     const gameId = event.target.getAttribute('data-game');
     console.log("this is the game id : ", gameId);
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://localhost:8000/api/game/delete/${gameId}`, {
+    const response = await fetch('http://' + url + ':8000/api/game/delete/${gameId}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
