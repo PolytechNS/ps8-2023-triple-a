@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Profil de l'utilisateur</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="profil.js"></script>
+  </head>
+  <body>
+    <div class="back">
+      <h1>Bienvenue sur votre profil, [nom de l'utilisateur]</h1>
+      <button onclick="getUsernameFromToken(localStorage.getItem('token'))">Cliquez ici</button>
+
+      <a href="friends.html" class="button">Voir mes amis</a>
+
+    </div>
+  </body>
+</html>

@@ -50,6 +50,7 @@ const {MongoClient, ObjectId} = require("mongodb");
                      await client.close();
                  }
              });
+             
          } else if (filePath[3] === "resume") {
              request.on('end', async function () {
                  let currentUser = JSON.parse(body);
@@ -153,7 +154,20 @@ const {MongoClient, ObjectId} = require("mongodb");
              });
          }
      }
+     if (request.method === 'GET') {
+        if (filePath[2] === "user") {
+            const token = request.headers.authorization.split(" ")[1];
+            const user = await findOneInDataBase({token: token}, "users");
+            if (user) {
+                response.writeHead(200, {'Content-Type': 'application/json'});
+                response.end(JSON.stringify(user));
+            } else {
+                response.writeHead(404, {'Content-Type': 'application/json'});
+                response.end(JSON.stringify({status: 'failure', message: 'User not found'}));
+            }
+        }
  }
+}
 
 async function findOneInDataBase(data, collection) {
     try {
@@ -178,6 +192,6 @@ async function findAllInDataBase(query, collectionName) {
     return result;
 }
 
-exports.manage = manageRequest;
 
+exports.manage = manageRequest;
 

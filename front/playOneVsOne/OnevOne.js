@@ -59,7 +59,7 @@ window.onload = function() {
 }
 
 function main() {
-    chooselocalHostOrUrl('url');
+    chooselocalHostOrUrl('local');
     setBoard();
     fillTheClickedTile();
     let a = getAvailableCoordinates();

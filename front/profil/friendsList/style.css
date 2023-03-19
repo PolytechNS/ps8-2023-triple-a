@@ -1,0 +1,41 @@
+h1 {
+    text-align: center;
+  }
+  
+  #friend-list {
+    margin: 20px auto;
+    width: 50%;
+  }
+  
+  #friend-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #friend-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  #search-bar {
+    margin: 20px auto;
+    width: 50%;
+    text-align: center;
+  }
+  
+  #search-bar input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 2px 2px #ccc;
+  }
+  
+  #search-bar button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #62b4e4;
+    color: #fff;
+    box-shadow: 0 2px 2px #ccc;
+  }
+  
