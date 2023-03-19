@@ -59,13 +59,11 @@ window.onload = function() {
 }
 
 function main() {
+    chooselocalHostOrUrl('url');
     setBoard();
     fillTheClickedTile();
     let a = getAvailableCoordinates();
     console.log("available", a);
-    // if ( resume ) {
-    //     resumeGame();
-    // }
 }
 
 
@@ -281,8 +279,6 @@ function boardMatrixCopy(){
 // document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
 
 async function saveGame(event, gameType) {
-    const localHost = 'lohalhost';
-    const url = '15.236.164.81';
 
     event.preventDefault();
 
@@ -301,7 +297,7 @@ async function saveGame(event, gameType) {
     console.log(tab)
 
     try {
-        const response = await fetch('http://' + url + ':8000/api/game', {
+        const response = await fetch('http://' + localHostOrUrl + ':8000/api/game', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -327,15 +323,25 @@ async function saveGame(event, gameType) {
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");
     redirect.href ="../playOneVsOne/index.html" ;
+}
 
+const localHost = 'localhost';
+const url = '15.236.164.81';
+var localHostOrUrl = url;
+
+function chooselocalHostOrUrl(l) {
+    if ( l == "local" ) {
+        localHostOrUrl = localHost;
+    }
+    else if ( l == "url" ) {
+        localHostOrUrl = url;
+    }
 }
 
 async function getSavedGames() {
-    const localHost = 'lohalhost';
-    const url = '15.236.164.81';
 
     const token = localStorage.getItem("token");
-    const response = await fetch('http://' + url + ':8000/api/game/list', {
+    const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/list', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -370,14 +376,12 @@ async function getSavedGames() {
     }
 }
 async function restoreSavedGame(event) {
-    const localHost = 'lohalhost';
-    const url = '15.236.164.81';
 
     event.preventDefault();
     const gameId = event.target.dataset.game;
     console.log("this is the game id : ", gameId);
     const token = localStorage.getItem("token");
-    const response = await fetch('http://' + url + ':8000/api/game/retrieve/${gameId}', {
+    const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/retrieve/${gameId}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -410,10 +414,6 @@ async function restoreSavedGame(event) {
             }
             // Set currentPlayer to gameData.playerToPlay
             currentPlayer = gameData.playerToPlay;
-
-
-
-
             console.log("Game resumed:", boardMatrix);
         } else {
             console.log('No game data found for user');
@@ -427,15 +427,13 @@ async function restoreSavedGame(event) {
     }
 }
 async function deleteSavedGame(event) {
-    const localHost = 'lohalhost';
-    const url = '15.236.164.81';
 
     event.preventDefault();
 
     const gameId = event.target.getAttribute('data-game');
     console.log("this is the game id : ", gameId);
     const token = localStorage.getItem("token");
-    const response = await fetch('http://' + url + ':8000/api/game/delete/${gameId}', {
+    const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/delete/${gameId}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

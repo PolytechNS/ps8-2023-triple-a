@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/benjaminvella/ps8#readme",
   "dependencies": {
-    "mongodb": "5.0"
+    "mongodb": "5.0",
+    "websocket": "^1.0.34"
   }
 }

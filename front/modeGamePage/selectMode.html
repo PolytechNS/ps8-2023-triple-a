@@ -4,6 +4,7 @@
   <head>
     <title>Select Game Mode</title>
     <link rel="stylesheet" href="mode.css">
+    <script src="script.js"></script>
   </head>
 
   <body>
@@ -16,6 +17,19 @@
             <a href="../modeGamePage/playersChoosePseudos.html"><button class="button" id="1vRobot">1vRobot</button></a>
 
     </div>
+    <script>
+        let mode = "1VS1";
+
+        let clickedButton = document.getElementById("1vRobot");
+        clickedButton.addEventListener("click", oneVSrobot);
+
+        function oneVSrobot() {
+            mode = "1VSROBOT";
+            console.log(mode);
+        }
+        export { mode };
+
+    </script>
 
   </body>
 
