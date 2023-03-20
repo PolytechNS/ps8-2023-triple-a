@@ -62,6 +62,31 @@ async function manageRequest(request, response) {
             });
 
         }
+        else if (filePath[3] === "requestList"){
+            request.on('end', async function () {
+                let currentUser = JSON.parse(body);
+                await client.connect();
+                console.log('Connected to MongoDB');
+                const db = client.db("connect4");
+                const collection = db.collection("log");
+
+                // Find the user by token and retrieve their friend requests
+                const user = await collection.findOne({token: currentUser.token});
+                const friendRequests = user.friendRequests;
+                if (friendRequests) {
+                    console.log("im in the if for ok ,the name : ",friendRequests[0].name);
+                    console.log("im in the if for ok ,the username : ",friendRequests[0].username);
+
+
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify(friendRequests));
+                } else {
+                    response.writeHead(404, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify({status: 'failure', message: 'No games found for user'}));
+                }
+                request.removeAllListeners();
+            })
+        }
 
 }
 }
@@ -79,6 +104,13 @@ async function findOneInDataBase(data, collection) {
         console.error(error);
         return null;
     }
+}
+async function findAllInDataBase(query, collectionName) {
+    const client = await MongoClient.connect('mongodb://admin:admin@mongodb/admin?directConnection=true', { useUnifiedTopology: true });
+    const collection = client.db("connect4").collection(collectionName);
+    const result = await collection.find(query).toArray();
+    await client.close();
+    return result;
 }
 
 exports.manage = manageRequest;
