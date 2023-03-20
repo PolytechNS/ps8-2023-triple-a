@@ -456,3 +456,13 @@ async function deleteSavedGame(event) {
 
 // Call getSavedGames when the page loads
 getSavedGames();
+
+
+//////////////////// Server Connection Manager ////////////////////
+
+let ws = new WebSocket('ws://' + localHostOrUrl + ':9090');
+ws.onmessage = message => {
+    // I the client receive a message from the server !
+    const response = JSON.parse(message.data);
+    console.log("I the client received this response from the server : ", response);
+}

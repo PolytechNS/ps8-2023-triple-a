@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join OR Create A new game</title>
+</head>
+
+<body>
+    <button id = 'newGame'>New Game</button>
+    <button id = 'joinGame'>Join Game</button>
+    <input type="text" id="textGameId">
+    <div id="divPlayers"></div>
+    <script>
+        
+        const localHost = 'localhost';
+        const url = '15.236.164.81';
+        let localHostOrUrl;
+
+        function chooselocalHostOrUrl(l) {
+            if ( l == 2 ) {
+                localHostOrUrl = localHost;
+            }
+            else if ( l == 1 ) {
+                localHostOrUrl = url;
+            }
+        }
+
+        // 1 : URL | 2 : Localhost
+        chooselocalHostOrUrl(2);
+
+        //////////////////// Server Connection Manager ////////////////////
+
+let clientId = null;
+let gameId = null;
+let ws = new WebSocket('ws://' + localHostOrUrl + ':9090');
+
+const newGame = document.getElementById('newGame');
+const joinGame = document.getElementById('joinGame');
+const textGameId = document.getElementById('textGameId');
+const divPlayers = document.getElementById('divPlayers');
+
+newGame.addEventListener('click', e => {
+
+    const payLoad = {
+        "method": "createGame",
+        "clientId": clientId
+    }
+
+    ws.send(JSON.stringify(payLoad));
+
+})
+
+ws.onmessage = message => {
+    // I the client receive a message from the server !
+    const response = JSON.parse(message.data);
+
+    // A new connection to the server
+    if ( response.method === "connect" ) {
+      clientId = response.clientId;
+      console.log("Client ID : ", clientId, " set successfully !");
+    }
+
+    // create a new game
+    if ( response.method === "createGame" ) {
+        gameId = response.game.id;
+        console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
+    }
+
+}
+    </script>
+</body>
+</html>
