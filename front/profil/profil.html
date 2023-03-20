@@ -4,14 +4,22 @@
     <meta charset="UTF-8" />
     <title>Profil de l'utilisateur</title>
     <link rel="stylesheet" href="style.css" />
-    <script type="module" src="profil.js"></script>
+    <script  src="profil.js"></script>
   </head>
   <body>
     <div class="back">
-      <h1>Bienvenue sur votre profil, [nom de l'utilisateur]</h1>
-      <button onclick="getUsernameFromToken(localStorage.getItem('token'))">Cliquez ici</button>
 
-      <a href="friends.html" class="button">Voir mes amis</a>
+      <h1>Bienvenue sur votre profil <span id="username"></span> !</h1>
+
+      <script>
+        const username = localStorage.getItem('username');
+        const usernameElement = document.getElementById("username");
+        usernameElement.innerHTML = username;
+      </script>
+
+      <button onclick="getUsername(event)">Cliquez ici</button>
+
+      <a href="/friendsList/friendsList.html" class="button">Voir mes amis</a>
 
     </div>
   </body>

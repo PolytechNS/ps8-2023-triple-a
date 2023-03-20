@@ -118,11 +118,32 @@ const {MongoClient, ObjectId} = require("mongodb");
                  }
                  request.removeAllListeners();
              });
-         } else if (filePath[3] === "delete") {
+         }   else if (filePath[3] === "user") {
+             request.on('end', async function () {
+                 const client = await MongoClient.connect('mongodb://admin:admin@mongodb/admin?directConnection=true', { useUnifiedTopology: true });
+                 const collection = client.db("connect4").collection("log");
+                 const players = await collection.find().toArray();
+                 if (players) {
+                     response.writeHead(200, {'Content-Type': 'application/json'});
+                     let playersList = [];
+                        for (let i = 0; i < players.length; i++) {
+                            playersList.push(players[i]);
+                        }
+                     response.end(JSON.stringify(playersList));
+                 } else {
+                     response.writeHead(404, {'Content-Type': 'application/json'});
+                     response.end(JSON.stringify({status: 'failure', message: 'No games found for user'}));
+                 }
+                 request.removeAllListeners();
+             });
+         }
+
+         else if (filePath[3] === "delete") {
              request.on('end', async function () {
                  let currentUser = JSON.parse(body);
 
                  console.log("Received request to delete game with ID:",  currentUser._id);
+                 console.log("user's name is :", currentUser.name);
 
                  try {
                      const client = await MongoClient.connect('mongodb://admin:admin@mongodb/admin?directConnection=true', {useUnifiedTopology: true});
@@ -132,7 +153,7 @@ const {MongoClient, ObjectId} = require("mongodb");
 
                      if (game.deletedCount > 0) {
                          response.writeHead(200, {'Content-Type': 'application/json'});
-                         response.end(JSON.stringify({status: 'success', message: 'Game deleted successfully'}));
+                         response.end(JSON.stringify({status: 'success', message: 'Game deleted successfully',token: currentUser.token}));
                          console.log("Game deleted successfully:", game);
                      } else {
                          response.writeHead(404, {'Content-Type': 'application/json'});
@@ -154,19 +175,7 @@ const {MongoClient, ObjectId} = require("mongodb");
              });
          }
      }
-     if (request.method === 'GET') {
-        if (filePath[2] === "user") {
-            const token = request.headers.authorization.split(" ")[1];
-            const user = await findOneInDataBase({token: token}, "users");
-            if (user) {
-                response.writeHead(200, {'Content-Type': 'application/json'});
-                response.end(JSON.stringify(user));
-            } else {
-                response.writeHead(404, {'Content-Type': 'application/json'});
-                response.end(JSON.stringify({status: 'failure', message: 'User not found'}));
-            }
-        }
- }
+
 }
 
 async function findOneInDataBase(data, collection) {

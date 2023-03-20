@@ -60,16 +60,14 @@
         if (response.ok) {
 
             console.log('data' +response.data)
-            const { token,username } = await response.json();
+            const { token } = await response.json();
 
             localStorage.setItem('token', token);
-            localStorage.setItem('username', username);
             // document.cookie = "token=" + response.token + ";path=/";
             // document.cookie = "username=" + response.username + ";path=/";
             //
             // console.log('tocken : ' +token)
             console.log('status ' +response.status)
-            console.log("username : " +localStorage.getItem('username'))
             fetch('../modeGamePage/selectMode.html')
                 .then(response => response.text())
                 .then(html => document.body.innerHTML = html)

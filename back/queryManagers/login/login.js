@@ -18,10 +18,6 @@ function manageRequest(request, response) {
         });
     }
 
-    else if (request.method === 'GET') {
-        response.statusCode = 200;
-        response.end("Hello World");
-    } 
     
     else {
         response.statusCode = 400;
