@@ -75,9 +75,6 @@ async function manageRequest(request, response) {
                 const friendRequests = user.friendRequests;
                 if (friendRequests) {
                     console.log("im in the if for ok ,the name : ",friendRequests[0].name);
-                    console.log("im in the if for ok ,the username : ",friendRequests[0].username);
-
-
                     response.writeHead(200, {'Content-Type': 'application/json'});
                     response.end(JSON.stringify(friendRequests));
                 } else {
@@ -85,6 +82,57 @@ async function manageRequest(request, response) {
                     response.end(JSON.stringify({status: 'failure', message: 'No games found for user'}));
                 }
                 request.removeAllListeners();
+            })
+        }
+        else if (filePath[3] === "accept"){
+            request.on('end', async function () {
+                let currentUser = JSON.parse(body);
+                try{
+                console.log('Connected to MongoDB');
+                const db = client.db("connect4");
+                const collection = db.collection("log");
+                const query = {token: currentUser.playerToken};
+                const deleteQuery = {token: currentUser.requestToken};
+                const update = {
+                    $pull: {
+                        friendRequests: deleteQuery
+                    }
+                };
+                const updateFriendsListForPlayer = {
+                    $push: {
+                        friends :{  name : currentUser.userNameToBeAdded,
+                                    token : currentUser.requestToken }
+
+
+                    }
+                }
+                const updateFriendsListForRequester = {
+                    $push: {
+                        friends :{  name : currentUser.thisUsername,
+                                    token : currentUser.playerToken }
+
+                    }
+                }
+
+                const user = await collection.updateOne(query, update);
+                const friendsPlayerUpdate = await collection.updateOne({token: currentUser.playerToken},updateFriendsListForPlayer )
+                const friendsRequesterUpdate = await collection.updateOne({token: currentUser.requestToken},updateFriendsListForRequester )
+                if (user && friendsPlayerUpdate && friendsRequesterUpdate) {
+                    console.log("yeeehoo all is good");
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify({status: 'success'}));
+                }
+            } catch (err) {
+                console.error('Failed to insert document', err);
+                response.writeHead(200, {'Content-Type': 'application/json'});
+                response.end(JSON.stringify({status: 'failure'}));
+            } finally {
+                await client.close();
+            }
+
+
+
+
             })
         }
 
