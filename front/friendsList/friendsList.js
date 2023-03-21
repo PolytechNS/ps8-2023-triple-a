@@ -29,11 +29,15 @@ async function getPlayers() {
                 playerItem.innerHTML = `
                                         <div class="game-container">
                                             <button data-player="${player._id}" class="game-button">${player.username}</button>
-                                            <i class="gg-trash" data-player="${player._id}"></i>
+                                            
                                             
                                         </div>
     `;
                 playerList.appendChild(playerItem);
+                //don't show the current user
+                if (player.username === localStorage.getItem('username')) {
+                    playerItem.style.display = "none";
+                }
             }
             document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click',  sendInvite));
 
@@ -42,10 +46,59 @@ async function getPlayers() {
         console.log('Failed to retrieve players');
     }
 }
+async function getFriends() {
+    console.log('loading friends');
+    const token = localStorage.getItem('token').toString();
+
+    const response = await fetch('http://' + localHost + ':8000/api/friend/friends', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+    });
+
+    if (response.ok) {
+        const friends = await response.json();
+        console.log("friends : ", friends);
+        const friendList = document.getElementById('friend-list');
+        friendList.innerHTML = '';
+        if (friends.length === 0) {
+            friendList.innerHTML = '<li>You have no friends yet.</li>';
+        } else {
+            for (let i = 0; i < friends.length; i++) {
+                const friend = friends[i];
+                const friendName = friend.name;
+                const friendItem = document.createElement('li');
+                friendItem.classList.add('friend-li');
+                friendItem.textContent = friendName;
 
 
 
-async function sendInvite(event) {
+                const trashIcon = document.createElement('i');
+                trashIcon.classList.add('gg-trash', 'trash-icon');
+                trashIcon.setAttribute('data-player', friend.token);
+                trashIcon.addEventListener('click', () => {
+                    // handle the click event to delete the friend
+                });
+                friendItem.appendChild(trashIcon);
+                friendList.appendChild(friendItem);
+            }
+        }
+    } else {
+        console.log('Failed to retrieve friends');
+    }
+}
+
+
+
+
+
+
+
+
+
+    async function sendInvite(event) {
     event.preventDefault();
 
     const playerId = event.target.getAttribute('data-player');
@@ -69,6 +122,8 @@ async function sendInvite(event) {
     if (response.ok) {
         const data = await response.json();
         console.log("data : ", data);
+
+        // event.target.parentElement.remove();
         if (data.error) {
             alert(data.error);
         } else {
@@ -83,6 +138,7 @@ async function sendInvite(event) {
 
 window.onload = function() {
     getPlayers().then(r => console.log('players loaded'));
+    getFriends().then(r => console.log('friends loaded'));
 }
 // const searchinput = document.getElementById('searchinput');
 // searchinput.addEventListener('click', function(){

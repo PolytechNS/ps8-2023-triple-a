@@ -17,7 +17,7 @@ async function getFriendRequests() {
         const playerList = document.getElementById('players-list');
         playerList.innerHTML = '';
         if (players.length === 0) {
-            playerList.innerHTML = '<li>No players registered yet.</li>';
+            playerList.innerHTML = '<li>You have 0 friend request.</li>';
         } else {
             for (let i = 0; i < players.length; i++) {
                 const player = players[i];
@@ -33,7 +33,7 @@ async function getFriendRequests() {
                 playerItem.innerHTML = `
                                         <div class="game-container">
                                             <button data-player="${player.token}" class="game-button">${player.name}</button>
-                                            <i class="gg-trash" data-player="${token}"></i>
+                                            <i class="gg-trash" data-player="${player.token}"></i>
                                             
                                         </div>
     `;
@@ -42,7 +42,9 @@ async function getFriendRequests() {
             }
             document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click',  acceptRequest));
 
-            document.querySelectorAll('.gg-trash').forEach(icon => icon.addEventListener('click', deleteFriendRequest));
+            for (const icon of document.querySelectorAll('.gg-trash')) {
+                icon.addEventListener('click', await rejectRequest);
+            }
 
         }
     } else {
@@ -80,9 +82,33 @@ async function acceptRequest(event) {
         console.log('Failed to accept friend request');
     }
 }
-async function deleteFriendRequest(event) {
-    console.log("ana hna ya zaml xD" +
-        "")
+async function rejectRequest(event) {
+    event.preventDefault();
+
+        const requestToken = event.target.getAttribute('data-player');
+        const playerToken = localStorage.getItem('token');
+        console.log("this is the player id : ", playerToken);
+        console.log("this is the requester token: ", requestToken);
+
+        const response = await fetch('http://' + localHost + ':8000/api/friend/reject/£{playerToken}/${requestToken}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                playerToken: playerToken,
+                requestToken: requestToken,
+
+            })
+        });
+        if (response.ok) {
+            console.log('friend request deleted');
+            event.target.parentElement.remove();
+        }
+        else {
+            console.log('Failed to delete friend request');
+        }
+
 
 }
 window.onload = function() {
