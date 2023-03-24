@@ -66,11 +66,11 @@ wsServer.on("request", request => {
             const clientId = result.clientId;
             const gameId = result.gameId;
             const game = games[gameId];
+            const color = result.color;
             // if (game.clients.length >= 2) {
             //     // Sorry max players reached
             //     return;
             // }
-            const color = {"0": "Yellow", "1": "Red"}[game.clients.length]
             game.clients.push({
                 "clientId": clientId,
                 "color": color
@@ -85,7 +85,7 @@ wsServer.on("request", request => {
                 "game": game
             }
 
-            // Tell the player that already exits in the room that some people joined has just joined
+            // Tell the player who already exits in the room that another one has just joined
             game.clients.forEach(client => {
                 clients[client.clientId].connection.send(JSON.stringify(payLoad));
             });
@@ -99,11 +99,12 @@ wsServer.on("request", request => {
 
             let oldState = games[gameId].gameState;
             if ( !oldState )  oldState = emptyBoard();
-
+            console.log("FROM Server : game state before : ", games[gameId].gameState[0])
             // Update the game State
             oldState[row][column] = result.color;
             // Send back the new state to the clients
             games[gameId].gameState = oldState;
+            console.log("FROM Server : game state after : ", games[gameId].gameState[0])
         }
     });
 
@@ -135,7 +136,7 @@ function updateGameState() {
             clients[client.clientId].connection.send(JSON.stringify(payLoad))
         });
     }
-    setTimeout(updateGameState, 300);
+    setTimeout(updateGameState, 10000);
 }
 
 function generateId() {
