@@ -1,3 +1,4 @@
+const { Console } = require("console");
 const http = require("http");
 const app = require("express")();
 const filePath =  require("path").join(__dirname, '..' , '..' , 'front' , 'playOneVsOne' , 'index.html');
@@ -10,7 +11,10 @@ httpServer.listen(9090, () => console.log("Server is running ..."));
 // Hashmap to store all the clients connected to the server
 const clients = { }
 // Hashmap to store all the created games
-const games = { }
+let games = { }
+
+var playerRed = "RED";
+var playerYellow = "YELLOW";
 
 const wsServer = new websocketServer({
     "httpServer": httpServer
@@ -38,7 +42,7 @@ wsServer.on("request", request => {
     connection.on("close", () => console.log("Closed"));
     connection.on("message", message => {
         const result = JSON.parse(message.utf8Data);
-        // I the server received a message from the client
+        // I, the server, have received a message from the client
         // A user wants to create a new game
         if (result.method === "createGame") {
             const clientId = result.clientId;
@@ -47,8 +51,9 @@ wsServer.on("request", request => {
             games[gameId] = {
                 "id": gameId,
                 "gameState": gameBoard,
-                "clients": []
+                "clients": [],
             }
+
             // Send back the payLoad to the client
             const payLoad = {
                 "method": "createGame",
@@ -65,16 +70,27 @@ wsServer.on("request", request => {
         if ( result.method === "joinGame" ) {
             const clientId = result.clientId;
             const gameId = result.gameId;
+            // Extract the game state from the games hashmap
             const game = games[gameId];
-            const color = result.color;
-            // if (game.clients.length >= 2) {
-            //     // Sorry max players reached
-            //     return;
-            // }
-            game.clients.push({
-                "clientId": clientId,
-                "color": color
-            })
+            const color = null;
+ 
+            //The first player to join will be RED
+            if (game.clients.length === 0) {
+                game.clients.push({
+                    "clientId": clientId,
+                    "color": playerRed,
+                    "turn": 1,
+                });
+            }
+
+            //The second player to join will be YELLOW
+            else if (game.clients.length === 1) {
+                game.clients.push({
+                    "clientId": clientId,
+                    "color": playerYellow,
+                    "turn": 2,
+                });
+            }
 
             // Start the game when we have 2 players
             // if (game.clients.length === 2) updateGameState();
@@ -82,7 +98,9 @@ wsServer.on("request", request => {
 
             const payLoad = {
                 "method": "joinGame",
-                "game": game
+                "game": game,
+                "state": game.gameState,
+                "clients": game.clients,
             }
 
             // Tell the player who already exits in the room that another one has just joined
@@ -93,19 +111,23 @@ wsServer.on("request", request => {
 
         // A client wants to play
         if (result.method === "play") {
+            console.log("A client wants to play");
             const gameId = result.gameId;
             const row = result.row;
             const column = result.column;
-
+            const color = result.color;
+            const clientId = result.clientId;
+            gamesDetails();
             let oldState = games[gameId].gameState;
-            if ( !oldState )  oldState = emptyBoard();
-            console.log("FROM Server : game state before : ", games[gameId].gameState[0])
+            if ( !oldState ) oldState = emptyBoard();
             // Update the game State
-            oldState[row][column] = result.color;
+            oldState[row][column] = color;
             // Send back the new state to the clients
             games[gameId].gameState = oldState;
-            console.log("FROM Server : game state after : ", games[gameId].gameState[0])
+            gamesDetails();
         }
+            
+            
     });
 
     // Generate a new clientID
@@ -132,24 +154,38 @@ function updateGameState() {
             "method": "updateGameState",
             "game": game,
         }
+        // console.log("FROM Server : game state : ", game.gameState[0])
         game.clients.forEach(client => {
             clients[client.clientId].connection.send(JSON.stringify(payLoad))
         });
     }
-    setTimeout(updateGameState, 10000);
+
+    setTimeout(updateGameState, 300);
 }
 
+function gamesDetails() {
+    let i = 0;
+    for ( let key in games ) {
+        console.log("--- Game Number : " + (i + 1) + " ---");
+        console.log("--- Game ID : ", games[key].id);
+        console.log("Game State : ", games[key].gameState);
+        console.log("Clients : ", games[key].clients);
+    }
+}
 function generateId() {
     let result = '';
     const characters = 'XUV';
     for (let i = 0; i < 3; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-    return result + Math.floor(Math.random() * 1000);
+    // return result + Math.floor(Math.random() * 1000);
+    return  Math.floor(Math.random() * 10);
 }
 
+var o = 1;
 function displayAll() {
     let i = 0;
+    console.log("/n affichaga : " + o++ + " /n");
     for (const g of Object.keys(games)) {
         console.log("--- Game Number : " + i++ + " ---");
         console.log("Game ID : " + games[g].id);

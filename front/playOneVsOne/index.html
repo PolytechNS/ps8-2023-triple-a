@@ -179,11 +179,11 @@ image {
 }
 
 .red-piece {
-    background-color: red;
+    background-color: rgb(255, 255, 255);
 }
 
 .yellow-piece {
-    background-color: yellow;
+    background-color: rgb(0, 0, 0);
 }
 
 *{
@@ -399,8 +399,9 @@ var playerRed = "RED";
 var playerYellow = "YELLOW";
 var playerToStart;
 playerToStart = playerRed;
+
 var currentPlayer = playerToStart;
-var previousPlayer = null;
+var nextPlayer = null;
 
 var gameOver = false;
 var winner = null;
@@ -495,47 +496,23 @@ function getAvailableCoordinates() {
     return availableCoordinates;
 }
 
-// function fillTheClickedTile() {
-//     boardGame.addEventListener("click", function(event) {
-//         let target = event.target;
-//         if (target.classList.contains("tile")) {
+var whoNow = null; // 1 : RED | 2 : YELLOW
 
-//             let coords = target.id.split("-");
-//             let row = parseInt(coords[0]);
-//             let column = parseInt(coords[1]);
-
-//             let adjustedCoords = adjustCoordinates(row, column);
-
-//             row = adjustedCoords[0];
-//             column = adjustedCoords[1];
-
-//             const payLoad = {
-//                 "method": "play",
-//                 "clientId": clientId,
-//                 "gameId": gameId,
-//                 "color": currentPlayer,
-//                 "row": row,
-//                 "column": column
-//             }
-//             ws.send(JSON.stringify(payLoad));
-//             fillTile(row, column);
-//         }
-//     });
-// }
-
-function fillTile(i, j) {
+function fillTile(i, j, color) {
     if (gameOver) {
         return;
     }
-    if ( currentPlayer == playerRed ) {
-        getTile(i, j).classList.add("red-piece");
+
+    if ( color == playerYellow ) {
+        getTile(i, j).classList.add("yellow-piece");
+        boardMatrix[i][j] = playerYellow;
     }
     else {
-        getTile(i, j).classList.add("yellow-piece");
+        getTile(i, j).classList.add("red-piece");
+        boardMatrix[i][j] = playerRed;
     }
-    boardMatrix[i][j] = currentPlayer;
+    // boardMatrix[i][j] = whoNow == 1 ? playerYellow : playerRed;
     updateTurn();
-    // console.log('Tile',  [i, j], "has been filled with", boardMatrix[i][j]);
     checkWinner();
 }
 
@@ -816,7 +793,7 @@ getSavedGames();
 
 let clientId = null;
 let gameId = null;
-let playerColor = null;
+let clientColor = null;
 
 let room = {}
 
@@ -869,12 +846,6 @@ ws.onmessage = message => {
       console.log("Client ID : ", clientId, " set successfully !");
       numberOfCreatedGames = Object.keys(response.games).length;
       console.log("The number of created games is : ", numberOfCreatedGames);
-      for ( let g in response.games ) {
-        room = {
-          id: g.id,
-          currentPlayer: g.clients[0].clientId,
-        }
-      }
     }
 
     // create a new game
@@ -883,36 +854,28 @@ ws.onmessage = message => {
         console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
     }
 
-    // upadate the game state
-    if ( response.method === "updateGameState" ) {
-      if (!response.game.gameState) return;
-      let i = 0;
-      // console.log("----- Update number : ", i++, " -----");
-      // console.log("FROM CLIENT : before update ", boardMatrix);
-      const state = response.game.gameState;
-      for ( let i = 0; i < rows; i++ ) {
-        for ( let j = 0; j < columns; j++ ) {
-          if ( state[i][j] === playerRed ) {
-            fillTile(i, j);
-          }
-          if ( state[i][j] === playerYellow ) {
-            fillTile(i, j);
-          }
-        }
-      }
-      // console.log("FROM CLIENT : after update ", boardMatrix);
-    }
-
     // join a game
     if ( response.method === "joinGame" ) {
+        clientColor = null;
+        // whoNow = response.clients[clientId];
+        let a = 0;
+        let c = response.clients;
+        for (let i = 0; i < c.length; i++) {
+          if ( c[i].clientId === clientId ) {
+              whoNow = c[i].turn;
+              clientColor = c[i].color;
+              break;
+          }
+        }
+        console.log("whoNow : ", whoNow);
         boardGame.addEventListener("click", function(event) {
         let target = event.target;
         if (target.classList.contains("tile")) {
-
+            // console.log("Board game from client : ", boardMatrix);
+            // console.log("Board game from server : ", response.state);
             let coords = target.id.split("-");
             let row = parseInt(coords[0]);
             let column = parseInt(coords[1]);
-
             let adjustedCoords = adjustCoordinates(row, column);
 
             row = adjustedCoords[0];
@@ -922,16 +885,34 @@ ws.onmessage = message => {
                 "method": "play",
                 "clientId": clientId,
                 "gameId": response.game.id,
-                "color": currentPlayer,
                 "row": row,
-                "column": column
+                "column": column,
+                "color": clientColor
             }
+            console.log("Client color : ", clientColor);
+            console.log("Board Matrix : ", boardMatrix);
             ws.send(JSON.stringify(payLoad));
-            fillTile(row, column);
-            console.log("Board : ", boardMatrix);
+            // fillTile(row, column);
           }
         });
         console.log("game succesfully joined with id : ", gameId + " | by client : " + clientId);
+    }
+
+    // upadate the game state
+    if ( response.method === "updateGameState" ) {
+      if (!response.game.gameState) return;
+      let j = 1;
+      // console.log("----- Update number : ", j++, " -----");
+      // console.log("FROM CLIENT : before update ", boardMatrix);
+      const state = response.game.gameState;
+      for ( let i = 0; i < rows; i++ ) {
+        for ( let j = 0; j < columns; j++ ) {
+          if ( state[i][j] != ' ' ) {
+            fillTile(i, j, state[i][j]);
+          }
+        }
+      }
+      // console.log("FROM CLIENT : after update ", boardMatrix);
     }
 }
 
