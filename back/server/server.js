@@ -79,7 +79,6 @@ wsServer.on("request", request => {
                 game.clients.push({
                     "clientId": clientId,
                     "color": playerRed,
-                    "turn": 1,
                 });
             }
 
@@ -88,7 +87,6 @@ wsServer.on("request", request => {
                 game.clients.push({
                     "clientId": clientId,
                     "color": playerYellow,
-                    "turn": 2,
                 });
             }
 
@@ -117,14 +115,12 @@ wsServer.on("request", request => {
             const column = result.column;
             const color = result.color;
             const clientId = result.clientId;
-            gamesDetails();
             let oldState = games[gameId].gameState;
             if ( !oldState ) oldState = emptyBoard();
             // Update the game State
             oldState[row][column] = color;
             // Send back the new state to the clients
             games[gameId].gameState = oldState;
-            gamesDetails();
         }
             
             
@@ -168,24 +164,26 @@ function gamesDetails() {
     for ( let key in games ) {
         console.log("--- Game Number : " + (i + 1) + " ---");
         console.log("--- Game ID : ", games[key].id);
-        console.log("Game State : ", games[key].gameState);
+        // console.log("Game State : ", games[key].gameState);
         console.log("Clients : ", games[key].clients);
     }
 }
+
 function generateId() {
     let result = '';
     const characters = 'XUV';
     for (let i = 0; i < 3; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-    // return result + Math.floor(Math.random() * 1000);
-    return  Math.floor(Math.random() * 10);
+    // check if the id already exists
+    if (games[result]) return generateId();
+    return result + Math.floor(Math.random() * 1000);
 }
 
-var o = 1;
 function displayAll() {
     let i = 0;
-    console.log("/n affichaga : " + o++ + " /n");
+    console.log(" ");
+    console.log("number of games     : ", Object.keys(games).length);
     for (const g of Object.keys(games)) {
         console.log("--- Game Number : " + i++ + " ---");
         console.log("Game ID : " + games[g].id);
@@ -196,4 +194,4 @@ function displayAll() {
     }
 }
 
-// setInterval(displayAll, 5000);
+setInterval(displayAll, 7000);

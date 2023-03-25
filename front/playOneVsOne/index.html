@@ -179,10 +179,26 @@ image {
 }
 
 .red-piece {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 0, 0);
 }
 
 .yellow-piece {
+    background-color: rgb(251, 255, 0);
+}
+
+.purple-piece {
+    background-color: rgb(128, 0, 128);
+}
+
+.green-piece {
+    background-color: rgb(0, 128, 0);
+}
+
+.orange-piece {
+    background-color: rgb(255, 165, 0);
+}
+
+.black-piece {
     background-color: rgb(0, 0, 0);
 }
 
@@ -496,22 +512,28 @@ function getAvailableCoordinates() {
     return availableCoordinates;
 }
 
-var whoNow = null; // 1 : RED | 2 : YELLOW
+
+let colorPalette = {
+    1: "red-piece",
+    2: "yellow-piece",
+    3: "green-piece",
+    4: "purple-piece",
+    5: "orange-piece",
+    6: "black-piece",
+}
 
 function fillTile(i, j, color) {
     if (gameOver) {
         return;
     }
-
     if ( color == playerYellow ) {
-        getTile(i, j).classList.add("yellow-piece");
+        getTile(i, j).classList.add(colorPalette[3])
         boardMatrix[i][j] = playerYellow;
     }
     else {
-        getTile(i, j).classList.add("red-piece");
+        getTile(i, j).classList.add(colorPalette[5]);
         boardMatrix[i][j] = playerRed;
     }
-    // boardMatrix[i][j] = whoNow == 1 ? playerYellow : playerRed;
     updateTurn();
     checkWinner();
 }
@@ -857,22 +879,18 @@ ws.onmessage = message => {
     // join a game
     if ( response.method === "joinGame" ) {
         clientColor = null;
-        // whoNow = response.clients[clientId];
         let a = 0;
         let c = response.clients;
         for (let i = 0; i < c.length; i++) {
           if ( c[i].clientId === clientId ) {
-              whoNow = c[i].turn;
               clientColor = c[i].color;
               break;
           }
         }
-        console.log("whoNow : ", whoNow);
         boardGame.addEventListener("click", function(event) {
         let target = event.target;
         if (target.classList.contains("tile")) {
-            // console.log("Board game from client : ", boardMatrix);
-            // console.log("Board game from server : ", response.state);
+
             let coords = target.id.split("-");
             let row = parseInt(coords[0]);
             let column = parseInt(coords[1]);
@@ -889,10 +907,8 @@ ws.onmessage = message => {
                 "column": column,
                 "color": clientColor
             }
-            console.log("Client color : ", clientColor);
             console.log("Board Matrix : ", boardMatrix);
             ws.send(JSON.stringify(payLoad));
-            // fillTile(row, column);
           }
         });
         console.log("game succesfully joined with id : ", gameId + " | by client : " + clientId);
@@ -902,8 +918,6 @@ ws.onmessage = message => {
     if ( response.method === "updateGameState" ) {
       if (!response.game.gameState) return;
       let j = 1;
-      // console.log("----- Update number : ", j++, " -----");
-      // console.log("FROM CLIENT : before update ", boardMatrix);
       const state = response.game.gameState;
       for ( let i = 0; i < rows; i++ ) {
         for ( let j = 0; j < columns; j++ ) {
@@ -912,7 +926,6 @@ ws.onmessage = message => {
           }
         }
       }
-      // console.log("FROM CLIENT : after update ", boardMatrix);
     }
 }
 
