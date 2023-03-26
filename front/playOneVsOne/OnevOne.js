@@ -451,10 +451,10 @@ const response = JSON.parse(message.data);
 
 // A new connection to the server
 if ( response.method === "connect" ) {
-clientId = response.clientId;
-console.log("Client ID : ", clientId, " set successfully !");
-numberOfCreatedGames = Object.keys(response.games).length;
-console.log("The number of created games is : ", numberOfCreatedGames);
+    clientId = response.clientId;
+    console.log("Client ID : ", clientId, " set successfully !");
+    numberOfCreatedGames = Object.keys(response.games).length;
+    console.log("The number of created games is : ", numberOfCreatedGames);
 }
 
 // create a new game

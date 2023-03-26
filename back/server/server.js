@@ -34,6 +34,25 @@ function emptyBoard() {
     return board;
 }
 
+let availableGames = {};
+
+function updateAvailableRooms() {
+    for (const g of Object.keys(games)) {
+        const game = games[g];
+        if (game.clients.length <= 1) {
+            availableGames[games[g].id] = {
+                "gameId": games[g].id,
+            };
+        } 
+        else {
+            console.log("No available rooms !!");
+        }
+    }
+    for (const g of Object.keys(availableGames)) {
+        console.log("Game ID : " + availableGames[g].gameId + " available to join !!");
+    }
+}
+
 wsServer.on("request", request => {
     // Connect event : When a client connects to the server
     const connection = request.accept(null, request.origin);
@@ -46,12 +65,33 @@ wsServer.on("request", request => {
         // A user wants to create a new game
         if (result.method === "createGame") {
             const clientId = result.clientId;
-            const gameId = generateId();
-            let gameBoard = emptyBoard();
-            games[gameId] = {
-                "id": gameId,
-                "gameState": gameBoard,
-                "clients": [],
+            let gameId = null;
+
+            updateAvailableRooms();
+            console.log(" TEST : ", Object.keys(availableGames).length)
+
+            if ( Object.keys(availableGames).length === 0 ) {
+                gameId = generateId();
+                let gameBoard = emptyBoard();
+                games[gameId] = {
+                    "id": gameId,
+                    "gameState": gameBoard,
+                    "clients": [],
+                }
+            }
+
+            else {
+                // retrive the first available game
+                let firstValue = Object.values(availableGames)[0];
+                gameId = firstValue.gameId;
+
+                // remove it from the available games
+
+                games[gameId] = {
+                    "id": gameId,
+                    "gameState": games[gameId].gameState,
+                    "clients": games[gameId].clients,
+                }               
             }
 
             // Send back the payLoad to the client
@@ -64,6 +104,10 @@ wsServer.on("request", request => {
 
             const con = clients[clientId].connection;
             con.send(JSON.stringify(payLoad));
+
+            // display the game clients number
+            console.log("Game ID : " + gameId + " has " + games[gameId].clients.length + " clients");
+
         }
 
         // A client want to join a game
@@ -91,8 +135,27 @@ wsServer.on("request", request => {
             }
 
             // Start the game when we have 2 players
-            // if (game.clients.length === 2) updateGameState();
-            updateGameState();
+            if (game.clients.length === 2) updateGameState();
+            // updateGameState();
+
+            // let firstValue = Object.values(availableGames)[0];
+
+            console.log("");
+            console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
+            console.log("");
+
+            games[gameId] = {
+                "id": gameId,
+                "gameState": games[gameId].gameState,
+                "clients": games[gameId].clients,
+            }
+            
+            // iterate 
+            for (const g of Object.keys(availableGames)) {
+                if ( availableGames[g].gameId === gameId && game.clients.length === 2 ) {
+                    delete availableGames[g];
+                }
+            }
 
             const payLoad = {
                 "method": "joinGame",
@@ -194,4 +257,4 @@ function displayAll() {
     }
 }
 
-setInterval(displayAll, 7000);
+// setInterval(displayAll, 7000);
