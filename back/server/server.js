@@ -186,7 +186,6 @@ wsServer.on("request", request => {
             games[gameId].gameState = oldState;
         }
             
-            
     });
 
     // Generate a new clientID

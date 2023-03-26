@@ -410,9 +410,9 @@ let ws = new WebSocket('ws://' + localHostOrUrl + ':9090');
 const newGame = document.getElementById('newGame');
 const joinGame = document.getElementById('joinGame');
 const textGameId = document.getElementById('textGameId');
-const divPlayers = document.getElementById('divPlayers');
 
 joinGame.style.display = "none";
+textGameId.style.display = "none";
 
 // wiring events
 joinGame.addEventListener('click', e => {
@@ -433,6 +433,25 @@ joinGame.addEventListener('click', e => {
     ws.send(JSON.stringify(payLoad));
 
 })
+
+let canPlay = false;
+
+setTimeout(() => {
+    canPlay = true;
+  }, 4000);
+
+let interval = setInterval(function() {
+  if (canPlay) {
+    console.log("Oponent found !");
+    waiting.style.display = "none";
+    joinGame.style.display = "block";
+    clearInterval(interval);
+  } else {
+    console.log("Looking for an oponent...");
+  }
+}, 1000);
+
+  
 
 let waiting = document.getElementById('component');
 
