@@ -412,34 +412,41 @@ const joinGame = document.getElementById('joinGame');
 const textGameId = document.getElementById('textGameId');
 const divPlayers = document.getElementById('divPlayers');
 
+joinGame.style.display = "none";
+
 // wiring events
 joinGame.addEventListener('click', e => {
 
-if ( gameId === null ) {
-  gameId = textGameId.value;
-}
+    if ( gameId === null ) {
+    gameId = textGameId.value;
+    }
 
-let board = document.getElementById('board');
-board.style.visibility = "visible";
+    let board = document.getElementById('board');
+    board.style.visibility = "visible";
 
-const payLoad = {
-  "method": "joinGame",
-  "clientId": clientId,
-  "gameId": gameId
-}
+    const payLoad = {
+    "method": "joinGame",
+    "clientId": clientId,
+    "gameId": gameId
+    }
 
-ws.send(JSON.stringify(payLoad));
+    ws.send(JSON.stringify(payLoad));
 
 })
 
+let waiting = document.getElementById('component');
+
 newGame.addEventListener('click', e => {
 
-const payLoad = {
-  "method": "createGame",
-  "clientId": clientId
-}
+    const payLoad = {
+    "method": "createGame",
+    "clientId": clientId
+    }
 
-ws.send(JSON.stringify(payLoad));
+    ws.send(JSON.stringify(payLoad));
+
+    waiting.style.display = "block";
+    newGame.style.display = "none";
 
 })
 
