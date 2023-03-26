@@ -101,6 +101,8 @@ button {
   outline: none;
 }
 
+
+
 button:hover {
   background-color: #79d7e4;
 }
@@ -255,6 +257,7 @@ image {
 .game-button:hover::after {
   height: 100%;
 }
+
 .game-container {
   display: flex;
   flex-direction: column;
@@ -465,3 +468,4 @@ h1 {
   color: #1751bb;
 }
   
+

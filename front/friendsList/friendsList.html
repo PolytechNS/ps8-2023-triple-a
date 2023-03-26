@@ -6,13 +6,107 @@
   <link rel="stylesheet" href="style.css">
   <script src = "friendsList.js"></script>
 </head>
+
 <body>
   <h1>Friend List</h1>
   <div id="saved-games">
     <h2>Players</h2>
+    
 
 
     <ul id="players-list"></ul>
+  </div>
+  <div class="container">
+    <input class="input" id="searchInput" type="text" placeholder="Search ..."/>
+    <div id="suggestions"></div>
+    <script>
+      async function getPlayers2() {
+    console.log('loading players');
+    const token = localStorage.getItem('token').toString();
+
+    const response = await fetch('http://' + localHost + ':8000/api/game/user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+    });
+
+    if (response.ok) {
+        const players = await response.json();
+        console.log("players : ", players);
+        const playerList = [];
+
+        for (let i = 0; i < players.length; i++) {
+            const player = players[i];
+            playerList.push(player);
+        }
+        console.log("playerList : ", playerList)
+
+        return playerList;
+    } else {
+        console.log('Failed to retrieve players');
+        return [];
+    }
+}
+async function sendInvite(event) {
+    event.preventDefault();
+
+    const playerId = event.target.getAttribute('data-player');
+    const name = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+    console.log("player name : ", name);
+    console.log("this is the player id : ", playerId);
+
+    const response = await fetch('http://' + localHost + ':8000/api/friend/request/${playerId}/${name}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            _id: playerId,
+            username: name,
+            token: token
+        })
+
+    });
+    if (response.ok) {
+        const data = await response.json();
+        console.log("data : ", data);
+
+
+        event.target.parentElement.remove();
+        if (data.error) {
+            alert(data.error);
+        } else {
+            alert("send request successfully");
+        }
+    }
+}
+      async function loadPlayers() {
+          const persons =await getPlayers2();
+
+    const searchInput = document.getElementById('searchInput');
+
+    searchInput.addEventListener('keyup', function() {
+      const input = searchInput.value.toLowerCase();
+      const result = persons.filter(item => item.username && item.username.toLowerCase().includes(input));
+      let suggestion = '';
+
+      if(input !== '') {
+        result.forEach(resultItem => {
+          //suggestion += `<div class="suggestion">${resultItem.username}</div>`;
+          suggestion +=`<button  data-player="${resultItem._id}" class="game-button">${resultItem.username}</button>`;
+          console.log("suggestion : ", suggestion);
+        });
+      }
+
+      document.getElementById('suggestions').innerHTML = suggestion;
+      document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click',  sendInvite));
+    });
+  }
+  loadPlayers();
+    </script>
   </div>
 
   <div id="friend-list">
@@ -25,14 +119,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Lookup</title>
-<!--  </head>-->
-<!--  <body>-->
-<!--  <script src = "friendsList.js"></script>-->
-<!--  <div class="container">-->
-<!--    <input class="input" id="searchinput" type="text" placeholder="Search ..."/>-->
-<!--    <div id="suggestions"></div>-->
-<!--  </div>-->
-<!--  </body>-->
+
 
 </body>
 </html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lookup</title>
+  <style>
+    .container {
+      width: 60%;
+      margin: 100px auto;
+    }
+    .input{
+      font-size: 25px;
+      width: 80%;
+    }
+    .suggestion{
+      font-size: 22px;
+      width: 60%;
+    }
+    .suggestion:hover{
+      background-color: cornflowerblue;
+      color: #ffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <input class="input" id="searchInput" type="text" placeholder="Search ..."/>
+    <div id="suggestions"></div>
+  </div>
+  <script>
+    const persons = [
+      {name: 'daniel',age: 37},
+      {name: 'danny',age: 37},
+      {name: 'bob',age: 37},
+      {name: 'mia', age: 37},
+      {name: 'DANNE',age: 37}
+    ];
+
+    const searchInput = document.getElementById('searchInput');
+
+    searchInput.addEventListener('keyup', function() {
+      const input = searchInput.value.toLowerCase();
+      const result = persons.filter(item => item.name.toLowerCase().includes(input));
+      let suggestion = '';
+
+      if(input !== '') {
+        result.forEach(resultItem => {
+          suggestion += `<div class="suggestion">${resultItem.name}</div>`;
+        });
+      }
+
+      document.getElementById('suggestions').innerHTML = suggestion;
+    });
+  </script>
+</body>
+</html> -->

@@ -176,6 +176,42 @@ async function manageRequest(request, response) {
         });
 
         }
+        else if (filePath[3] === "removeFriend"){
+            request.on('end', async function () {
+                let currentUser = JSON.parse(body);
+                try{
+                    console.log('Connected to MongoDB');
+                    const db = client.db("connect4");
+                    const collection = db.collection("log");
+                    const query = {token: currentUser.playerToken};
+                    const deleteQuery = {token: currentUser.requestToken};
+                    const update = {
+                        $pull: {
+                            friends: deleteQuery
+                        }
+                    };
+
+                    const deletedRequest = collection.updateOne(query, update);
+                    const deletedRequest2 = collection.updateOne({token: currentUser.requestToken}, {
+                        $pull: {
+                            friends: {token: currentUser.playerToken}
+                        }
+                    });
+                    if (deletedRequest && deletedRequest2) {
+                        console.log("deleted request successfully");
+                        response.writeHead(200, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify({status: 'success'}));
+                    }
+                } catch (err) {
+                    console.error('Failed to insert document', err);
+                    response.writeHead(200, {'Content-Type': 'application/json'});
+                    response.end(JSON.stringify({status: 'failure'}));
+                } finally {
+                    console.log("finally");
+                }
+                });
+
+            }
 }
 }
 async function findOneInDataBase(data, collection) {

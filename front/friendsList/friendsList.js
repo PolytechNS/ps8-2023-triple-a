@@ -73,6 +73,22 @@ async function getFriends() {
                 friendItem.classList.add('friend-li');
                 friendItem.textContent = friendName;
 
+                // Create the delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Supprimer';
+                deleteButton.setAttribute('data-player', friend.token);
+                deleteButton.addEventListener('click', deleteFriend);
+                friendItem.appendChild(deleteButton);
+
+                // Create the challenge button
+                const challengeButton = document.createElement('button');
+                challengeButton.textContent = 'Nouveau défi';
+                challengeButton.addEventListener('click', () => {
+                    window.location.href ="../playOneVsOne/index.html";
+                    // handle the click event to invite the friend to a game
+                });
+                friendItem.appendChild(challengeButton);
+
 
 
                 const trashIcon = document.createElement('i');
@@ -89,9 +105,6 @@ async function getFriends() {
         console.log('Failed to retrieve friends');
     }
 }
-
-
-
 
 
 
@@ -153,3 +166,64 @@ window.onload = function() {
 //     }
 //     document.getElementById("suggestions").innerHTML = suggestion;
 // })
+
+
+async function getPlayers2() {
+    console.log('loading players');
+    const token = localStorage.getItem('token').toString();
+
+    const response = await fetch('http://' + localHost + ':8000/api/game/user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+    });
+
+    if (response.ok) {
+        const players = await response.json();
+        console.log("players : ", players);
+        const playerList = [];
+
+        for (let i = 0; i < players.length; i++) {
+            const player = players[i];
+            playerList.push(player);
+        }
+
+        return playerList;
+    } else {
+        console.log('Failed to retrieve players');
+        return [];
+    }
+}
+
+async function deleteFriend(event) {
+    event.preventDefault();
+
+        const requestToken = event.target.getAttribute('data-player');
+        const playerToken = localStorage.getItem('token');
+        console.log("this is the player id : ", playerToken);
+        console.log("this is the requester token: ", requestToken);
+
+        const response = await fetch('http://' + localHost + ':8000/api/friend/removeFriend/£{playerToken}/${requestToken}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                playerToken: playerToken,
+                requestToken: requestToken,
+
+            })
+        });
+        if (response.ok) {
+            console.log('friend  deleted');
+            event.target.parentElement.remove();
+        }
+        else {
+            console.log('Failed to delete friend request');
+        }
+
+
+}
+
