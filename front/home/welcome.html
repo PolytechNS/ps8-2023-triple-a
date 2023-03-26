@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+body {
+  margin: 0;
+  height: 100vh;
+  perspective: 30em;
+  /* background-image: url("../images/sky-background.jpg"); */
+  /* background: repeating-linear-gradient(45deg, rgba(238, 120, 110, 0.65) 0, rgba(238, 120, 110, 0.65) 2px, transparent 0, transparent 7px), repeating-linear-gradient(-45deg, rgba(252, 238, 181, 0.65) 0, rgba(252, 238, 181, 0.65) 2px, transparent 0, transparent 7px) #A2CCB6; */
+  background-blend-mode: overlay;
+}
+
+.loader {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: rotate(-45deg);
+  transform-style: preserve-3d;
+}
+.loader:before, .loader:after {
+  --i: 0;
+  --s: calc(1 - 2*var(--i));
+  position: absolute;
+  margin: -3.52763em;
+  padding: 0.27763em;
+  width: 6.5em; /* modified */
+  height: 6.5em; /* modified */
+  transform: scaley(var(--s)) rotatey(0deg);
+  background: linear-gradient(90deg, #ff1100, #fceeb5, #fceeb5, #ffee00, #ee786e) calc(var(--s)*14.11052em) 50%/ 28.22104em 100%;
+  --g: radial-gradient(closest-side, #ff0000 calc(100% - 1px), rgba(251, 255, 0, 0) 100%);
+  --m: linear-gradient(#eeff00 1.90263em, rgb(255, 0, 0) 0%, rgba(255, 0, 0, 0) 3.52763em, #ff0000 0%, #ff0000 5.15263em, rgba(255, 0, 0, 0) 0%), linear-gradient(#ff0000, #ff0000), var(--g) 50% -44.8228em, var(--g) 50% 6.77763em, var(--g) -44.8228em 50%, var(--g) 6.77763em 50%;
+  -webkit-mask: var(--m);
+  -webkit-mask-size: 45.10043em 45.10043em;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in, xor, xor, xor, xor, xor;
+  mask: var(--m);
+  mask-size: 45.10043em 45.10043em;
+  mask-repeat: no-repeat;
+  mask-composite: intersect, exclude, add, add, add, add;
+  animation: ani 2s ease-in-out infinite;
+  content: "";
+}
+.loader:after {
+  --i: 1;
+}
+
+@keyframes ani {
+  0% {
+    transform: scaley(var(--s)) rotatey(calc(var(--s)*.5turn));
+    background-position: 0px 50%;
+  }
+}
+
+    </style>
+</head>
+<body>
+    <div class='loader'></div>
+   
+</body>
+</html>

@@ -1,70 +1,76 @@
 <!DOCTYPE html>
-  <head>
-    <title>Sign Up | By Code Info</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-          background-image: url("../images/sky-background.jpg");
-          background-color: #62b4e4;
-        }
-    </style>
-  </head>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
-<body>
-<div class = "back">
-<h1>Register</h1>
-<form id="registerForm">
-    <div>
-        <label >
-            <input type="text" placeholder="Enter Email" name="email" class="inp" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+<html lang="en">
 
-        </label>
-        <label >
-            <input type="text" placeholder="Enter Username" name="username" class="inp" required>
-        </label>
-        <label >
-            <input type="password" placeholder="Enter Password" name="password" class="inp" required>
+    <head>
+        <meta charset="UTF-8">
+        <title>Register</title>
+        <title>Sign Up | By Code Info</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            body {
+            background-image: url("../images/sky-background.jpg");
+            background-color: #62b4e4;
+            }
+        </style>
+    </head>
 
-        </label>
+    <body>
+        <div class = "back">
+        <h1>Register</h1>
+        <form id="registerForm">
+            <div>
+                <label >
+                    <input type="text" placeholder="Enter Email" name="email" class="inp" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                </label>
+                <label >
+                    <input type="text" placeholder="Enter Username" name="username" class="inp" required>
+                </label>
+                <label >
+                    <input type="password" placeholder="Enter Password" name="password" class="inp" required>
+                </label>
+            </div>
 
+            <div class="terms">
+                <input type="checkbox" id="checkbox">
+                <label for="checkbox">I agree to these
+                    <a href="#"> Terms and Conditions</a>
+                </label>
+            </div>
 
-    </div>
-    <div>
+            <div>
+                <button type="submit" class="button">Register</button>
+            </div>
 
-        <button type="submit" class="button">Register</button>
-    </div>
+            <div class="member">
+                Already have an account? <a href="logIn.html">Login here</a>
+            </div>
 
+        </form>
+        </div>
+        <script>
+            const registerForm = document.querySelector('#registerForm');
+            registerForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const formData = new FormData(registerForm);
+                const email = formData.get('email');
+                const username = formData.get('username');
+                const password = formData.get('password');
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email,username, password }),
+                });
+                if (response.ok) {
+                    console.log(response.data);
+                    alert('Registration successful. Please log in.');
+                    window.location.href = 'logIn.html';
+                } else {
+                    alert('Registration failed. Please try again.');
+                }
+            });
 
-</form>
-</div>
-<script>
-    const registerForm = document.querySelector('#registerForm');
-    registerForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const formData = new FormData(registerForm);
-        const email = formData.get('email');
-        const username = formData.get('username');
-        const password = formData.get('password');
-        const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email,username, password }),
-        });
-        if (response.ok) {
-            console.log(response.data);
-            alert('Registration successful. Please log in.');
-            window.location.href = 'logIn.html';
-        } else {
-            alert('Registration failed. Please try again.');
-        }
-    });
-
-</script>
-</body>
+        </script>
+    </body>
 </html>

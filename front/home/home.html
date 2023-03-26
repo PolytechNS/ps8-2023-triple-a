@@ -12,23 +12,91 @@
           background-image: url("../images/sky-background.jpg");
           background-color: #62b4e4;
         }
+        .logo {
+            width: 50%;
+            height: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        *{
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+          background-color: #dfe9f5;
+        }
+        
+        h1 {
+          text-align: center;
+          padding-top: 15px;
+          /* change its color to blue and red*/
+          background: linear-gradient(to top, #00ffea, #7700ff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        
+        .back {
+          width: 300px;
+          height: auto;
+          border: 1px solid;
+          justify-content: center;
+          text-align: center;
+          margin: 1cm;
+          padding: 0.2cm;
+          padding-top: 0cm;
+          border-radius: 10px;
+          background-image: url("../images/sky-background.jpg");
+          /* make the background color transparent 50% */
+          /* background-color: rgba(255, 255, 255, 0.3); */
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .button {
+          background-image: url("../images/Board-image.jpg");
+          background-color: #62b4e4;
+          color: #1751bb;
+        }
+
+        .back h1 {
+            text-decoration: none;
+        }
+
     </style>
   </head>
 <body>
-<h1>Welcome to Connect4 Game!</h1>
-<p>Please login or sign up to start playing</p>
-<button id="loginButton" class = "button">Login</button>
-<button id="signupButton" class = "button">Sign up</button>
-<script>
-    const loginButton = document.querySelector('#loginButton');
-    loginButton.addEventListener('click', () => {
-        window.location.href = 'authentificationPages/logIn.html';
-    });
 
-    const signupButton = document.querySelector('#signupButton');
-    signupButton.addEventListener('click', () => {
-        window.location.href = 'authentificationPages/signUp.html';
-    });
-</script>
-</body>
+    <div id="logo" style="display: flex; justify-content: center; align-items: center; padding: 1cm;">
+      <img src="../images/logo.png" alt="logo" style="max-width: 100%; max-height: 100%;">
+    </div>
+
+    <div id="welcome">
+        <object type="text/html" data="welcome.html" style="width:100%; height: 200px;;"></object>
+    </div>
+    
+    <h1>Welcome to Connect4 Game!</h1>
+
+    <a href="../authentificationPages/logIn.html">
+      <div class = "back">
+        <h1 style="text-decoration: none;">Access Account </h1>
+      </div>
+    </a>
+
+    <script>
+        const loginButton = document.querySelector('#loginButton');
+        loginButton.addEventListener('click', () => {
+            window.location.href = 'authentificationPages/logIn.html';
+        });
+
+        const signupButton = document.querySelector('#signupButton');
+        signupButton.addEventListener('click', () => {
+            window.location.href = 'authentificationPages/signUp.html';
+        });
+    </script>
+  </body>
 </html>
