@@ -1,367 +1,334 @@
 body {
-    font-family: "Helvetica Neue", sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  input {
-    outline: none;
-    font-size: 1.0rem;
-    padding: 0 5px;
-  }
-  
-  button {
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    padding: 3px 15px;
-    color: white;
-    line-height: 25px;
-    background-color: #00bcd4;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
-    transition: all 150ms ease-in;
-    outline: none;
-  }
-  
-  button:hover {
-    background-color: #79d7e4;
-  }
-  
-  button.turn:hover {
-    background-color: #eaeaea;
-  }
-  
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid lightgrey;
-    overflow-y: scroll;
-  }
-  
-  li {
-    padding: 10px 10px 10px 10px;
-  }
-  
-  canvas {
-    display: block;
-    margin: 10px auto;
-  }
-  
-  .controls-wrapper {
-    background-color: rgb(255, 255, 255);
-    width: 400px;
-    margin: 20px auto;
-    border: 1px solid lightgrey;
-  }
-  
-  .chat-wrapper {
-    padding: 10px;
-  }
-  
-  .chat-wrapper form {
-    display: flex;
-  }
-  
-  .chat-wrapper form input {
-    font-size: 1.0rem;
-    margin: 0 10px 0 0;
-    padding: 0 5px;
-    flex-grow: 1;
-  }
-  
-  .chat-wrapper form button {
-    width: 80px;
-  }
-  
-  #events {
-    height: 150px;
-  }
-  
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+font-family: "Helvetica Neue", sans-serif;
+margin: 0;
+padding: 0;
+}
+
+input {
+outline: none;
+font-size: 1.0rem;
+padding: 0 5px;
+}
+
+button {
+text-transform: uppercase;
+font-size: 0.8rem;
+padding: 3px 15px;
+color: white;
+line-height: 25px;
+background-color: #00bcd4;
+border: none;
+border-radius: 2px;
+cursor: pointer;
+box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+transition: all 150ms ease-in;
+outline: none;
+}
+
+button:hover {
+background-color: #79d7e4;
+}
+
+button.turn:hover {
+background-color: #eaeaea;
+}
+
+ul {
+list-style: none;
+margin: 0;
+padding: 0;
+border-bottom: 1px solid lightgrey;
+overflow-y: scroll;
+}
+
+li {
+padding: 10px 10px 10px 10px;
+}
+
+canvas {
+display: block;
+margin: 10px auto;
+}
+
+.controls-wrapper {
+background-color: rgb(255, 255, 255);
+width: 400px;
+margin: 20px auto;
+border: 1px solid lightgrey;
+}
+
+.chat-wrapper {
+padding: 10px;
+}
+
+.chat-wrapper form {
+display: flex;
+}
+
+.chat-wrapper form input {
+font-size: 1.0rem;
+margin: 0 10px 0 0;
+padding: 0 5px;
+flex-grow: 1;
+}
+
+.chat-wrapper form button {
+width: 80px;
+}
+
+#events {
+height: 150px;
+}
+
+body {
+font-family: Arial, Helvetica, sans-serif;
+text-align: center;
 }
 
 .box {
-  width: auto;
-  height: 2cm;
-  margin-left: auto;
-  margin-right: auto;
+width: auto;
+height: 2cm;
+margin-left: auto;
+margin-right: auto;
 }
 
 /*the image should be 50% of the box*/
 image {
-  width: 50%;
-  height: 50%; 
+width: 50%;
+height: 50%; 
 }
 
 #board {
-    margin-top: 1.5cm;
-    height: 420px;
-    width: 480px;
-    background-color: rgb(129, 196, 235);
-    border: 5px solid navy;
-    border-radius: 5%;
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: auto;
-    margin-right: auto;
-}
-#saved-games {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 250px;
-  height: 100%;
-  background-color: #81C4EB;
-  padding: 20px;
-  overflow-y: auto;
-}
-#games-list {
-  list-style: none;
-  overflow-y: scroll;
-  margin: 0;
-  padding: 0;
-}
+margin-top: 1.5cm;
+height: 420px;
+width: 480px;
+background-color: rgb(129, 196, 235);
+border: 5px solid navy;
 
-.game-button {
-  display: block;
-  width: 100%;
-  font-weight: bold;
-  color: black;
-  margin-right: 10px;
-  text-transform: lowercase;
-  margin-bottom: 5px;
-  padding: 10px;
-  background-color: #DFE9F5;
-  border: 1px solid #ccc;
-  border-radius: 10%;
-  cursor: pointer;
-}
-.game-button2 {
-  display: block;
-  width: 100%;
-  font-weight: bold;
-  color: black;
-  margin-right: 10px;
-  text-transform: lowercase;
-  margin-bottom: 5px;
-  padding: 10px;
-  background-color: #DFE9F5;
-  border: 1px solid #ccc;
-  border-radius: 10%;
-  cursor: pointer;
-}
+border-radius: 5%;
+display: flex;
+flex-wrap: wrap;
 
-.game-button:hover {
-  background-color: #91c0f8;
-}
-.game-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.game-button {
-  margin-bottom: 8px;
-}
-.gg-trash {
-  box-sizing: border-box;
-  position: relative;
-  display: block;
-  transform: scale(var(--ggs,1));
-  width: 10px;
-  height: 12px;
-  border: 2px solid transparent;
-  box-shadow:
-          0 0 0 2px,
-          inset -2px 0 0,
-          inset 2px 0 0;
-  border-bottom-left-radius: 1px;
-  border-bottom-right-radius: 1px;
-  margin-top: 4px
-}
-
-.gg-trash::after,
-.gg-trash::before {
-  content: "";
-  display: block;
-  box-sizing: border-box;
-  position: absolute
-}
-
-.gg-trash::after {
-  background: currentColor;
-  border-radius: 3px;
-  width: 16px;
-  height: 2px;
-  top: -4px;
-  left: -5px
-}
-.gg-trash:hover{
-  cursor: pointer;
-}
-
-.gg-trash::before {
-  width: 10px;
-  height: 4px;
-  border: 2px solid;
-  border-bottom: transparent;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  top: -7px;
-  left: -2px
+margin-left: auto;
+margin-right: auto;    
 }
 
 .tile {
-    height: 56px;
-    width: 56px;
-    margin: 5px;
+height: 56px;
+width: 56px;
+margin: 5px;
 
-    /* Circle */
-    background-color: rgb(183, 226, 229);
-    border-radius: 100%;
-    border: 3px solid navy;
+/* Circle */
+background-color: rgb(183, 226, 229);
+border-radius: 100%;
+border: 3px solid navy;
+}
+
+#saved-games {
+position: fixed;
+top: 0;
+left: 0;
+width: 250px;
+height: 100%;
+background-color: #81C4EB;
+padding: 20px;
+overflow-y: auto;
+}
+
+#games-list {
+list-style: none;
+overflow-y: scroll;
+margin: 0;
+padding: 0;
+}
+
+.game-button {
+display: block;
+width: 100%;
+font-weight: bold;
+color: black;
+margin-right: 10px;
+text-transform: lowercase;
+margin-bottom: 5px;
+padding: 10px;
+background-color: #DFE9F5;
+border: 1px solid #ccc;
+border-radius: 10%;
+cursor: pointer;
+}
+
+.game-button:hover {
+background-color: #91c0f8;
+}
+.game-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.game-button {
+margin-bottom: 8px;
 }
 
 .red-piece {
-    background-color: red;
+background-color: rgb(255, 0, 0);
 }
 
 .yellow-piece {
-    background-color: yellow;
+background-color: rgb(251, 255, 0);
+}
+
+.purple-piece {
+background-color: rgb(128, 0, 128);
+}
+
+.green-piece {
+background-color: rgb(0, 128, 0);
+}
+
+.orange-piece {
+background-color: rgb(255, 165, 0);
+}
+
+.black-piece {
+background-color: rgb(0, 0, 0);
 }
 
 *{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background-color: #dfe9f5;
+background-color: #dfe9f5;
 }
 
 .wrapper {
-  width: 330px;
-  padding: 2rem 1em;
-  margin: 50px auto;
-  background-color: #fff;
-  border-radius: 6px;
-  text-align: center;
-  box-shadow: 0 20 30px;
+width: 330px;
+padding: 2rem 1em;
+margin: 50px auto;
+background-color: #fff;
+border-radius: 6px;
+text-align: center;
+box-shadow: 0 20 30px;
 }
 
 h1 {
-  font-size: 2rem;
-  margin-bottom: 1.2rem;
-  color: #0f1114;
+font-size: 2rem;
+margin-bottom: 1.2rem;
+color: #0f1114;
 }
 
 form input {
-  width: 92%;
-  outline: none;
-  border: 1px solid #fff;
-  padding: 12px 20px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  background: #e4e4e4;
+width: 92%;
+outline: none;
+border: 1px solid #fff;
+padding: 12px 20px;
+margin-bottom: 10px;
+border-radius: 20px;
+background: #e4e4e4;
 }
 
 button {
-  font-size: 1rem;
-  margin-top: 1.8rem;
-  padding: 10px 0px;
-  border-radius: 20px;
-  outline: none;
-  border: none;
-  width: 90%;
-  color: #fff;
-  cursor: pointer;
-  background: rgb(17, 107, 143);
+font-size: 1rem;
+margin-top: 1.8rem;
+padding: 10px 0px;
+border-radius: 20px;
+outline: none;
+border: none;
+width: 90%;
+color: #fff;
+cursor: pointer;
+background: rgb(17, 107, 143);
 }
 
 button:hover {
-  background: rgb(17, 187, 143, 0.877);
+background: rgb(17, 187, 143, 0.877);
 }
 
 input:focus {
-  border: 1px solid rgb(192, 192, 192);
+border: 1px solid rgb(192, 192, 192);
 }
 
 .terms {
-  margin-top: 0.2rem;
+margin-top: 0.2rem;
 }
 
 .terms input {
-  height: 1em;
-  width: 1em;
-  vertical-align: middle;
-  cursor: pointer;
+height: 1em;
+width: 1em;
+vertical-align: middle;
+cursor: pointer;
 }
 
 .terms label {
-  font-size: 0.7rem;
+font-size: 0.7rem;
 }
 
 .terms a {
-  color: rgb(17, 187, 143);
-  text-decoration: none;
+color: rgb(17, 187, 143);
+text-decoration: none;
 }
 
 .member {
-  margin-top: 1.4rem;
-  font-size: 0.8rem;
-  columns: #636363;
+margin-top: 1.4rem;
+font-size: 0.8rem;
+columns: #636363;
 }
 
 .member a {
-  color: rgb(17, 107, 143);
-  text-decoration: none;
+color: rgb(17, 107, 143);
+text-decoration: none;
 }
 
 .recover {
-  text-align: right;
-  font-size: 0.7rem;
-  margin: 0.3rem 1.4rem 0 0;
+text-align: right;
+font-size: 0.7rem;
+margin: 0.3rem 1.4rem 0 0;
 }
 
 .recover a {
-  text-decoration: none;
-  color: #464647;
+text-decoration: none;
+color: #464647;
 }
 
 h1 {
-  text-align: center;
-  padding-top: 15px;
+text-align: center;
+padding-top: 15px;
 }
 
 .back {
-  width: 600px;
-  text-align: center;
-  height: auto;
-  border: 2px solid;
-  justify-content: center;
-  text-align: center;
-  margin: 1cm;
-  padding: 1cm;
-  box-shadow: tomato;
-  border-radius: 10px;
-  background-color: #fafafa;
-  margin-left: auto;
-  margin-right: auto;
+width: 600px;
+text-align: center;
+height: auto;
+border: 2px solid;
+justify-content: center;
+text-align: center;
+margin: 1cm;
+padding: 1cm;
+box-shadow: tomato;
+border-radius: 10px;
+background-color: #fafafa;
+margin-left: auto;
+margin-right: auto;
 }
 
 .button {
-  height: auto;
-  width: auto;
-  text-align: center;
-  text-transform: lowercase;
-  background-image: url("../images/Board-image.jpg");
-  background-color: #62b4e4;
-  color: #1751bb;
+height: auto;
+width: auto;
+text-align: center;
+text-transform: lowercase;
+background-image: url("../images/Board-image.jpg");
+background-color: #62b4e4;
+color: #1751bb;
+}
+
+.hidden {
+display: none;
+}
+
+.shown {
+display: block;
 }
