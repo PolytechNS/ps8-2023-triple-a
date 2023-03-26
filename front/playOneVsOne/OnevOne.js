@@ -35,7 +35,7 @@ else if ( l == 1 ) {
 }
 
 // 1 : URL | 2 : Localhost
-chooselocalHostOrUrl(2);
+chooselocalHostOrUrl(1);
 
 window.onload = function() {
 main();
