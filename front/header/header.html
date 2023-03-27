@@ -1,61 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Connect4</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
 
-        header {
-            background-color: #3a7ca5;
-            padding: 10px;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px 2px 10px #888888;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            margin-right: 20px;
-            transition: all 0.3s ease-in-out;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        nav a:hover {
-            background-color: #fff;
-            color: #3a7ca5;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-right: 30px;
-            text-transform: uppercase;
-        }
-    </style>
-</head>
-<body>
+<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="styles.css">
 <header>
-    <div class="logo">My Website</div>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Friend Requests</a>
-        <a href="#">Friends</a>
-    </nav>
+    <div class="header-component">
+        <div class="left-elements">
+            <p class="icon">Facebook</p>
+            <div class="form-container">
+                <input type="search" name="" id="" placeholder="Search">
+                <button type="submit">
+                    <i class="fas fa-search"></i>               </button>
+            </div>
+        </div>
+        <div class="right-elements">
+            <ul>
+                <li><a href="#">Basit</a></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">
+                    <i class="fas fa-users"></i>
+                </a></li>
+                <li><a href="#">
+                    <i class="fab fa-facebook-messenger"></i>
+                </a></li>
+                <li><a href="#">
+                    <i class="fas fa-globe"></i>
+                </a></li>
+                <li><a href="#">|</a></li>
+                <li><a href="#">
+                    <i class="fas fa-question-circle"></i>
+                </a></li>
+                <li><a href="#">
+                    <i class="fas fa-caret-down"></i>
+                </a></li>
+            </ul>
+        </div>
+    </div>
 </header>
-</body>
-</html>

@@ -7,6 +7,7 @@ WORKDIR /OnevOne.js
 # Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 
+
 # Install the dependencies in the container
 RUN npm install
 
