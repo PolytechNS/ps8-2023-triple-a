@@ -405,10 +405,16 @@ let gameId = null;
 let clientColor = null;
 let chat = null;
 let opponent = null;
+let lastMessageKey = null;
+let canClick = false;
+let yourTurn = false;
+
+let waiting = document.getElementById('component');
+let countdown = document.getElementById('countdown');
 
 let chatHistory = { };
-
 let ws = new WebSocket('ws://' + localHostOrUrl + ':9090');
+
 const newGame = document.getElementById('newGame');
 const joinGame = document.getElementById('joinGame');
 const textGameId = document.getElementById('textGameId');
@@ -417,7 +423,7 @@ joinGame.style.display = "none";
 textGameId.style.display = "none";
 
 // wiring events
-joinGame.addEventListener('click', e => {
+joinGame.addEventListener('click', () => {
 
     if ( gameId === null ) {
     gameId = textGameId.value;
@@ -433,47 +439,50 @@ joinGame.addEventListener('click', e => {
 
 })
 
-var lastMessageKey = null;
+newGame.addEventListener('click', () => {
 
-let waiting = document.getElementById('component');
-let canClick = false;
+  const payLoad = {
+    "method": "createGame",
+    "clientId": clientId
+  }
 
-newGame.addEventListener('click', e => {
-
-    const payLoad = {
-      "method": "createGame",
-      "clientId": clientId
-    }
-
-    ws.send(JSON.stringify(payLoad));
-    
-    waiting.style.display = "block";
-    newGame.style.display = "none";
-
-    // listen for opponent variable changes
-    let opponentInterval = setInterval(() => {
-      if (opponent !== null) {
-        console.log("Opponent found !", opponent);
-        let board = document.getElementById('board');
-
-        waiting.style.display = "none";
-        board.style.visibility = "visible";
-
-        clearInterval(opponentInterval);
-      }
-      else {
-        console.log("Looking for an oponent...");
-      }
-    }, 1000);
+  ws.send(JSON.stringify(payLoad));
   
-    canClick = true;
+  waiting.style.display = "block";
+  newGame.style.display = "none";
+
+  // listen for opponent variable changes
+  let opponentInterval = setInterval(() => {
+    if (opponent !== null) {
+      console.log("Opponent found !", opponent);
+      let board = document.getElementById('board');
+
+      waiting.style.display = "none";
+
+      // The oponent is found, we can start the game
+      countdown.style.display = "block";
+
+      setTimeout(() => {
+          countdown.style.display = "none";
+          board.style.visibility = "visible";
+      }, 3000);
+
+      clearInterval(opponentInterval);
+    }
+    else {
+      console.log("Looking for an oponent...");
+    }
+  }, 1000);
+
+  canClick = true;
 })
+
+
 
 const intervalId = setInterval(() => {
   if (canClick) {
     const intervalId2 = setInterval(() => {
       if (opponent) {
-        console.log("Opponent found !");
         joinGame.click();
         clearInterval(intervalId2);
       }
@@ -499,15 +508,14 @@ ws.onmessage = message => {
         // A new connection to the server
         if ( response.method === "connect" ) {
             clientId = response.clientId;
-            console.log("Client ID : ", clientId, " set successfully !");
+            console.log("Welcome Client ID : ", clientId, " !!");
             numberOfCreatedGames = Object.keys(response.games).length;
-            console.log("The number of created games is : ", numberOfCreatedGames);
         }
 
         // create a new game
         if ( response.method === "createGame" ) {
           gameId = response.game.id;
-          console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
+          // console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
           // itearte over the clients array and check if it has two clients : the one with clientId from clientId goes to opponent
           let c = response.clients;
           // console.log("clients array : ", c);
@@ -553,7 +561,7 @@ ws.onmessage = message => {
               ws.send(JSON.stringify(payLoad));
             }
           });
-          console.log("game succesfully joined with id : ", gameId + " | by client : " + clientId);
+          console.log("ROOM Number : ", gameId);
         }
 
         setInterval(function() {

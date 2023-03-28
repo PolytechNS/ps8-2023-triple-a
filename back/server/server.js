@@ -15,6 +15,7 @@ httpServer.listen(9090, () => console.log("Server is running ..."));
 const clients = { }
 // Hashmap to store all the created games
 let games = { }
+let referee = { }
 
 var playerRed = "RED";
 var playerYellow = "YELLOW";
@@ -48,11 +49,10 @@ function updateAvailableRooms() {
             };
         } 
         else {
-            console.log("No available rooms !!");
         }
     }
     for (const g of Object.keys(availableGames)) {
-        console.log("Game ID : " + availableGames[g].gameId + " available to join !!");
+        // console.log("Game ID : " + availableGames[g].gameId + " available to join !!");
     }
 }
 
@@ -96,7 +96,6 @@ wsServer.on("request", request => {
             let gameId = null;
 
             updateAvailableRooms();
-            console.log(" TEST : ", Object.keys(availableGames).length)
 
             if ( Object.keys(availableGames).length === 0 ) {
                 gameId = generateId();
@@ -239,7 +238,7 @@ wsServer.on("request", request => {
     clients[clientId] = {
         "connection": connection
     }
-    console.log("A New client with ID : " + clientId + " has been connected !");
+    console.log(" -> A New client with ID : " + clientId + " has been connected !");
 
     // Send back this info to the client
     const payLoad = {
