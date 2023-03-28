@@ -168,11 +168,10 @@ wsServer.on("request", request => {
 
             // Start the game when we have 2 players
             if (game.clients.length === 2 ) updateGameState();
-            // updateGameState();
 
-            console.log("");
-            console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
-            console.log("");
+            // console.log("");
+            // console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
+            // console.log("");
 
             games[gameId] =  {
                 "id": gameId,
@@ -180,7 +179,6 @@ wsServer.on("request", request => {
                 "clients": games[gameId].clients,
             }
             
-            // iterate 
             for (const g of Object.keys(availableGames)) {
                 if ( availableGames[g].gameId === gameId && game.clients.length === 2 ) {
                     delete availableGames[g];
@@ -242,7 +240,6 @@ wsServer.on("request", request => {
                 }
             }
             else {
-                console.log("Illegal move from ", clientId);
                 // send back a message to the client
                 const payLoad = {
                     "method": "illegalMove",
@@ -329,7 +326,6 @@ function generateId() {
 
 function displayAll() {
     let i = 0;
-    console.log(" "); 
     console.log("number of games     : ", Object.keys(games).length);
     for (const g of Object.keys(games)) {
         console.log("--- Game Number : " + i++ + " ---");

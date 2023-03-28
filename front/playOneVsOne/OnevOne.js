@@ -65,34 +65,16 @@ return target;
 
 const divv = document.getElementById("board");
 
-function getTileId(i, j) {
-return getTile(i, j).id;
-}
-
-function getCoordinatesOfTheClickedTile() {
-return new Promise((resolve) => {
-  boardGame.addEventListener("click", function(event) {
-      let target = event.target;
-      if (target.classList.contains("tile")) {
-          let tileId = target.id;
-          let row = tileId[0];
-          let column = tileId[2];
-          resolve([row, column]);
-      }
-  });
-});
-}
-
 function getAvailableCoordinates() {
-let availableCoordinates = [];
-for (let i = 0; i < boardGame.length; i++) {
-  for (let j = 0; j < boardGame[i].length; j++) {
-      if (boardGame[i][j] == ' ') {
-          availableCoordinates.push([i, j]);
-      }
+  let availableCoordinates = [];
+  for (let i = 0; i < boardGame.length; i++) {
+    for (let j = 0; j < boardGame[i].length; j++) {
+        if (boardGame[i][j] == ' ') {
+            availableCoordinates.push([i, j]);
+        }
+    }
   }
-}
-return availableCoordinates;
+  return availableCoordinates;
 }
 
 
@@ -122,12 +104,12 @@ function fillTile(i, j, color) {
 }
 
 function updateTurn() {
-if ( currentPlayer == playerRed ) {
-  currentPlayer = playerYellow;
-}
-else {
-  currentPlayer = playerRed;
-}
+  if ( currentPlayer == playerRed ) {
+    currentPlayer = playerYellow;
+  }
+  else {
+    currentPlayer = playerRed;
+  }
 }
 
 function adjustCoordinates(row, column) {
@@ -149,18 +131,6 @@ if ( adjustedRow < 0 ) {
 }
 
 return [adjustedRow, adjustedColumn];
-}
-
-function getIdOfClickedTile() {
-return new Promise((resolve) => {
-  boardGame.addEventListener("click", function(event) {
-      let target = event.target;
-      if (target.classList.contains("tile")) {
-          let tileId = target.id;
-          resolve(tileId);
-      }
-  });
-});
 }
 
 function iterateOverTiles() {
@@ -301,121 +271,122 @@ try {
 }
 
 async function resumeGame() {
-let redirect = document.getElementById("resume-link");
-redirect.href ="../playOneVsOne/index.html" ;
-}
-
-async function getSavedGames() {
-
-const token = localStorage.getItem("token");
-const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/list', {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ token })
-});
-if (response.ok) {
-  const games = await response.json();
-  const gamesList = document.getElementById('games-list');
-  gamesList.innerHTML = '';
-  if (games.length === 0) {
-      gamesList.innerHTML = '<li>No saved games found.</li>';
-  } else {
-      for (let i = 0; i < games.length; i++) {
-          const game = games[i];
-          const gameItem = document.createElement('li');
-          // gameItem.innerHTML = `<button data-game="${game._id}" class="game-button">local - ${game.date}</button>`;
-          gameItem.innerHTML = `
-                                  <div class="game-container">
-                                      <button data-game="${game._id}" class="game-button">local - ${game.date}</button>
-                                      <i class="gg-trash" data-game="${game._id}"></i>
-                                  </div>
-`;
-          gamesList.appendChild(gameItem);
-      }
-      document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click', restoreSavedGame));
-      document.querySelectorAll('.gg-trash').forEach(icon => icon.addEventListener('click', deleteSavedGame));
-
+    let redirect = document.getElementById("resume-link");
+    redirect.href ="../playOneVsOne/index.html" ;
   }
-} else {
-  console.log('Failed to retrieve saved games');
-}
+
+  async function getSavedGames() {
+
+  const token = localStorage.getItem("token");
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/list', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ token })
+  });
+  if (response.ok) {
+    const games = await response.json();
+    const gamesList = document.getElementById('games-list');
+    gamesList.innerHTML = '';
+    if (games.length === 0) {
+        gamesList.innerHTML = '<li>No saved games found.</li>';
+    } else {
+        for (let i = 0; i < games.length; i++) {
+            const game = games[i];
+            const gameItem = document.createElement('li');
+            // gameItem.innerHTML = `<button data-game="${game._id}" class="game-button">local - ${game.date}</button>`;
+            gameItem.innerHTML = `
+                                    <div class="game-container">
+                                        <button data-game="${game._id}" class="game-button">local - ${game.date}</button>
+                                        <i class="gg-trash" data-game="${game._id}"></i>
+                                    </div>
+  `;
+            gamesList.appendChild(gameItem);
+        }
+        document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click', restoreSavedGame));
+        document.querySelectorAll('.gg-trash').forEach(icon => icon.addEventListener('click', deleteSavedGame));
+
+    }
+  } else {
+    console.log('Failed to retrieve saved games');
+  }
 }
 
 async function restoreSavedGame(event) {
-event.preventDefault();
-const gameId = event.target.dataset.game;
-console.log("this is the game id : ", gameId);
-const token = localStorage.getItem("token");
-const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/retrieve/${gameId}', {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ _id: gameId })
-});
-if (response.ok) {
-  const gameData = await response.json();
-  if (gameData && gameData.tab) {
-      // Clear the board
-      for (let i = 0; i < rows; i++) {
-          for (let j = 0; j < columns; j++) {
-              getTile(i, j).classList.remove("red-piece", "yellow-piece");
-          }
-      }
-      // Set boardMatrix to gameData.tab
-      boardMatrix = gameData.tab;
-      console.log("current player : ", currentPlayer);
+  event.preventDefault();
+  const gameId = event.target.dataset.game;
+  console.log("this is the game id : ", gameId);
+  const token = localStorage.getItem("token");
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/retrieve/${gameId}', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ _id: gameId })
+  });
+  if (response.ok) {
+    const gameData = await response.json();
+    if (gameData && gameData.tab) {
+        // Clear the board
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < columns; j++) {
+                getTile(i, j).classList.remove("red-piece", "yellow-piece");
+            }
+        }
+        // Set boardMatrix to gameData.tab
+        boardMatrix = gameData.tab;
+        console.log("current player : ", currentPlayer);
 
 
-      for (let i = 0; i < rows; i++) {
-          for (let j = 0; j < columns; j++) {
-              if (boardMatrix[i][j] === playerRed) {
-                  getTile(i, j).classList.add("red-piece");
-              }
-              if (boardMatrix[i][j] === playerYellow) {
-                  getTile(i, j).classList.add("yellow-piece");
-              }
-          }
-      }
-      // Set currentPlayer to gameData.playerToPlay
-      currentPlayer = gameData.playerToPlay;
-      console.log("Game resumed:", boardMatrix);
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < columns; j++) {
+                if (boardMatrix[i][j] === playerRed) {
+                    getTile(i, j).classList.add("red-piece");
+                }
+                if (boardMatrix[i][j] === playerYellow) {
+                    getTile(i, j).classList.add("yellow-piece");
+                }
+            }
+        }
+        // Set currentPlayer to gameData.playerToPlay
+        currentPlayer = gameData.playerToPlay;
+        console.log("Game resumed:", boardMatrix);
+    } else {
+        console.log('No game data found for user');
+        console.log('gameData:', gameData);
+        console.log('gameData state:', gameData.gameState);
+        console.log('gameData tab:', gameData.tab);
+        console.log('gameData tab:', gameData._id);
+    }
   } else {
-      console.log('No game data found for user');
-      console.log('gameData:', gameData);
-      console.log('gameData state:', gameData.gameState);
-      console.log('gameData tab:', gameData.tab);
-      console.log('gameData tab:', gameData._id);
+    console.log('Failed to retrieve game data');
   }
-} else {
-  console.log('Failed to retrieve game data');
 }
-}
+
 async function deleteSavedGame(event) {
 
-event.preventDefault();
+  event.preventDefault();
 
-const gameId = event.target.getAttribute('data-game');
-console.log("this is the game id : ", gameId);
-const token = localStorage.getItem("token");
-const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/delete/${gameId}', {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ _id: gameId })
-});
-if (response.ok) {
-  // If the game was successfully deleted, remove the corresponding HTML element
-  event.target.parentElement.remove();
+  const gameId = event.target.getAttribute('data-game');
   console.log("this is the game id : ", gameId);
+  const token = localStorage.getItem("token");
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/delete/${gameId}', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ _id: gameId })
+  });
+  if (response.ok) {
+    // If the game was successfully deleted, remove the corresponding HTML element
+    event.target.parentElement.remove();
+    console.log("this is the game id : ", gameId);
 
 
-} else {
-  console.log('Failed to delete saved game');
-}
+  } else {
+    console.log('Failed to delete saved game');
+  }
 }
 
 // Call getSavedGames when the page loads
@@ -548,11 +519,6 @@ ws.onmessage = message => {
           }
         }
 
-        // retrive the illegal move message
-        if ( response.method === "illegalMove" ) {
-          console.log("Illegal move !");
-        }
-
         // join a game
         if ( response.method === "joinGame" ) {
           clientColor = null;
@@ -655,10 +621,3 @@ function generateId() {
     }
     return result + Math.floor(Math.random() * 1000);
 }
-
-let clickCount = 0;
-
-boardGame.addEventListener("click", function() {
-    clickCount++;
-    console.log("Nombre de clics : ", clickCount);
-})
