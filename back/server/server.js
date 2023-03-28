@@ -61,6 +61,7 @@ wsServer.on("request", request => {
     const connection = request.accept(null, request.origin);
     // Once connected what to do depending to the following
     connection.on("open", () => console.log("Opened"));
+    
     connection.on("close", () => {
         // Display the number of clients connected to the server
         console.log("Number of clients connected to the server : " + Object.keys(clients).length);
@@ -68,7 +69,24 @@ wsServer.on("request", request => {
         // Remove the client from the clients hashmap
         delete clients[clientId];
         console.log("Number of clients connected to the server : " + Object.keys(clients).length);
-    });
+    
+        // Remove client from all games they are connected to
+        for (const gameId of Object.keys(games)) {
+            const game = games[gameId];
+            const index = game.clients.findIndex(c => c.clientId === clientId);
+            if (index >= 0) {
+                // Remove client from the game
+                game.clients.splice(index, 1);
+                console.log(`Client ${clientId} removed from game ${gameId}`);
+                // If game has no clients left, remove it from the games object
+                if (game.clients.length === 0) {
+                    console.log(`Game ${gameId} has no clients left, removing from games`);
+                    delete games[gameId];
+                }
+            }
+        }
+    });    
+    
     connection.on("message", message => {
         const result = JSON.parse(message.utf8Data);
         // I, the server, have received a message from the client
@@ -127,7 +145,6 @@ wsServer.on("request", request => {
             const gameId = result.gameId;
             // Extract the game state from the games hashmap
             const game = games[gameId];
-            const color = null;
  
             //The first player to join will be RED
             if (game.clients.length === 0) {
