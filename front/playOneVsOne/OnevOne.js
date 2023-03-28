@@ -46,18 +46,18 @@ setBoard();
 }
 
 function setBoard() {
-boardGame = document.getElementById("board");
-boardMatrix = [];
-for (let r = 0; r < rows; r++) {
-boardMatrix[r] = [];
-for (let c = 0; c < columns; c++) {
-  boardMatrix[r][c] = ' ';
-  let tile = document.createElement("div");
-  tile.id = r.toString() + "-" + c.toString();
-  tile.classList.add("tile");
-  boardGame.appendChild(tile);
-  divv.style.visibility = "hidden";
-}
+  boardGame = document.getElementById("board");
+  boardMatrix = [];
+  for (let r = 0; r < rows; r++) {
+  boardMatrix[r] = [];
+  for (let c = 0; c < columns; c++) {
+    boardMatrix[r][c] = ' ';
+    let tile = document.createElement("div");
+    tile.id = r.toString() + "-" + c.toString();
+    tile.classList.add("tile");
+    boardGame.appendChild(tile);
+    divv.style.visibility = "hidden";
+  }
 }
 return boardGame;
 }
@@ -101,28 +101,28 @@ return availableCoordinates;
 
 
 let colorPalette = {
-1: "red-piece",
-2: "yellow-piece",
-3: "green-piece",
-4: "purple-piece",
-5: "orange-piece",
-6: "black-piece",
+  1: "red-piece",
+  2: "yellow-piece",
+  3: "green-piece",
+  4: "purple-piece",
+  5: "orange-piece",
+  6: "black-piece",
 }
 
 function fillTile(i, j, color) {
-if (gameOver) {
-  return;
-}
-if ( color == playerYellow ) {
-  getTile(i, j).classList.add(colorPalette[3])
-  boardMatrix[i][j] = playerYellow;
-}
-else {
-  getTile(i, j).classList.add(colorPalette[5]);
-  boardMatrix[i][j] = playerRed;
-}
-updateTurn();
-checkWinner();
+  if (gameOver) {
+    return;
+  }
+  if ( color == playerYellow ) {
+    getTile(i, j).classList.add(colorPalette[1])
+    boardMatrix[i][j] = playerYellow;
+  }
+  else {
+    getTile(i, j).classList.add(colorPalette[4]);
+    boardMatrix[i][j] = playerRed;
+  }
+  updateTurn();
+  checkWinner();
 }
 
 function updateTurn() {
@@ -168,58 +168,85 @@ return new Promise((resolve) => {
 }
 
 function iterateOverTiles() {
-let tiles = boardGame.getElementsByClassName("tile");
-for (let i = 0; i < tiles.length; i++) {
-  console.log(tiles[i]);
-}
+  let tiles = boardGame.getElementsByClassName("tile");
+  for (let i = 0; i < tiles.length; i++) {
+    console.log(tiles[i]);
+  }
 }
 
 function checkWinner() {
-for (let r = 0; r < rows; r++) {
-  for (let c = 0; c < columns; c++) {
-      if (boardMatrix[r][c] != ' ') {
-          if (checkHorizontal(r, c) || checkVertical(r, c) || checkDiagonal(r, c)) {
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns; c++) {
+        if (boardMatrix[r][c] != ' ') {
+            if (checkHorizontal(r, c) || checkVertical(r, c) || checkDiagonal(r, c)) {
+              // Iterate over the four winners indexes and set the background color to yellow
+              for (let i = 0; i < fourWinners.length; i++) {
+                let winnerIndex = fourWinners[i];
+                let winnerRow = winnerIndex[0];
+                let winnerColumn = winnerIndex[1];
+                // set the background image of this tile to the specified URL
+                getTile(winnerRow, winnerColumn).style.backgroundImage = "url('../images/star.png')";
+              }
               gameOver = true; 
               winner = currentPlayer;
               console.log(currentPlayer + " wins !");
-          }
-          updateTurn();
-      }
+            }
+            updateTurn();
+        }
+    }
   }
-}
-return winner;
+  return winner;
 }
 
+let fourWinners = [];
+
 function checkDiagonal(r, c) {
-if (r < 3 && c < 4) {
-  if (boardMatrix[r][c] === boardMatrix[r+1][c+1] && boardMatrix[r][c] === boardMatrix[r+2][c+2] && boardMatrix[r][c] === boardMatrix[r+3][c+3]) {
+  if (r < 3 && c < 4) {
+    if (boardMatrix[r][c] === boardMatrix[r+1][c+1] && boardMatrix[r][c] === boardMatrix[r+2][c+2] && boardMatrix[r][c] === boardMatrix[r+3][c+3]) {
+      // Add the four winner indexes to the array
+      fourWinners.push([r, c]);
+      fourWinners.push([r+1, c+1]);
+      fourWinners.push([r+2, c+2]);
+      fourWinners.push([r+3, c+3]);
       return true;
+    }
   }
-}
-if (r < 3 && c > 2) {
-  if (boardMatrix[r][c] === boardMatrix[r+1][c-1] && boardMatrix[r][c] === boardMatrix[r+2][c-2] && boardMatrix[r][c] === boardMatrix[r+3][c-3]) {
+  if (r < 3 && c > 2) {
+    if (boardMatrix[r][c] === boardMatrix[r+1][c-1] && boardMatrix[r][c] === boardMatrix[r+2][c-2] && boardMatrix[r][c] === boardMatrix[r+3][c-3]) {
+      fourWinners.push([r, c]);
+      fourWinners.push([r+1, c-1]);
+      fourWinners.push([r+2, c-2]);
+      fourWinners.push([r+3, c-3]);
       return true;
+    }
   }
-}
-return false;
+  return false;
 }
 
 function checkHorizontal(r, c) {
-if (c < 4) {
-  if (boardMatrix[r][c] == boardMatrix[r][c+1] && boardMatrix[r][c] == boardMatrix[r][c+2] && boardMatrix[r][c] == boardMatrix[r][c+3]) {
+  if (c < 4) {
+    if (boardMatrix[r][c] == boardMatrix[r][c+1] && boardMatrix[r][c] == boardMatrix[r][c+2] && boardMatrix[r][c] == boardMatrix[r][c+3]) {
+      fourWinners.push([r, c]);
+      fourWinners.push([r, c+1]);
+      fourWinners.push([r, c+2]);
+      fourWinners.push([r, c+3]);
       return true;
+    }
   }
-}
-return false;
+  return false;
 }
 
 function checkVertical(r, c) {
-if (r < 3) {
-  if (boardMatrix[r][c] === boardMatrix[r+1][c] && boardMatrix[r][c] === boardMatrix[r+2][c] && boardMatrix[r][c] === boardMatrix[r+3][c]) {
+  if (r < 3) {
+    if (boardMatrix[r][c] === boardMatrix[r+1][c] && boardMatrix[r][c] === boardMatrix[r+2][c] && boardMatrix[r][c] === boardMatrix[r+3][c]) {
+      fourWinners.push([r, c]);
+      fourWinners.push([r+1, c]);
+      fourWinners.push([r+2, c]);
+      fourWinners.push([r+3, c]);
       return true;
+    }
   }
-}
-return false;
+  return false;
 }
 
 function boardMatrixCopy(){

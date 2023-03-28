@@ -269,7 +269,7 @@ function updateGameState() {
             clients[client.clientId].connection.send(JSON.stringify(payLoad))
         });
     }
-    setTimeout(updateGameState, 200);
+    setTimeout(updateGameState, 10);
 }
 
 function gamesDetails() {
