@@ -38,28 +38,24 @@ else if ( l == 1 ) {
 chooselocalHostOrUrl(2);
 
 window.onload = function() {
-main();
-}
-
-function main() {
-setBoard();
+  setBoard();
 }
 
 function setBoard() {
   boardGame = document.getElementById("board");
   boardMatrix = [];
   for (let r = 0; r < rows; r++) {
-  boardMatrix[r] = [];
-  for (let c = 0; c < columns; c++) {
-    boardMatrix[r][c] = ' ';
-    let tile = document.createElement("div");
-    tile.id = r.toString() + "-" + c.toString();
-    tile.classList.add("tile");
-    boardGame.appendChild(tile);
-    divv.style.visibility = "hidden";
+    boardMatrix[r] = [];
+    for (let c = 0; c < columns; c++) {
+      boardMatrix[r][c] = ' ';
+      let tile = document.createElement("div");
+      tile.id = r.toString() + "-" + c.toString();
+      tile.classList.add("tile");
+      boardGame.appendChild(tile);
+      divv.style.visibility = "hidden";
+    }
   }
-}
-return boardGame;
+  return boardGame;
 }
 
 function getTile(i, j) {
@@ -524,9 +520,7 @@ const intervalId = setInterval(() => {
   }
 }, 100);
             
-
-
-var numberOfCreatedGames;
+let turn = true;
 
 ws.onmessage = message => {
         // I the client receive a message from the server !
@@ -536,7 +530,6 @@ ws.onmessage = message => {
         if ( response.method === "connect" ) {
             clientId = response.clientId;
             console.log("Welcome Client ID : ", clientId, " !!");
-            numberOfCreatedGames = Object.keys(response.games).length;
         }
 
         // create a new game
@@ -555,6 +548,11 @@ ws.onmessage = message => {
           }
         }
 
+        // retrive the illegal move message
+        if ( response.method === "illegalMove" ) {
+          console.log("Illegal move !");
+        }
+
         // join a game
         if ( response.method === "joinGame" ) {
           clientColor = null;
@@ -565,29 +563,31 @@ ws.onmessage = message => {
                 break;
             }
           }
+          
           boardGame.addEventListener("click", function(event) {
-          let target = event.target;
-          if (target.classList.contains("tile")) {
-
-              let coords = target.id.split("-");
-              let row = parseInt(coords[0]);
-              let column = parseInt(coords[1]);
-              let adjustedCoords = adjustCoordinates(row, column);
-
-              row = adjustedCoords[0];
-              column = adjustedCoords[1];
-
-              const payLoad = {
-                  "method": "play",
-                  "clientId": clientId,
-                  "gameId": response.game.id,
-                  "row": row,
-                  "column": column,
-                  "color": clientColor
+            let target = event.target;
+            if (target.classList.contains("tile")) {
+  
+                let coords = target.id.split("-");
+                let row = parseInt(coords[0]);
+                let column = parseInt(coords[1]);
+                let adjustedCoords = adjustCoordinates(row, column);
+  
+                row = adjustedCoords[0];
+                column = adjustedCoords[1];
+  
+                const payLoad = {
+                    "method": "play",
+                    "clientId": clientId,
+                    "gameId": response.game.id,
+                    "row": row,
+                    "column": column,
+                    "color": clientColor
+                }
+                ws.send(JSON.stringify(payLoad));
               }
-              ws.send(JSON.stringify(payLoad));
-            }
-          });
+            });
+
           console.log("ROOM Number : ", gameId);
         }
 
@@ -597,7 +597,7 @@ ws.onmessage = message => {
           }
         }, 3000);
 
-    // upadate the game state
+        // upadate the game state
         if ( response.method === "updateGameState" ) {
           
           // console.log("MESSAGE : ", response.message, " | SENDER ", response.sender, " | KEY ", )
@@ -655,3 +655,10 @@ function generateId() {
     }
     return result + Math.floor(Math.random() * 1000);
 }
+
+let clickCount = 0;
+
+boardGame.addEventListener("click", function() {
+    clickCount++;
+    console.log("Nombre de clics : ", clickCount);
+})

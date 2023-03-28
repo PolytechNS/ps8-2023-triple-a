@@ -85,6 +85,8 @@ wsServer.on("request", request => {
                 }
             }
         }
+        // delete the client from the referee
+        delete referee[clientId];
     });    
     
     connection.on("message", message => {
@@ -108,7 +110,7 @@ wsServer.on("request", request => {
             }
 
             else {
-                // retrive the first available game
+                // retrieve the first available game
                 let firstValue = Object.values(availableGames)[0];
                 gameId = firstValue.gameId;
 
@@ -134,8 +136,7 @@ wsServer.on("request", request => {
             con.send(JSON.stringify(payLoad));
 
             // display the game clients number
-            console.log("Game ID : " + gameId + " has " + games[gameId].clients.length + " clients");
-
+            // console.log("Game ID : " + gameId + " has " + games[gameId].clients.length + " clients");
         }
 
         // A client want to join a game
@@ -166,10 +167,8 @@ wsServer.on("request", request => {
             }
 
             // Start the game when we have 2 players
-            if (game.clients.length === 2) updateGameState();
+            if (game.clients.length === 2 ) updateGameState();
             // updateGameState();
-
-            // let firstValue = Object.values(availableGames)[0];
 
             console.log("");
             console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
@@ -195,29 +194,65 @@ wsServer.on("request", request => {
                 "clients": game.clients,
             }
 
+            // Add the client with it turn set to false to the referee
+            // check the length of the clients in the gameId
+            if ( games[gameId].clients.length < 2 ) {
+                // Send the game state to the referee
+                referee[clientId] = {
+                    "clientId": clientId,
+                    "turn": false,
+                }
+            }
+            else {
+                referee[clientId] = {
+                    "clientId": clientId,
+                    "turn": true,
+                }
+            }
+
             // Tell the player who already exits in the room that another one has just joined
             game.clients.forEach(client => {
                 clients[client.clientId].connection.send(JSON.stringify(payLoad));
             });
         }
 
-        // A client wants to play
+        // A client wants to play 
         if (result.method === "play") {
-            console.log("A client wants to play");
-            const gameId = result.gameId;
-            const row = result.row;
-            const column = result.column;
-            const color = result.color;
-            const clientId = result.clientId;
-            let oldState = games[gameId].gameState;
-            if ( !oldState ) oldState = emptyBoard();
-            // Update the game State
-            oldState[row][column] = color;
-            // Send back the new state to the clients
-            games[gameId].gameState = oldState;
+            // check if the client's turn is true
+            if ( referee[clientId].turn === true ) {
+                const gameId = result.gameId;
+                const row = result.row;
+                const column = result.column;
+                const color = result.color;
+                const clientId = result.clientId;
+                let oldState = games[gameId].gameState;
+                if ( !oldState ) oldState = emptyBoard();
+                // Update the game State
+                oldState[row][column] = color;
+                // Send back the new state to the clients
+                games[gameId].gameState = oldState;
+                console.log(" ", clientId, " wants to play : [", row, " , ", column, "] with color : ", color);
+                // He played so it's not his turn anymore
+                referee[clientId].turn = false;
+                // Set the other player turn to true
+                for (const client of games[gameId].clients) {
+                    if ( client.clientId !== clientId ) {
+                        referee[client.clientId].turn = true;
+                    }
+                }
+            }
+            else {
+                console.log("Illegal move from ", clientId);
+                // send back a message to the client
+                const payLoad = {
+                    "method": "illegalMove",
+                    "message": "Illegal move",
+                }
+                clients[clientId].connection.send(JSON.stringify(payLoad));
+            }
         }
+
         if (result.method === "updateGameState") {
-            let gameId = result.gameId;
             let client = result.clientId;
             let message = result.text;
             let idMessage = result.messageKey;
@@ -229,7 +264,6 @@ wsServer.on("request", request => {
             //     console.log("Message : ", chatMessage, " Key :",  lastMessageKey, " Sender :", client);
             //     a = true;
             // }
-            
         }
     });
 
