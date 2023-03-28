@@ -35,7 +35,7 @@ else if ( l == 1 ) {
 }
 
 // 1 : URL | 2 : Localhost
-chooselocalHostOrUrl(1);
+chooselocalHostOrUrl(2);
 
 window.onload = function() {
 main();
@@ -403,8 +403,10 @@ getSavedGames();
 let clientId = null;
 let gameId = null;
 let clientColor = null;
+let chat = null;
+let opponent = null;
 
-let room = {}
+let chatHistory = { };
 
 let ws = new WebSocket('ws://' + localHostOrUrl + ':9090');
 const newGame = document.getElementById('newGame');
@@ -421,136 +423,200 @@ joinGame.addEventListener('click', e => {
     gameId = textGameId.value;
     }
 
-    let board = document.getElementById('board');
-    board.style.visibility = "visible";
-
     const payLoad = {
-    "method": "joinGame",
-    "clientId": clientId,
-    "gameId": gameId
+      "method": "joinGame",
+      "clientId": clientId,
+      "gameId": gameId
     }
 
     ws.send(JSON.stringify(payLoad));
 
 })
 
-let canPlay = false;
-
-setTimeout(() => {
-    canPlay = true;
-  }, 4000);
-
-let interval = setInterval(function() {
-  if (canPlay) {
-    console.log("Oponent found !");
-    waiting.style.display = "none";
-    joinGame.style.display = "block";
-    clearInterval(interval);
-  } else {
-    console.log("Looking for an oponent...");
-  }
-}, 1000);
-
-  
+var lastMessageKey = null;
 
 let waiting = document.getElementById('component');
+let canClick = false;
 
 newGame.addEventListener('click', e => {
 
     const payLoad = {
-    "method": "createGame",
-    "clientId": clientId
+      "method": "createGame",
+      "clientId": clientId
     }
 
     ws.send(JSON.stringify(payLoad));
-
+    
     waiting.style.display = "block";
     newGame.style.display = "none";
 
+    // listen for opponent variable changes
+    let opponentInterval = setInterval(() => {
+      if (opponent !== null) {
+        console.log("Opponent found !", opponent);
+        let board = document.getElementById('board');
+
+        waiting.style.display = "none";
+        board.style.visibility = "visible";
+
+        clearInterval(opponentInterval);
+      }
+      else {
+        console.log("Looking for an oponent...");
+      }
+    }, 1000);
+  
+    canClick = true;
 })
+
+const intervalId = setInterval(() => {
+  if (canClick) {
+    const intervalId2 = setInterval(() => {
+      if (opponent) {
+        console.log("Opponent found !");
+        joinGame.click();
+        clearInterval(intervalId2);
+      }
+      else {
+        joinGame.click();
+      }
+    }, 100);
+
+  clearInterval(intervalId);
+  }
+  else {
+  }
+}, 100);
+            
+
 
 var numberOfCreatedGames;
 
 ws.onmessage = message => {
-// I the client receive a message from the server !
-const response = JSON.parse(message.data);
+        // I the client receive a message from the server !
+        const response = JSON.parse(message.data);
 
-// A new connection to the server
-if ( response.method === "connect" ) {
-    clientId = response.clientId;
-    console.log("Client ID : ", clientId, " set successfully !");
-    numberOfCreatedGames = Object.keys(response.games).length;
-    console.log("The number of created games is : ", numberOfCreatedGames);
+        // A new connection to the server
+        if ( response.method === "connect" ) {
+            clientId = response.clientId;
+            console.log("Client ID : ", clientId, " set successfully !");
+            numberOfCreatedGames = Object.keys(response.games).length;
+            console.log("The number of created games is : ", numberOfCreatedGames);
+        }
+
+        // create a new game
+        if ( response.method === "createGame" ) {
+          gameId = response.game.id;
+          console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
+          // itearte over the clients array and check if it has two clients : the one with clientId from clientId goes to opponent
+          let c = response.clients;
+          // console.log("clients array : ", c);
+          for (let i = 0; i < c.length; i++) {
+            if ( c[i].clientId !== clientId ) {
+                opponent = c[i].clientId;
+                // console.log("OPOPOP is : ", opponent);
+                break;
+            }
+          }
+        }
+
+        // join a game
+        if ( response.method === "joinGame" ) {
+          clientColor = null;
+          let c = response.clients;
+          for (let i = 0; i < c.length; i++) {
+            if ( c[i].clientId === clientId ) {
+                clientColor = c[i].color;
+                break;
+            }
+          }
+          boardGame.addEventListener("click", function(event) {
+          let target = event.target;
+          if (target.classList.contains("tile")) {
+
+              let coords = target.id.split("-");
+              let row = parseInt(coords[0]);
+              let column = parseInt(coords[1]);
+              let adjustedCoords = adjustCoordinates(row, column);
+
+              row = adjustedCoords[0];
+              column = adjustedCoords[1];
+
+              const payLoad = {
+                  "method": "play",
+                  "clientId": clientId,
+                  "gameId": response.game.id,
+                  "row": row,
+                  "column": column,
+                  "color": clientColor
+              }
+              ws.send(JSON.stringify(payLoad));
+            }
+          });
+          console.log("game succesfully joined with id : ", gameId + " | by client : " + clientId);
+        }
+
+        setInterval(function() {
+          for (const messageKey in chatHistory) {
+            console.log(chatHistory[messageKey]);
+          }
+        }, 3000);
+
+    // upadate the game state
+        if ( response.method === "updateGameState" ) {
+          
+          // console.log("MESSAGE : ", response.message, " | SENDER ", response.sender, " | KEY ", )
+          // Add this message to the chat history
+          if ( response.message ) {
+            chatHistory[response.messageKey] =  {
+              key : response.messageKey,
+              sender : response.sender,
+              message : response.message,
+              receiver: opponent
+            };
+          }
+
+          if (!response.game.gameState) return;
+              const state = response.game.gameState;
+              for ( let i = 0; i < rows; i++ ) {
+                for ( let j = 0; j < columns; j++ ) {
+                  if ( state[i][j] != ' ' ) {
+                    fillTile(i, j, state[i][j]);
+                  }
+                }
+              }
+
+              let game = response.game;
+              game.clients.forEach(client => {
+                if (client.clientId !== clientId) {
+                    opponent = client.clientId;
+                }
+              });
+
+              const paylaod = {
+                "method": "updateGameState",
+                "text": chat,
+                "clientId": clientId,
+                "gameId": gameId,
+                "messageKey": lastMessageKey,
+              }
+
+              ws.send(JSON.stringify(paylaod));
+
+        }
 }
 
-// create a new game
-if ( response.method === "createGame" ) {
-  gameId = response.game.id;
-  console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
+function storeText() {
+  chat = document.getElementById("input-text").value;
+  document.getElementById("text-display").textContent = chat;
+  lastMessageKey = generateId();
 }
 
-// join a game
-if ( response.method === "joinGame" ) {
-  clientColor = null;
-  let a = 0;
-  let c = response.clients;
-  for (let i = 0; i < c.length; i++) {
-    if ( c[i].clientId === clientId ) {
-        clientColor = c[i].color;
-        break;
+function generateId() {
+    let result = '';
+    const characters = 'XUV';
+    for (let i = 0; i < 3; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-  }
-  boardGame.addEventListener("click", function(event) {
-  let target = event.target;
-  if (target.classList.contains("tile")) {
-
-      let coords = target.id.split("-");
-      let row = parseInt(coords[0]);
-      let column = parseInt(coords[1]);
-      let adjustedCoords = adjustCoordinates(row, column);
-
-      row = adjustedCoords[0];
-      column = adjustedCoords[1];
-
-      const payLoad = {
-          "method": "play",
-          "clientId": clientId,
-          "gameId": response.game.id,
-          "row": row,
-          "column": column,
-          "color": clientColor
-      }
-      console.log("Board Matrix : ", boardMatrix);
-      ws.send(JSON.stringify(payLoad));
-    }
-  });
-  console.log("game succesfully joined with id : ", gameId + " | by client : " + clientId);
-}
-
-// upadate the game state
-if ( response.method === "updateGameState" ) {
-if (!response.game.gameState) return;
-let j = 1;
-const state = response.game.gameState;
-for ( let i = 0; i < rows; i++ ) {
-  for ( let j = 0; j < columns; j++ ) {
-    if ( state[i][j] != ' ' ) {
-      fillTile(i, j, state[i][j]);
-    }
-  }
-}
-}
-}
-
-generateDivs();
-
-function generateDivs() {
-var numDivs = numberOfCreatedGames;
-var divContainer = document.getElementById("divContainer");
-console.log("ROOOM: ", numDivs);
-for (var i = 1; i <= numDivs; i++) {
-var newDiv = document.createElement("div");
-newDiv.innerHTML = "Game ID : " + room[i].id;
-divContainer.appendChild(newDiv);
-}
+    return result + Math.floor(Math.random() * 1000);
 }

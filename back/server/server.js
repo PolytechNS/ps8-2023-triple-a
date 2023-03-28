@@ -1,8 +1,11 @@
 const { Console } = require("console");
 const http = require("http");
+const { exit } = require("process");
 const app = require("express")();
+
 const filePath =  require("path").join(__dirname, '..' , '..' , 'front' , 'playOneVsOne' , 'index.html');
 app.get("/", (req, res) => res.sendFile(filePath));
+
 app.listen(9091, () => console.log("Listening on port 9091 ..."));
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer();
@@ -25,7 +28,7 @@ var columns = 7;
 // Function to create an empty board
 function emptyBoard() {
     const board = [];
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i  < rows; i++) {
         board[i] = [];
         for (let j = 0; j < columns; j++) {
             board[i][j] = ' ';
@@ -58,7 +61,14 @@ wsServer.on("request", request => {
     const connection = request.accept(null, request.origin);
     // Once connected what to do depending to the following
     connection.on("open", () => console.log("Opened"));
-    connection.on("close", () => console.log("Closed"));
+    connection.on("close", () => {
+        // Display the number of clients connected to the server
+        console.log("Number of clients connected to the server : " + Object.keys(clients).length);
+        console.log("Closed");
+        // Remove the client from the clients hashmap
+        delete clients[clientId];
+        console.log("Number of clients connected to the server : " + Object.keys(clients).length);
+    });
     connection.on("message", message => {
         const result = JSON.parse(message.utf8Data);
         // I, the server, have received a message from the client
@@ -97,7 +107,8 @@ wsServer.on("request", request => {
             // Send back the payLoad to the client
             const payLoad = {
                 "method": "createGame",
-                "game": games[gameId]
+                "game": games[gameId],
+                "clients": games[gameId].clients,
             }
 
             console.log("Game created with ID : " + gameId);
@@ -128,6 +139,10 @@ wsServer.on("request", request => {
 
             //The second player to join will be YELLOW
             else if (game.clients.length === 1) {
+                // Check if the player is not already in the game
+                if (game.clients[0].clientId === clientId) {
+                    return;
+                }
                 game.clients.push({
                     "clientId": clientId,
                     "color": playerYellow,
@@ -144,7 +159,7 @@ wsServer.on("request", request => {
             console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
             console.log("");
 
-            games[gameId] = {
+            games[gameId] =  {
                 "id": gameId,
                 "gameState": games[gameId].gameState,
                 "clients": games[gameId].clients,
@@ -185,7 +200,21 @@ wsServer.on("request", request => {
             // Send back the new state to the clients
             games[gameId].gameState = oldState;
         }
+        if (result.method === "updateGameState") {
+            let gameId = result.gameId;
+            let client = result.clientId;
+            let message = result.text;
+            let idMessage = result.messageKey;
+            // display the message each 3 seconds
+            sender = client;
+            chatMessage = message;
+            lastMessageKey = idMessage;
+            // if ( message != null && a == false ) {
+            //     console.log("Message : ", chatMessage, " Key :",  lastMessageKey, " Sender :", client);
+            //     a = true;
+            // }
             
+        }
     });
 
     // Generate a new clientID
@@ -205,20 +234,26 @@ wsServer.on("request", request => {
     connection.send(JSON.stringify(payLoad));
 });
 
+let sender = null;
+let chatMessage = null;
+let lastMessageKey = null;
+
 function updateGameState() {
     for (const g of Object.keys(games)) {
         const game = games[g];
+        
         const payLoad = {
             "method": "updateGameState",
             "game": game,
+            "sender": sender,
+            "message": chatMessage,
+            "messageKey": lastMessageKey,
         }
-        // console.log("FROM Server : game state : ", game.gameState[0])
         game.clients.forEach(client => {
             clients[client.clientId].connection.send(JSON.stringify(payLoad))
         });
     }
-
-    setTimeout(updateGameState, 300);
+    setTimeout(updateGameState, 200);
 }
 
 function gamesDetails() {
@@ -244,7 +279,7 @@ function generateId() {
 
 function displayAll() {
     let i = 0;
-    console.log(" ");
+    console.log(" "); 
     console.log("number of games     : ", Object.keys(games).length);
     for (const g of Object.keys(games)) {
         console.log("--- Game Number : " + i++ + " ---");
@@ -256,4 +291,4 @@ function displayAll() {
     }
 }
 
-// setInterval(displayAll, 7000);
+// setInterval(displayAll, 3000);
