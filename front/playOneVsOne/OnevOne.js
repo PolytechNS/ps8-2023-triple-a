@@ -577,6 +577,27 @@ ws.onmessage = message => {
             };
           }
 
+          if ( response.winner ) {
+            // waits for 3 seconds before displaying the winner
+            setTimeout(() => {
+              // console.log("WINNER IS : ", response.winner);
+              if ( response.winner === clientId ) {
+                // console.log("You won !");
+                window.location.href = "winner.html";
+              }
+              else {
+                // console.log("You lost !");
+                window.location.href = "goodLuck.html";
+              }
+            }, 3000)
+          }
+
+          // create a code that waits 3 seconds before directing the user to the home page
+          if ( gameOver ) {
+            setTimeout(() => {
+            }, 3000);
+          }
+
           if (!response.game.gameState) return;
               const state = response.game.gameState;
               for ( let i = 0; i < rows; i++ ) {
@@ -603,6 +624,11 @@ ws.onmessage = message => {
               }
 
               ws.send(JSON.stringify(paylaod));
+
+              // stop the game updating if the winer is found
+              if ( response.winner ) {
+                clearInterval(intervalId);
+              }
 
         }
 }

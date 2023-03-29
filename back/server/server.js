@@ -1,6 +1,4 @@
-const { Console } = require("console");
 const http = require("http");
-const { exit } = require("process");
 const app = require("express")();
 
 const filePath =  require("path").join(__dirname, '..' , '..' , 'front' , 'playOneVsOne' , 'index.html');
@@ -284,24 +282,96 @@ wsServer.on("request", request => {
 let sender = null;
 let chatMessage = null;
 let lastMessageKey = null;
+let noPrint = true;
 
 function updateGameState() {
     for (const g of Object.keys(games)) {
         const game = games[g];
-        
+        let winner = null;
+
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 7; j++) {
+                if (game.gameState[i][j] === playerRed) {
+                    if (j < 4) {
+                        if (game.gameState[i][j + 1] === playerRed && game.gameState[i][j + 2] === playerRed && game.gameState[i][j + 3] === playerRed) {
+                            winner = playerRed;
+                        }
+                    }
+                    if (i < 3) {
+                        if (game.gameState[i + 1][j] === playerRed && game.gameState[i + 2][j] === playerRed && game.gameState[i + 3][j] === playerRed) {
+                            winner = playerRed;
+                        }
+                        if (j < 4) {
+                            if (game.gameState[i + 1][j + 1] === playerRed && game.gameState[i + 2][j + 2] === playerRed && game.gameState[i + 3][j + 3] === playerRed) {
+                                winner = playerRed;
+                            }
+                        }
+                        if (j > 2) {
+                            if (game.gameState[i + 1][j - 1] === playerRed && game.gameState[i + 2][j - 2] === playerRed && game.gameState[i + 3][j - 3] === playerRed) {
+                                winner = playerRed;
+                            }
+                        }
+                    }
+                }
+                if (game.gameState[i][j] === playerYellow) {
+                    if (j < 4) {
+                        if (game.gameState[i][j + 1] === playerYellow && game.gameState[i][j + 2] === playerYellow && game.gameState[i][j + 3] === playerYellow) {
+                            winner = playerYellow;
+                        }
+                    }
+                    if (i < 3) {
+                        if (game.gameState[i + 1][j] === playerYellow && game.gameState[i + 2][j] === playerYellow && game.gameState[i + 3][j] === playerYellow) {
+                            winner = playerYellow;
+                        }
+                        if (j < 4) {
+    
+                            if (game.gameState[i + 1][j + 1] === playerYellow && game.gameState[i + 2][j + 2] === playerYellow && game.gameState[i + 3][j + 3] === playerYellow) {
+                                winner = playerYellow;
+                            }
+                        }
+                        if (j > 2) {
+                            if (game.gameState[i + 1][j - 1] === playerYellow && game.gameState[i + 2][j - 2] === playerYellow && game.gameState[i + 3][j - 3] === playerYellow) {
+                                winner = playerYellow;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ( winner === playerRed ) {
+            winner = game.clients[0].clientId;
+        }
+        else if ( winner === playerYellow ) {
+            winner = game.clients[1].clientId;
+        }
+
+        if ( winner != null ) {
+            console.log("The winner is : ", winner);
+            // Reset the game state
+            // Reset the referee
+            for (const client of game.clients) {
+                referee[client.clientId].turn = false;
+            }
+        }
+
         const payLoad = {
             "method": "updateGameState",
             "game": game,
             "sender": sender,
             "message": chatMessage,
             "messageKey": lastMessageKey,
+            "winner": winner,
         }
+
         game.clients.forEach(client => {
             clients[client.clientId].connection.send(JSON.stringify(payLoad))
         });
+
     }
     setTimeout(updateGameState, 10);
 }
+
 
 function gamesDetails() {
     let i = 0;
@@ -313,7 +383,7 @@ function gamesDetails() {
     }
 }
 
-function generateId() {
+function generateId() { 
     let result = '';
     const characters = 'XUV';
     for (let i = 0; i < 3; i++) {
