@@ -1,8 +1,9 @@
-const { Console } = require("console");
 const http = require("http");
 const app = require("express")();
+
 const filePath =  require("path").join(__dirname, '..' , '..' , 'front' , 'playOneVsOne' , 'index.html');
 app.get("/", (req, res) => res.sendFile(filePath));
+
 app.listen(9091, () => console.log("Listening on port 9091 ..."));
 const websocketServer = require("websocket").server;
 const httpServer = http.createServer();
@@ -12,6 +13,7 @@ httpServer.listen(9090, () => console.log("Server is running ..."));
 const clients = { }
 // Hashmap to store all the created games
 let games = { }
+let referee = { }
 
 var playerRed = "RED";
 var playerYellow = "YELLOW";
@@ -25,7 +27,7 @@ var columns = 7;
 // Function to create an empty board
 function emptyBoard() {
     const board = [];
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i  < rows; i++) {
         board[i] = [];
         for (let j = 0; j < columns; j++) {
             board[i][j] = ' ';
@@ -45,11 +47,10 @@ function updateAvailableRooms() {
             };
         } 
         else {
-            console.log("No available rooms !!");
         }
     }
     for (const g of Object.keys(availableGames)) {
-        console.log("Game ID : " + availableGames[g].gameId + " available to join !!");
+        // console.log("Game ID : " + availableGames[g].gameId + " available to join !!");
     }
 }
 
@@ -58,7 +59,34 @@ wsServer.on("request", request => {
     const connection = request.accept(null, request.origin);
     // Once connected what to do depending to the following
     connection.on("open", () => console.log("Opened"));
-    connection.on("close", () => console.log("Closed"));
+    
+    connection.on("close", () => {
+        // Display the number of clients connected to the server
+        console.log("Number of clients connected to the server : " + Object.keys(clients).length);
+        console.log("Closed");
+        // Remove the client from the clients hashmap
+        delete clients[clientId];
+        console.log("Number of clients connected to the server : " + Object.keys(clients).length);
+    
+        // Remove client from all games they are connected to
+        for (const gameId of Object.keys(games)) {
+            const game = games[gameId];
+            const index = game.clients.findIndex(c => c.clientId === clientId);
+            if (index >= 0) {
+                // Remove client from the game
+                game.clients.splice(index, 1);
+                console.log(`Client ${clientId} removed from game ${gameId}`);
+                // If game has no clients left, remove it from the games object
+                if (game.clients.length === 0) {
+                    console.log(`Game ${gameId} has no clients left, removing from games`);
+                    delete games[gameId];
+                }
+            }
+        }
+        // delete the client from the referee
+        delete referee[clientId];
+    });    
+    
     connection.on("message", message => {
         const result = JSON.parse(message.utf8Data);
         // I, the server, have received a message from the client
@@ -68,7 +96,6 @@ wsServer.on("request", request => {
             let gameId = null;
 
             updateAvailableRooms();
-            console.log(" TEST : ", Object.keys(availableGames).length)
 
             if ( Object.keys(availableGames).length === 0 ) {
                 gameId = generateId();
@@ -81,7 +108,7 @@ wsServer.on("request", request => {
             }
 
             else {
-                // retrive the first available game
+                // retrieve the first available game
                 let firstValue = Object.values(availableGames)[0];
                 gameId = firstValue.gameId;
 
@@ -97,7 +124,8 @@ wsServer.on("request", request => {
             // Send back the payLoad to the client
             const payLoad = {
                 "method": "createGame",
-                "game": games[gameId]
+                "game": games[gameId],
+                "clients": games[gameId].clients,
             }
 
             console.log("Game created with ID : " + gameId);
@@ -106,8 +134,7 @@ wsServer.on("request", request => {
             con.send(JSON.stringify(payLoad));
 
             // display the game clients number
-            console.log("Game ID : " + gameId + " has " + games[gameId].clients.length + " clients");
-
+            // console.log("Game ID : " + gameId + " has " + games[gameId].clients.length + " clients");
         }
 
         // A client want to join a game
@@ -116,7 +143,6 @@ wsServer.on("request", request => {
             const gameId = result.gameId;
             // Extract the game state from the games hashmap
             const game = games[gameId];
-            const color = null;
  
             //The first player to join will be RED
             if (game.clients.length === 0) {
@@ -128,6 +154,10 @@ wsServer.on("request", request => {
 
             //The second player to join will be YELLOW
             else if (game.clients.length === 1) {
+                // Check if the player is not already in the game
+                if (game.clients[0].clientId === clientId) {
+                    return;
+                }
                 game.clients.push({
                     "clientId": clientId,
                     "color": playerYellow,
@@ -135,22 +165,18 @@ wsServer.on("request", request => {
             }
 
             // Start the game when we have 2 players
-            if (game.clients.length === 2) updateGameState();
-            // updateGameState();
+            if (game.clients.length === 2 ) updateGameState();
 
-            // let firstValue = Object.values(availableGames)[0];
+            // console.log("");
+            // console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
+            // console.log("");
 
-            console.log("");
-            console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
-            console.log("");
-
-            games[gameId] = {
+            games[gameId] =  {
                 "id": gameId,
                 "gameState": games[gameId].gameState,
                 "clients": games[gameId].clients,
             }
             
-            // iterate 
             for (const g of Object.keys(availableGames)) {
                 if ( availableGames[g].gameId === gameId && game.clients.length === 2 ) {
                     delete availableGames[g];
@@ -164,28 +190,76 @@ wsServer.on("request", request => {
                 "clients": game.clients,
             }
 
+            // Add the client with it turn set to false to the referee
+            // check the length of the clients in the gameId
+            if ( games[gameId].clients.length < 2 ) {
+                // Send the game state to the referee
+                referee[clientId] = {
+                    "clientId": clientId,
+                    "turn": false,
+                }
+            }
+            else {
+                referee[clientId] = {
+                    "clientId": clientId,
+                    "turn": true,
+                }
+            }
+
             // Tell the player who already exits in the room that another one has just joined
             game.clients.forEach(client => {
                 clients[client.clientId].connection.send(JSON.stringify(payLoad));
             });
         }
 
-        // A client wants to play
+        // A client wants to play 
         if (result.method === "play") {
-            console.log("A client wants to play");
-            const gameId = result.gameId;
-            const row = result.row;
-            const column = result.column;
-            const color = result.color;
-            const clientId = result.clientId;
-            let oldState = games[gameId].gameState;
-            if ( !oldState ) oldState = emptyBoard();
-            // Update the game State
-            oldState[row][column] = color;
-            // Send back the new state to the clients
-            games[gameId].gameState = oldState;
+            // check if the client's turn is true
+            if ( referee[clientId].turn === true ) {
+                const gameId = result.gameId;
+                const row = result.row;
+                const column = result.column;
+                const color = result.color;
+                const clientId = result.clientId;
+                let oldState = games[gameId].gameState;
+                if ( !oldState ) oldState = emptyBoard();
+                // Update the game State
+                oldState[row][column] = color;
+                // Send back the new state to the clients
+                games[gameId].gameState = oldState;
+                console.log(" ", clientId, " wants to play : [", row, " , ", column, "] with color : ", color);
+                // He played so it's not his turn anymore
+                referee[clientId].turn = false;
+                // Set the other player turn to true
+                for (const client of games[gameId].clients) {
+                    if ( client.clientId !== clientId ) {
+                        referee[client.clientId].turn = true;
+                    }
+                }
+            }
+            else {
+                // send back a message to the client
+                const payLoad = {
+                    "method": "illegalMove",
+                    "message": "Illegal move",
+                }
+                clients[clientId].connection.send(JSON.stringify(payLoad));
+            }
         }
-            
+
+        if (result.method === "updateGameState") {
+            let client = result.clientId;
+            let message = result.text;
+            let idMessage = result.messageKey;
+            // display the message each 3 seconds
+            sender = client;
+            chatMessage = message;
+            lastMessageKey = idMessage;
+            // if ( message != null && a == false ) {
+            //     console.log("Message : ", chatMessage, " Key :",  lastMessageKey, " Sender :", client);
+            //     a = true;
+            // }
+        }
     });
 
     // Generate a new clientID
@@ -193,7 +267,7 @@ wsServer.on("request", request => {
     clients[clientId] = {
         "connection": connection
     }
-    console.log("A New client with ID : " + clientId + " has been connected !");
+    console.log(" -> A New client with ID : " + clientId + " has been connected !");
 
     // Send back this info to the client
     const payLoad = {
@@ -205,21 +279,99 @@ wsServer.on("request", request => {
     connection.send(JSON.stringify(payLoad));
 });
 
+let sender = null;
+let chatMessage = null;
+let lastMessageKey = null;
+let noPrint = true;
+
 function updateGameState() {
     for (const g of Object.keys(games)) {
         const game = games[g];
+        let winner = null;
+
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 7; j++) {
+                if (game.gameState[i][j] === playerRed) {
+                    if (j < 4) {
+                        if (game.gameState[i][j + 1] === playerRed && game.gameState[i][j + 2] === playerRed && game.gameState[i][j + 3] === playerRed) {
+                            winner = playerRed;
+                        }
+                    }
+                    if (i < 3) {
+                        if (game.gameState[i + 1][j] === playerRed && game.gameState[i + 2][j] === playerRed && game.gameState[i + 3][j] === playerRed) {
+                            winner = playerRed;
+                        }
+                        if (j < 4) {
+                            if (game.gameState[i + 1][j + 1] === playerRed && game.gameState[i + 2][j + 2] === playerRed && game.gameState[i + 3][j + 3] === playerRed) {
+                                winner = playerRed;
+                            }
+                        }
+                        if (j > 2) {
+                            if (game.gameState[i + 1][j - 1] === playerRed && game.gameState[i + 2][j - 2] === playerRed && game.gameState[i + 3][j - 3] === playerRed) {
+                                winner = playerRed;
+                            }
+                        }
+                    }
+                }
+                if (game.gameState[i][j] === playerYellow) {
+                    if (j < 4) {
+                        if (game.gameState[i][j + 1] === playerYellow && game.gameState[i][j + 2] === playerYellow && game.gameState[i][j + 3] === playerYellow) {
+                            winner = playerYellow;
+                        }
+                    }
+                    if (i < 3) {
+                        if (game.gameState[i + 1][j] === playerYellow && game.gameState[i + 2][j] === playerYellow && game.gameState[i + 3][j] === playerYellow) {
+                            winner = playerYellow;
+                        }
+                        if (j < 4) {
+    
+                            if (game.gameState[i + 1][j + 1] === playerYellow && game.gameState[i + 2][j + 2] === playerYellow && game.gameState[i + 3][j + 3] === playerYellow) {
+                                winner = playerYellow;
+                            }
+                        }
+                        if (j > 2) {
+                            if (game.gameState[i + 1][j - 1] === playerYellow && game.gameState[i + 2][j - 2] === playerYellow && game.gameState[i + 3][j - 3] === playerYellow) {
+                                winner = playerYellow;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ( winner === playerRed ) {
+            winner = game.clients[0].clientId;
+        }
+        else if ( winner === playerYellow ) {
+            winner = game.clients[1].clientId;
+        }
+
+        if ( winner != null ) {
+            console.log("The winner is : ", winner);
+            // Reset the game state
+            // Reset the referee
+            for (const client of game.clients) {
+                referee[client.clientId].turn = false;
+            }
+        }
+
         const payLoad = {
             "method": "updateGameState",
             "game": game,
+            "sender": sender,
+            "message": chatMessage,
+            "messageKey": lastMessageKey,
+            "winner": winner,
         }
-        // console.log("FROM Server : game state : ", game.gameState[0])
+
         game.clients.forEach(client => {
             clients[client.clientId].connection.send(JSON.stringify(payLoad))
         });
-    }
 
-    setTimeout(updateGameState, 300);
+    }
+    setTimeout(updateGameState, 10);
 }
+
 
 function gamesDetails() {
     let i = 0;
@@ -231,7 +383,7 @@ function gamesDetails() {
     }
 }
 
-function generateId() {
+function generateId() { 
     let result = '';
     const characters = 'XUV';
     for (let i = 0; i < 3; i++) {
@@ -244,7 +396,6 @@ function generateId() {
 
 function displayAll() {
     let i = 0;
-    console.log(" ");
     console.log("number of games     : ", Object.keys(games).length);
     for (const g of Object.keys(games)) {
         console.log("--- Game Number : " + i++ + " ---");
@@ -256,4 +407,4 @@ function displayAll() {
     }
 }
 
-// setInterval(displayAll, 7000);
+// setInterval(displayAll, 3000);
