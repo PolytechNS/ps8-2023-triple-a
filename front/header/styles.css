@@ -139,3 +139,86 @@ header {
     background: rgba(0,0,0,.1);
     border-radius: 2px;
 }
+
+.game-button {
+    display: block;
+    width: 100%;
+    font-weight: bold;
+    color: black;
+    margin-right: 10px;
+    text-transform: lowercase;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #DFE9F5;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-button2 {
+    display: block;
+    width: 100%;
+    font-weight: bold;
+    color: black;
+    margin-right: 10px;
+    text-transform: lowercase;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #DFE9F5;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    cursor: pointer;
+  }
+  
+  .game-button:hover {
+    background-color: #91c0f8;
+  }
+  
+  .game-button::after {
+    content: "Click to send friend request";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: #91c0f8;
+    color: white;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .game-button:hover::after {
+    height: 100%;
+  }
+  
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .game-button {
+    margin-bottom: 8px;
+  }
+
+
+  .suggestions {
+    z-index: 1; /* s'assurer que les suggestions s'affichent au-dessus du reste du contenu */
+    background-color: rgb(113, 199, 225); /* couleur de fond des suggestions */
+    border: 1px solid black; /* bordure autour des suggestions */
+    max-height: 200px; /* hauteur maximale des suggestions */
+    width: 24%; /* ajuster la largeur des suggestions à la largeur de la barre de recherche */
+    position: relative;
+    margin-left:20rem ;
+
+
+    
+  }
+  
+
+  
+  .suggestions li:hover {
+    background-color: #f2f2f2; /* changer la couleur de fond lorsque l'utilisateur survole un élément de la liste */
+  }
+  

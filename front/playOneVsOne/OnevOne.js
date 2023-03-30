@@ -35,31 +35,27 @@ else if ( l == 1 ) {
 }
 
 // 1 : URL | 2 : Localhost
-chooselocalHostOrUrl(1);
+chooselocalHostOrUrl(2);
 
 window.onload = function() {
-main();
-}
-
-function main() {
-setBoard();
+  setBoard();
 }
 
 function setBoard() {
-boardGame = document.getElementById("board");
-boardMatrix = [];
-for (let r = 0; r < rows; r++) {
-boardMatrix[r] = [];
-for (let c = 0; c < columns; c++) {
-  boardMatrix[r][c] = ' ';
-  let tile = document.createElement("div");
-  tile.id = r.toString() + "-" + c.toString();
-  tile.classList.add("tile");
-  boardGame.appendChild(tile);
-  divv.style.visibility = "hidden";
-}
-}
-return boardGame;
+  boardGame = document.getElementById("board");
+  boardMatrix = [];
+  for (let r = 0; r < rows; r++) {
+    boardMatrix[r] = [];
+    for (let c = 0; c < columns; c++) {
+      boardMatrix[r][c] = ' ';
+      let tile = document.createElement("div");
+      tile.id = r.toString() + "-" + c.toString();
+      tile.classList.add("tile");
+      boardGame.appendChild(tile);
+      divv.style.visibility = "hidden";
+    }
+  }
+  return boardGame;
 }
 
 function getTile(i, j) {
@@ -69,69 +65,51 @@ return target;
 
 const divv = document.getElementById("board");
 
-function getTileId(i, j) {
-return getTile(i, j).id;
-}
-
-function getCoordinatesOfTheClickedTile() {
-return new Promise((resolve) => {
-  boardGame.addEventListener("click", function(event) {
-      let target = event.target;
-      if (target.classList.contains("tile")) {
-          let tileId = target.id;
-          let row = tileId[0];
-          let column = tileId[2];
-          resolve([row, column]);
-      }
-  });
-});
-}
-
 function getAvailableCoordinates() {
-let availableCoordinates = [];
-for (let i = 0; i < boardGame.length; i++) {
-  for (let j = 0; j < boardGame[i].length; j++) {
-      if (boardGame[i][j] == ' ') {
-          availableCoordinates.push([i, j]);
-      }
+  let availableCoordinates = [];
+  for (let i = 0; i < boardGame.length; i++) {
+    for (let j = 0; j < boardGame[i].length; j++) {
+        if (boardGame[i][j] == ' ') {
+            availableCoordinates.push([i, j]);
+        }
+    }
   }
-}
-return availableCoordinates;
+  return availableCoordinates;
 }
 
 
 let colorPalette = {
-1: "red-piece",
-2: "yellow-piece",
-3: "green-piece",
-4: "purple-piece",
-5: "orange-piece",
-6: "black-piece",
+  1: "red-piece",
+  2: "yellow-piece",
+  3: "green-piece",
+  4: "purple-piece",
+  5: "orange-piece",
+  6: "black-piece",
 }
 
 function fillTile(i, j, color) {
-if (gameOver) {
-  return;
-}
-if ( color == playerYellow ) {
-  getTile(i, j).classList.add(colorPalette[3])
-  boardMatrix[i][j] = playerYellow;
-}
-else {
-  getTile(i, j).classList.add(colorPalette[5]);
-  boardMatrix[i][j] = playerRed;
-}
-updateTurn();
-checkWinner();
+  if (gameOver) {
+    return;
+  }
+  if ( color == playerYellow ) {
+    getTile(i, j).classList.add(colorPalette[1])
+    boardMatrix[i][j] = playerYellow;
+  }
+  else {
+    getTile(i, j).classList.add(colorPalette[4]);
+    boardMatrix[i][j] = playerRed;
+  }
+  updateTurn();
+  checkWinner();
 }
 
 function updateTurn() {
-if ( currentPlayer == playerRed ) {
-  currentPlayer = playerYellow;
-}
-else {
-  currentPlayer = playerRed;
-}
+  if ( currentPlayer == playerRed ) {
+    currentPlayer = playerYellow;
+  }
+  else {
+    currentPlayer = playerRed;
+  }
 }
 
 function adjustCoordinates(row, column) {
@@ -155,71 +133,86 @@ if ( adjustedRow < 0 ) {
 return [adjustedRow, adjustedColumn];
 }
 
-function getIdOfClickedTile() {
-return new Promise((resolve) => {
-  boardGame.addEventListener("click", function(event) {
-      let target = event.target;
-      if (target.classList.contains("tile")) {
-          let tileId = target.id;
-          resolve(tileId);
-      }
-  });
-});
-}
-
 function iterateOverTiles() {
-let tiles = boardGame.getElementsByClassName("tile");
-for (let i = 0; i < tiles.length; i++) {
-  console.log(tiles[i]);
-}
+  let tiles = boardGame.getElementsByClassName("tile");
+  for (let i = 0; i < tiles.length; i++) {
+    console.log(tiles[i]);
+  }
 }
 
 function checkWinner() {
-for (let r = 0; r < rows; r++) {
-  for (let c = 0; c < columns; c++) {
-      if (boardMatrix[r][c] != ' ') {
-          if (checkHorizontal(r, c) || checkVertical(r, c) || checkDiagonal(r, c)) {
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns; c++) {
+        if (boardMatrix[r][c] != ' ') {
+            if (checkHorizontal(r, c) || checkVertical(r, c) || checkDiagonal(r, c)) {
+              // Iterate over the four winners indexes and set the background color to yellow
+              for (let i = 0; i < fourWinners.length; i++) {
+                let winnerIndex = fourWinners[i];
+                let winnerRow = winnerIndex[0];
+                let winnerColumn = winnerIndex[1];
+                // set the background image of this tile to the specified URL
+                getTile(winnerRow, winnerColumn).style.backgroundImage = "url('../images/star.png')";
+              }
               gameOver = true; 
               winner = currentPlayer;
               console.log(currentPlayer + " wins !");
-          }
-          updateTurn();
-      }
+            }
+            updateTurn();
+        }
+    }
   }
-}
-return winner;
+  return winner;
 }
 
+let fourWinners = [];
+
 function checkDiagonal(r, c) {
-if (r < 3 && c < 4) {
-  if (boardMatrix[r][c] === boardMatrix[r+1][c+1] && boardMatrix[r][c] === boardMatrix[r+2][c+2] && boardMatrix[r][c] === boardMatrix[r+3][c+3]) {
+  if (r < 3 && c < 4) {
+    if (boardMatrix[r][c] === boardMatrix[r+1][c+1] && boardMatrix[r][c] === boardMatrix[r+2][c+2] && boardMatrix[r][c] === boardMatrix[r+3][c+3]) {
+      // Add the four winner indexes to the array
+      fourWinners.push([r, c]);
+      fourWinners.push([r+1, c+1]);
+      fourWinners.push([r+2, c+2]);
+      fourWinners.push([r+3, c+3]);
       return true;
+    }
   }
-}
-if (r < 3 && c > 2) {
-  if (boardMatrix[r][c] === boardMatrix[r+1][c-1] && boardMatrix[r][c] === boardMatrix[r+2][c-2] && boardMatrix[r][c] === boardMatrix[r+3][c-3]) {
+  if (r < 3 && c > 2) {
+    if (boardMatrix[r][c] === boardMatrix[r+1][c-1] && boardMatrix[r][c] === boardMatrix[r+2][c-2] && boardMatrix[r][c] === boardMatrix[r+3][c-3]) {
+      fourWinners.push([r, c]);
+      fourWinners.push([r+1, c-1]);
+      fourWinners.push([r+2, c-2]);
+      fourWinners.push([r+3, c-3]);
       return true;
+    }
   }
-}
-return false;
+  return false;
 }
 
 function checkHorizontal(r, c) {
-if (c < 4) {
-  if (boardMatrix[r][c] == boardMatrix[r][c+1] && boardMatrix[r][c] == boardMatrix[r][c+2] && boardMatrix[r][c] == boardMatrix[r][c+3]) {
+  if (c < 4) {
+    if (boardMatrix[r][c] == boardMatrix[r][c+1] && boardMatrix[r][c] == boardMatrix[r][c+2] && boardMatrix[r][c] == boardMatrix[r][c+3]) {
+      fourWinners.push([r, c]);
+      fourWinners.push([r, c+1]);
+      fourWinners.push([r, c+2]);
+      fourWinners.push([r, c+3]);
       return true;
+    }
   }
-}
-return false;
+  return false;
 }
 
 function checkVertical(r, c) {
-if (r < 3) {
-  if (boardMatrix[r][c] === boardMatrix[r+1][c] && boardMatrix[r][c] === boardMatrix[r+2][c] && boardMatrix[r][c] === boardMatrix[r+3][c]) {
+  if (r < 3) {
+    if (boardMatrix[r][c] === boardMatrix[r+1][c] && boardMatrix[r][c] === boardMatrix[r+2][c] && boardMatrix[r][c] === boardMatrix[r+3][c]) {
+      fourWinners.push([r, c]);
+      fourWinners.push([r+1, c]);
+      fourWinners.push([r+2, c]);
+      fourWinners.push([r+3, c]);
       return true;
+    }
   }
-}
-return false;
+  return false;
 }
 
 function boardMatrixCopy(){
@@ -278,121 +271,122 @@ try {
 }
 
 async function resumeGame() {
-let redirect = document.getElementById("resume-link");
-redirect.href ="../playOneVsOne/index.html" ;
-}
-
-async function getSavedGames() {
-
-const token = localStorage.getItem("token");
-const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/list', {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ token })
-});
-if (response.ok) {
-  const games = await response.json();
-  const gamesList = document.getElementById('games-list');
-  gamesList.innerHTML = '';
-  if (games.length === 0) {
-      gamesList.innerHTML = '<li>No saved games found.</li>';
-  } else {
-      for (let i = 0; i < games.length; i++) {
-          const game = games[i];
-          const gameItem = document.createElement('li');
-          // gameItem.innerHTML = `<button data-game="${game._id}" class="game-button">local - ${game.date}</button>`;
-          gameItem.innerHTML = `
-                                  <div class="game-container">
-                                      <button data-game="${game._id}" class="game-button">local - ${game.date}</button>
-                                      <i class="gg-trash" data-game="${game._id}"></i>
-                                  </div>
-`;
-          gamesList.appendChild(gameItem);
-      }
-      document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click', restoreSavedGame));
-      document.querySelectorAll('.gg-trash').forEach(icon => icon.addEventListener('click', deleteSavedGame));
-
+    let redirect = document.getElementById("resume-link");
+    redirect.href ="../playOneVsOne/index.html" ;
   }
-} else {
-  console.log('Failed to retrieve saved games');
-}
+
+  async function getSavedGames() {
+
+  const token = localStorage.getItem("token");
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/list', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ token })
+  });
+  if (response.ok) {
+    const games = await response.json();
+    const gamesList = document.getElementById('games-list');
+    gamesList.innerHTML = '';
+    if (games.length === 0) {
+        gamesList.innerHTML = '<li>No saved games found.</li>';
+    } else {
+        for (let i = 0; i < games.length; i++) {
+            const game = games[i];
+            const gameItem = document.createElement('li');
+            // gameItem.innerHTML = `<button data-game="${game._id}" class="game-button">local - ${game.date}</button>`;
+            gameItem.innerHTML = `
+                                    <div class="game-container">
+                                        <button data-game="${game._id}" class="game-button">local - ${game.date}</button>
+                                        <i class="gg-trash" data-game="${game._id}"></i>
+                                    </div>
+  `;
+            gamesList.appendChild(gameItem);
+        }
+        document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click', restoreSavedGame));
+        document.querySelectorAll('.gg-trash').forEach(icon => icon.addEventListener('click', deleteSavedGame));
+
+    }
+  } else {
+    console.log('Failed to retrieve saved games');
+  }
 }
 
 async function restoreSavedGame(event) {
-event.preventDefault();
-const gameId = event.target.dataset.game;
-console.log("this is the game id : ", gameId);
-const token = localStorage.getItem("token");
-const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/retrieve/${gameId}', {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ _id: gameId })
-});
-if (response.ok) {
-  const gameData = await response.json();
-  if (gameData && gameData.tab) {
-      // Clear the board
-      for (let i = 0; i < rows; i++) {
-          for (let j = 0; j < columns; j++) {
-              getTile(i, j).classList.remove("red-piece", "yellow-piece");
-          }
-      }
-      // Set boardMatrix to gameData.tab
-      boardMatrix = gameData.tab;
-      console.log("current player : ", currentPlayer);
+  event.preventDefault();
+  const gameId = event.target.dataset.game;
+  console.log("this is the game id : ", gameId);
+  const token = localStorage.getItem("token");
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/retrieve/${gameId}', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ _id: gameId })
+  });
+  if (response.ok) {
+    const gameData = await response.json();
+    if (gameData && gameData.tab) {
+        // Clear the board
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < columns; j++) {
+                getTile(i, j).classList.remove("red-piece", "yellow-piece");
+            }
+        }
+        // Set boardMatrix to gameData.tab
+        boardMatrix = gameData.tab;
+        console.log("current player : ", currentPlayer);
 
 
-      for (let i = 0; i < rows; i++) {
-          for (let j = 0; j < columns; j++) {
-              if (boardMatrix[i][j] === playerRed) {
-                  getTile(i, j).classList.add("red-piece");
-              }
-              if (boardMatrix[i][j] === playerYellow) {
-                  getTile(i, j).classList.add("yellow-piece");
-              }
-          }
-      }
-      // Set currentPlayer to gameData.playerToPlay
-      currentPlayer = gameData.playerToPlay;
-      console.log("Game resumed:", boardMatrix);
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < columns; j++) {
+                if (boardMatrix[i][j] === playerRed) {
+                    getTile(i, j).classList.add("red-piece");
+                }
+                if (boardMatrix[i][j] === playerYellow) {
+                    getTile(i, j).classList.add("yellow-piece");
+                }
+            }
+        }
+        // Set currentPlayer to gameData.playerToPlay
+        currentPlayer = gameData.playerToPlay;
+        console.log("Game resumed:", boardMatrix);
+    } else {
+        console.log('No game data found for user');
+        console.log('gameData:', gameData);
+        console.log('gameData state:', gameData.gameState);
+        console.log('gameData tab:', gameData.tab);
+        console.log('gameData tab:', gameData._id);
+    }
   } else {
-      console.log('No game data found for user');
-      console.log('gameData:', gameData);
-      console.log('gameData state:', gameData.gameState);
-      console.log('gameData tab:', gameData.tab);
-      console.log('gameData tab:', gameData._id);
+    console.log('Failed to retrieve game data');
   }
-} else {
-  console.log('Failed to retrieve game data');
 }
-}
+
 async function deleteSavedGame(event) {
 
-event.preventDefault();
+  event.preventDefault();
 
-const gameId = event.target.getAttribute('data-game');
-console.log("this is the game id : ", gameId);
-const token = localStorage.getItem("token");
-const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/delete/${gameId}', {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ _id: gameId })
-});
-if (response.ok) {
-  // If the game was successfully deleted, remove the corresponding HTML element
-  event.target.parentElement.remove();
+  const gameId = event.target.getAttribute('data-game');
   console.log("this is the game id : ", gameId);
+  const token = localStorage.getItem("token");
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/delete/${gameId}', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ _id: gameId })
+  });
+  if (response.ok) {
+    // If the game was successfully deleted, remove the corresponding HTML element
+    event.target.parentElement.remove();
+    console.log("this is the game id : ", gameId);
 
 
-} else {
-  console.log('Failed to delete saved game');
-}
+  } else {
+    console.log('Failed to delete saved game');
+  }
 }
 
 // Call getSavedGames when the page loads
@@ -403,10 +397,18 @@ getSavedGames();
 let clientId = null;
 let gameId = null;
 let clientColor = null;
+let chat = null;
+let opponent = null;
+let lastMessageKey = null;
+let canClick = false;
+let yourTurn = false;
 
-let room = {}
+let waiting = document.getElementById('component');
+let countdown = document.getElementById('countdown');
 
+let chatHistory = { };
 let ws = new WebSocket('ws://' + localHostOrUrl + ':9090');
+
 const newGame = document.getElementById('newGame');
 const joinGame = document.getElementById('joinGame');
 const textGameId = document.getElementById('textGameId');
@@ -415,142 +417,233 @@ joinGame.style.display = "none";
 textGameId.style.display = "none";
 
 // wiring events
-joinGame.addEventListener('click', e => {
+joinGame.addEventListener('click', () => {
 
     if ( gameId === null ) {
     gameId = textGameId.value;
     }
 
-    let board = document.getElementById('board');
-    board.style.visibility = "visible";
-
     const payLoad = {
-    "method": "joinGame",
-    "clientId": clientId,
-    "gameId": gameId
+      "method": "joinGame",
+      "clientId": clientId,
+      "gameId": gameId
     }
 
     ws.send(JSON.stringify(payLoad));
 
 })
 
-let canPlay = false;
+newGame.addEventListener('click', () => {
 
-setTimeout(() => {
-    canPlay = true;
-  }, 4000);
-
-let interval = setInterval(function() {
-  if (canPlay) {
-    console.log("Oponent found !");
-    waiting.style.display = "none";
-    joinGame.style.display = "block";
-    clearInterval(interval);
-  } else {
-    console.log("Looking for an oponent...");
-  }
-}, 1000);
-
-  
-
-let waiting = document.getElementById('component');
-
-newGame.addEventListener('click', e => {
-
-    const payLoad = {
+  const payLoad = {
     "method": "createGame",
     "clientId": clientId
+  }
+
+  ws.send(JSON.stringify(payLoad));
+  
+  waiting.style.display = "block";
+  newGame.style.display = "none";
+
+  // listen for opponent variable changes
+  let opponentInterval = setInterval(() => {
+    if (opponent !== null) {
+      console.log("Opponent found !", opponent);
+      let board = document.getElementById('board');
+
+      waiting.style.display = "none";
+
+      // The oponent is found, we can start the game
+      countdown.style.display = "block";
+
+      setTimeout(() => {
+          countdown.style.display = "none";
+          board.style.visibility = "visible";
+      }, 3000);
+
+      clearInterval(opponentInterval);
     }
+    else {
+      console.log("Looking for an oponent...");
+    }
+  }, 1000);
 
-    ws.send(JSON.stringify(payLoad));
-
-    waiting.style.display = "block";
-    newGame.style.display = "none";
-
+  canClick = true;
 })
 
-var numberOfCreatedGames;
+
+
+const intervalId = setInterval(() => {
+  if (canClick) {
+    const intervalId2 = setInterval(() => {
+      if (opponent) {
+        joinGame.click();
+        clearInterval(intervalId2);
+      }
+      else {
+        joinGame.click();
+      }
+    }, 100);
+
+  clearInterval(intervalId);
+  }
+  else {
+  }
+}, 100);
+            
+let turn = true;
 
 ws.onmessage = message => {
-// I the client receive a message from the server !
-const response = JSON.parse(message.data);
+        // I the client receive a message from the server !
+        const response = JSON.parse(message.data);
 
-// A new connection to the server
-if ( response.method === "connect" ) {
-    clientId = response.clientId;
-    console.log("Client ID : ", clientId, " set successfully !");
-    numberOfCreatedGames = Object.keys(response.games).length;
-    console.log("The number of created games is : ", numberOfCreatedGames);
+        // A new connection to the server
+        if ( response.method === "connect" ) {
+            clientId = response.clientId;
+            console.log("Welcome Client ID : ", clientId, " !!");
+        }
+
+        // create a new game
+        if ( response.method === "createGame" ) {
+          gameId = response.game.id;
+          // console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
+          // itearte over the clients array and check if it has two clients : the one with clientId from clientId goes to opponent
+          let c = response.clients;
+          // console.log("clients array : ", c);
+          for (let i = 0; i < c.length; i++) {
+            if ( c[i].clientId !== clientId ) {
+                opponent = c[i].clientId;
+                // console.log("OPOPOP is : ", opponent);
+                break;
+            }
+          }
+        }
+
+        // join a game
+        if ( response.method === "joinGame" ) {
+          clientColor = null;
+          let c = response.clients;
+          for (let i = 0; i < c.length; i++) {
+            if ( c[i].clientId === clientId ) {
+                clientColor = c[i].color;
+                break;
+            }
+          }
+          
+          boardGame.addEventListener("click", function(event) {
+            let target = event.target;
+            if (target.classList.contains("tile")) {
+  
+                let coords = target.id.split("-");
+                let row = parseInt(coords[0]);
+                let column = parseInt(coords[1]);
+                let adjustedCoords = adjustCoordinates(row, column);
+  
+                row = adjustedCoords[0];
+                column = adjustedCoords[1];
+  
+                const payLoad = {
+                    "method": "play",
+                    "clientId": clientId,
+                    "gameId": response.game.id,
+                    "row": row,
+                    "column": column,
+                    "color": clientColor
+                }
+                ws.send(JSON.stringify(payLoad));
+              }
+            });
+
+          console.log("ROOM Number : ", gameId);
+        }
+
+        setInterval(function() {
+          for (const messageKey in chatHistory) {
+            console.log(chatHistory[messageKey]);
+          }
+        }, 3000);
+
+        // upadate the game state
+        if ( response.method === "updateGameState" ) {
+          
+          // console.log("MESSAGE : ", response.message, " | SENDER ", response.sender, " | KEY ", )
+          // Add this message to the chat history
+          if ( response.message ) {
+            chatHistory[response.messageKey] =  {
+              key : response.messageKey,
+              sender : response.sender,
+              message : response.message,
+              receiver: opponent
+            };
+          }
+
+          if ( response.winner ) {
+            // waits for 3 seconds before displaying the winner
+            setTimeout(() => {
+              // console.log("WINNER IS : ", response.winner);
+              if ( response.winner === clientId ) {
+                // console.log("You won !");
+                window.location.href = "winner.html";
+              }
+              else {
+                // console.log("You lost !");
+                window.location.href = "goodLuck.html";
+              }
+            }, 3000)
+          }
+
+          // create a code that waits 3 seconds before directing the user to the home page
+          if ( gameOver ) {
+            setTimeout(() => {
+            }, 3000);
+          }
+
+          if (!response.game.gameState) return;
+              const state = response.game.gameState;
+              for ( let i = 0; i < rows; i++ ) {
+                for ( let j = 0; j < columns; j++ ) {
+                  if ( state[i][j] != ' ' ) {
+                    fillTile(i, j, state[i][j]);
+                  }
+                }
+              }
+
+              let game = response.game;
+              game.clients.forEach(client => {
+                if (client.clientId !== clientId) {
+                    opponent = client.clientId;
+                }
+              });
+
+              const paylaod = {
+                "method": "updateGameState",
+                "text": chat,
+                "clientId": clientId,
+                "gameId": gameId,
+                "messageKey": lastMessageKey,
+              }
+
+              ws.send(JSON.stringify(paylaod));
+
+              // stop the game updating if the winer is found
+              if ( response.winner ) {
+                clearInterval(intervalId);
+              }
+
+        }
 }
 
-// create a new game
-if ( response.method === "createGame" ) {
-  gameId = response.game.id;
-  console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
+function storeText() {
+  chat = document.getElementById("input-text").value;
+  document.getElementById("text-display").textContent = chat;
+  lastMessageKey = generateId();
 }
 
-// join a game
-if ( response.method === "joinGame" ) {
-  clientColor = null;
-  let a = 0;
-  let c = response.clients;
-  for (let i = 0; i < c.length; i++) {
-    if ( c[i].clientId === clientId ) {
-        clientColor = c[i].color;
-        break;
+function generateId() {
+    let result = '';
+    const characters = 'XUV';
+    for (let i = 0; i < 3; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-  }
-  boardGame.addEventListener("click", function(event) {
-  let target = event.target;
-  if (target.classList.contains("tile")) {
-
-      let coords = target.id.split("-");
-      let row = parseInt(coords[0]);
-      let column = parseInt(coords[1]);
-      let adjustedCoords = adjustCoordinates(row, column);
-
-      row = adjustedCoords[0];
-      column = adjustedCoords[1];
-
-      const payLoad = {
-          "method": "play",
-          "clientId": clientId,
-          "gameId": response.game.id,
-          "row": row,
-          "column": column,
-          "color": clientColor
-      }
-      console.log("Board Matrix : ", boardMatrix);
-      ws.send(JSON.stringify(payLoad));
-    }
-  });
-  console.log("game succesfully joined with id : ", gameId + " | by client : " + clientId);
-}
-
-// upadate the game state
-if ( response.method === "updateGameState" ) {
-if (!response.game.gameState) return;
-let j = 1;
-const state = response.game.gameState;
-for ( let i = 0; i < rows; i++ ) {
-  for ( let j = 0; j < columns; j++ ) {
-    if ( state[i][j] != ' ' ) {
-      fillTile(i, j, state[i][j]);
-    }
-  }
-}
-}
-}
-
-generateDivs();
-
-function generateDivs() {
-var numDivs = numberOfCreatedGames;
-var divContainer = document.getElementById("divContainer");
-console.log("ROOOM: ", numDivs);
-for (var i = 1; i <= numDivs; i++) {
-var newDiv = document.createElement("div");
-newDiv.innerHTML = "Game ID : " + room[i].id;
-divContainer.appendChild(newDiv);
-}
+    return result + Math.floor(Math.random() * 1000);
 }

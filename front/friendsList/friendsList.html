@@ -10,6 +10,7 @@
 <body>
   <h1>Friend List</h1>
   <div id="saved-games">
+    
     <h2>Players</h2>
     
 
@@ -125,60 +126,4 @@ async function sendInvite(event) {
 </html>
 
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lookup</title>
-  <style>
-    .container {
-      width: 60%;
-      margin: 100px auto;
-    }
-    .input{
-      font-size: 25px;
-      width: 80%;
-    }
-    .suggestion{
-      font-size: 22px;
-      width: 60%;
-    }
-    .suggestion:hover{
-      background-color: cornflowerblue;
-      color: #ffff;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <input class="input" id="searchInput" type="text" placeholder="Search ..."/>
-    <div id="suggestions"></div>
-  </div>
-  <script>
-    const persons = [
-      {name: 'daniel',age: 37},
-      {name: 'danny',age: 37},
-      {name: 'bob',age: 37},
-      {name: 'mia', age: 37},
-      {name: 'DANNE',age: 37}
-    ];
 
-    const searchInput = document.getElementById('searchInput');
-
-    searchInput.addEventListener('keyup', function() {
-      const input = searchInput.value.toLowerCase();
-      const result = persons.filter(item => item.name.toLowerCase().includes(input));
-      let suggestion = '';
-
-      if(input !== '') {
-        result.forEach(resultItem => {
-          suggestion += `<div class="suggestion">${resultItem.name}</div>`;
-        });
-      }
-
-      document.getElementById('suggestions').innerHTML = suggestion;
-    });
-  </script>
-</body>
-</html> -->
