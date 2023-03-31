@@ -1,14 +1,20 @@
 const mongoDBConnection = require('../mongoConnection');
+const jwt = require('jsonwebtoken');
 
-function generate_token(length){
+
+function generate_token(values){
     //edit the token allowed characters
-    var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
-    var b = [];
-    for (var i=0; i<length; i++) {
-        var j = (Math.random() * (a.length-1)).toFixed(0);
-        b[i] = a[j];
-    }
-    return b.join("");
+    // var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".split("");
+    // var b = [];
+    // for (var i=0; i<length; i++) {
+    //     var j = (Math.random() * (a.length-1)).toFixed(0);
+    //     b[i] = a[j];
+    // }
+    // return b.join("");
+    //return a jwt token
+    return  jwt.sign(values, 'secret_key', { expiresIn: '1h' });
+
+
 }
 
 function manageRequest(request, response) {
@@ -23,9 +29,15 @@ function manageRequest(request, response) {
             const valueToInsert={username:values.username,
                 password:values.password,
                 email:values.email,
-                token:generate_token(32),
+                token:generate_token({ username: values.username }),
                 friends:[],
-                friendRequests:[]};
+                friendRequests:[],
+                score:0,
+                Wins:0,
+                Loses:0,
+                Draws:0
+
+            };
             const valueToCheck={username:values.username,
                 password:values.password,
                 }
