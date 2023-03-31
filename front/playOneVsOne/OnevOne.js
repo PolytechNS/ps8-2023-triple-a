@@ -399,7 +399,6 @@ let gameId = null;
 let clientColor = null;
 let chat = null;
 let opponent = null;
-let lastMessageKey = null;
 let canClick = false;
 let yourTurn = false;
 
@@ -411,10 +410,8 @@ let ws = new WebSocket('ws://' + localHostOrUrl + ':9090');
 
 const newGame = document.getElementById('newGame');
 const joinGame = document.getElementById('joinGame');
-const textGameId = document.getElementById('textGameId');
 
 joinGame.style.display = "none";
-textGameId.style.display = "none";
 
 // wiring events
 joinGame.addEventListener('click', () => {
@@ -521,6 +518,7 @@ ws.onmessage = message => {
 
         // join a game
         if ( response.method === "joinGame" ) {
+
           clientColor = null;
           let c = response.clients;
           for (let i = 0; i < c.length; i++) {
@@ -557,11 +555,15 @@ ws.onmessage = message => {
           console.log("ROOM Number : ", gameId);
         }
 
-        setInterval(function() {
-          for (const messageKey in chatHistory) {
-            console.log(chatHistory[messageKey]);
-          }
-        }, 3000);
+        for (const messageKey in chatHistory) {
+          console.log(chatHistory[messageKey]);
+        }
+
+        // Receive a message from the opponent
+        if ( response.method === "chat" ) {
+          console.log("MESSAGE From the opponent : ", response.text);
+          addMessage("Opponent :", response.text);
+        }
 
         // upadate the game state
         if ( response.method === "updateGameState" ) {
@@ -620,7 +622,6 @@ ws.onmessage = message => {
                 "text": chat,
                 "clientId": clientId,
                 "gameId": gameId,
-                "messageKey": lastMessageKey,
               }
 
               ws.send(JSON.stringify(paylaod));
@@ -634,9 +635,17 @@ ws.onmessage = message => {
 }
 
 function storeText() {
-  chat = document.getElementById("input-text").value;
-  document.getElementById("text-display").textContent = chat;
-  lastMessageKey = generateId();
+  let YOYO = document.getElementById("input-text").value;
+  document.getElementById("text-display").textContent = YOYO;
+  
+  const paylaod = {
+    "method": "chat",
+    "text": YOYO,
+    "clientId": clientId,
+    "gameId": gameId,
+  }
+
+  ws.send(JSON.stringify(paylaod));
 }
 
 function generateId() {
@@ -646,4 +655,37 @@ function generateId() {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result + Math.floor(Math.random() * 1000);
+}
+
+var messages = document.getElementById("messages");
+var messageInput = document.getElementById("messageInput");
+var sendButton = document.getElementById("sendButton");
+
+sendButton.addEventListener("click", function () {
+
+    // Display the message locally
+    var messageText = messageInput.value;
+    if (messageText.trim() !== "") {
+        addMessage("You", messageText);
+        messageInput.value = "";
+    }
+
+    // Send the message to the server
+    const paylaod = {
+      "method": "chat",
+      "text": messageText,
+      "clientId": clientId,
+      "gameId": gameId,
+    }
+
+    ws.send(JSON.stringify(paylaod));
+
+});
+
+function addMessage(user, message) {
+    var li = document.createElement("li");
+    li.className = "chat-message";
+    li.innerHTML =
+        '<span class="user" id="user">' + user + ':</span><span class="message">' + message + "</span>";
+    messages.appendChild(li);
 }
