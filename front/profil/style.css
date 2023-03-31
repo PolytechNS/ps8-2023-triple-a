@@ -1,8 +1,16 @@
 body {
     background-color: #dfe9f5;
   }
+
+.container {
+    display : flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-flow: column wrap;
+}
   
   .back {
+    flex : 1;
     width: 600px;
     text-align: center;
     height: auto;
@@ -16,6 +24,7 @@ body {
     background-color: #fafafa;
     margin-left: auto;
     margin-right: auto;
+    flex-direction: column;
   }
   
   .button {

@@ -7,20 +7,33 @@
     <script  src="profil.js"></script>
   </head>
   <body>
-    <div class="back">
+      
+    <div class="container">
+      <div class="back">
+        <script>
+          const username = localStorage.getItem('username');
+          const usernameElement = document.getElementById("username");
+          usernameElement.innerHTML = username;
+          console.log(username);
+        </script>
+        <h1>Bienvenue sur votre profil <span id="username"></span> !</h1>
+        <h1>ajouter/voir mes amis : </h1>
+        <button class="button" onclick="window.location.href='/friendsList/friendsList.html'">Voir mes amis</button>
 
-      <h1>Bienvenue sur votre profil <span id="username"></span> !</h1>
 
-      <script>
-        const username = localStorage.getItem('username');
-        const usernameElement = document.getElementById("username");
-        usernameElement.innerHTML = username;
-      </script>
+        
 
-      <button onclick="getUsername(event)">Cliquez ici</button>
+        <!-- <button onclick="getUsername(event)">Cliquez ici</button> -->
 
-      <a href="/friendsList/friendsList.html" class="button">Voir mes amis</a>
+        
 
+      </div>
+      <div class="back">
+        <h1>Historique</h1>
+      </div>
+      <div class="back">
+        <h1>Score : </h1>
+      </div>
     </div>
   </body>
 </html>

@@ -9,17 +9,17 @@
 
 <body>
   <h1>Friend List</h1>
-  <div id="saved-games">
+  <!-- <div id="saved-games">
     
     <h2>Players</h2>
     
 
 
     <ul id="players-list"></ul>
-  </div>
+  </div> -->
   <div class="container">
     <input class="input" id="searchInput" type="text" placeholder="Search ..."/>
-    <div id="suggestions"></div>
+    <div id="suggestions" class="suggestions"></div>
     <script>
       async function getPlayers2() {
     console.log('loading players');
@@ -114,6 +114,14 @@ async function sendInvite(event) {
     <ul id="friend-ul">
     </ul>
   </div>
+<body>
+  <div id="saved-games2">
+    <h2>friend Requests</h2>
+
+
+    <ul id="players-list"></ul>
+  </div>
+</body>
 
   <head>
     <meta charset="UTF-8">

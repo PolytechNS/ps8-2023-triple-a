@@ -1,129 +1,23 @@
-
-<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Navbar</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 <header>
-    <div class="header-component">
-        <div class="left-elements">
-            <p class="icon">Facebook</p>
-            
-            <div class="form-container">
-                <input class="input" id="searchInput" type="text" placeholder="Search ..."/>
-                
-                <script>
-                    const localHost = 'localhost';
-
-                  async function getPlayers2() {
-                console.log('loading players');
-                const token = localStorage.getItem('token').toString();
-            
-                const response = await fetch('http://' + localHost + ':8000/api/game/user', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ token })
-                });
-            
-                if (response.ok) {
-                    const players = await response.json();
-                    console.log("players : ", players);
-                    const playerList = [];
-            
-                    for (let i = 0; i < players.length; i++) {
-                        const player = players[i];
-                        playerList.push(player);
-                    }
-                    console.log("playerList : ", playerList)
-            
-                    return playerList;
-                } else {
-                    console.log('Failed to retrieve players');
-                    return [];
-                }
-            }
-            async function sendInvite(event) {
-                event.preventDefault();
-            
-                const playerId = event.target.getAttribute('data-player');
-                const name = localStorage.getItem('username');
-                const token = localStorage.getItem('token');
-                console.log("player name : ", name);
-                console.log("this is the player id : ", playerId);
-            
-                const response = await fetch('http://' + localHost + ':8000/api/friend/request/${playerId}/${name}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        _id: playerId,
-                        username: name,
-                        token: token
-                    })
-            
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log("data : ", data);
-            
-            
-                    event.target.parentElement.remove();
-                    if (data.error) {
-                        alert(data.error);
-                    } else {
-                        alert("send request successfully");
-                    }
-                }
-            }
-                  async function loadPlayers() {
-                      const persons =await getPlayers2();
-            
-                const searchInput = document.getElementById('searchInput');
-            
-                searchInput.addEventListener('keyup', function() {
-                  const input = searchInput.value.toLowerCase();
-                  const result = persons.filter(item => item.username && item.username.toLowerCase().includes(input));
-                  let suggestion = '';
-            
-                  if(input !== '') {
-                    result.forEach(resultItem => {
-                      //suggestion += `<div class="suggestion">${resultItem.username}</div>`;
-                      suggestion +=`<button  data-player="${resultItem._id}" class="game-button">${resultItem.username}</button>`;
-                      console.log("suggestion : ", suggestion);
-                    });
-                  }
-            
-                  document.getElementById('suggestions').innerHTML = suggestion;
-                  document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click',  sendInvite));
-                });
-              }
-              loadPlayers();
-                </script>
-              </div>
-        </div>
-        <div class="right-elements">
-            <ul>
-                <li><a href="#">Basit</a></li>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">
-                    <i class="fas fa-users"></i>
-                </a></li>
-                <li><a href="#">
-                    <i class="fab fa-facebook-messenger"></i>
-                </a></li>
-                <li><a href="#">
-                    <i class="fas fa-globe"></i>
-                </a></li>
-                <li><a href="#">|</a></li>
-                <li><a href="#">
-                    <i class="fas fa-question-circle"></i>
-                </a></li>
-                <li><a href="#">
-                    <i class="fas fa-caret-down"></i>
-                </a></li>
-            </ul>
-        </div>
-    </div>
-    
+<img class="logo" src="images/logo.svg" alt="logo">
+<nav>
+<ul class="nav_links">
+<li><a href="#">Profil</a></li>
+<li><a href="#">Friends</a></li>
+<li><a href="#">Invitations</a></li>
+</ul>
+</nav>
+<a class="cta" href="#"><button>Contact</button></a>
 </header>
-<div class="suggestions" id="suggestions"></div>
+</body> 
+</html>
