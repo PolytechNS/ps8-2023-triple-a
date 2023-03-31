@@ -137,6 +137,26 @@ wsServer.on("request", request => {
             // console.log("Game ID : " + gameId + " has " + games[gameId].clients.length + " clients");
         }
 
+        // recuve YOYO from the client
+        if (result.method === "chat") {
+            const clientId = result.clientId;
+            const gameId = result.gameId;
+            const message = result.text;
+
+            // Send this message to the other client
+            const game = games[gameId];
+            const otherClient = game.clients.find(c => c.clientId !== clientId);
+            const con = clients[otherClient.clientId].connection;
+
+            const payLoad = {
+                "method": "chat",
+                "text": message,
+                "clientId": clientId,
+                "gameId": gameId,
+            }
+            con.send(JSON.stringify(payLoad));
+        }
+        
         // A client want to join a game
         if ( result.method === "joinGame" ) {
             const clientId = result.clientId;
