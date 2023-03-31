@@ -91,11 +91,16 @@ async function sendInvite(event) {
 
     searchInput.addEventListener('keyup', function() {
       const input = searchInput.value.toLowerCase();
+
       const result = persons.filter(item => item.username && item.username.toLowerCase().includes(input));
       let suggestion = '';
 
       if(input !== '') {
         result.forEach(resultItem => {
+          //dont show yourself in the list
+            if(resultItem.username === localStorage.getItem('username')) {
+                return;
+            }
           //suggestion += `<div class="suggestion">${resultItem.username}</div>`;
           suggestion +=`<button  data-player="${resultItem._id}" class="game-button">${resultItem.username}</button>`;
           console.log("suggestion : ", suggestion);
@@ -119,7 +124,7 @@ async function sendInvite(event) {
     <h2>friend Requests</h2>
 
 
-    <ul id="players-list"></ul>
+    <ul id="requests-list"></ul>
   </div>
 </body>
 

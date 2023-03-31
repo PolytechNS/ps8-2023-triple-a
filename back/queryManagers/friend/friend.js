@@ -88,7 +88,7 @@ async function manageRequest(request, response) {
                     }
                 };
                 const updateFriendsListForPlayer = {
-                    $push: {
+                    $addToSet: {
                         friends :{  name : currentUser.userNameToBeAdded,
                                     token : currentUser.requestToken }
 
@@ -96,7 +96,7 @@ async function manageRequest(request, response) {
                     }
                 }
                 const updateFriendsListForRequester = {
-                    $push: {
+                    $addToSet: {
                         friends :{  name : currentUser.thisUsername,
                                     token : currentUser.playerToken }
 

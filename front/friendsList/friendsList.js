@@ -238,7 +238,7 @@ async function getFriendRequests() {
     });
     if (response.ok) {
         const players = await response.json();
-        const playerList = document.getElementById('players-list');
+        const playerList = document.getElementById('requests-list');
         playerList.innerHTML = '';
         if (players.length === 0) {
             playerList.innerHTML = '<li>You have 0 friend request.</li>';
