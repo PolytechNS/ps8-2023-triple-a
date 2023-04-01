@@ -1,3 +1,4 @@
+const { response } = require("express");
 const http = require("http");
 const app = require("express")();
 
@@ -14,6 +15,8 @@ const clients = { }
 // Hashmap to store all the created games
 let games = { }
 let referee = { }
+let tokenAndClientId = {}
+
 
 var playerRed = "RED";
 var playerYellow = "YELLOW";
@@ -54,6 +57,7 @@ function updateAvailableRooms() {
     }
 }
 
+
 wsServer.on("request", request => {
     // Connect event : When a client connects to the server
     const connection = request.accept(null, request.origin);
@@ -91,6 +95,17 @@ wsServer.on("request", request => {
         const result = JSON.parse(message.utf8Data);
         // I, the server, have received a message from the client
         // A user wants to create a new game
+
+        if ( result.method === "connect" ) {
+            // Check if tokenAndClientId contains already the token
+            if ( !tokenAndClientId[result.token] ) {
+                let clientId = result.oldClientId;
+                console.log("Ancien server ID : " + clientId);
+                console.log("Token : " + result.token);
+                tokenAndClientId[clientId] = result.token;
+            }
+        }
+
         if (result.method === "createGame") {
             const clientId = result.clientId;
             let gameId = null;
@@ -191,7 +206,7 @@ wsServer.on("request", request => {
             // console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
             // console.log("");
 
-            games[gameId] =  {
+            games[gameId] =  { 
                 "id": gameId,
                 "gameState": games[gameId].gameState,
                 "clients": games[gameId].clients,
@@ -231,7 +246,7 @@ wsServer.on("request", request => {
                 clients[client.clientId].connection.send(JSON.stringify(payLoad));
             });
         }
-
+ 
         // A client wants to play 
         if (result.method === "play") {
             // check if the client's turn is true
@@ -241,7 +256,7 @@ wsServer.on("request", request => {
                 const column = result.column;
                 const color = result.color;
                 const clientId = result.clientId;
-                let oldState = games[gameId].gameState;
+                let oldState = games[gameId].gameState; 
                 if ( !oldState ) oldState = emptyBoard();
                 // Update the game State
                 oldState[row][column] = color;
@@ -271,25 +286,16 @@ wsServer.on("request", request => {
             let client = result.clientId;
             let message = result.text;
             let idMessage = result.messageKey;
-            // display the message each 3 seconds
-            sender = client;
-            chatMessage = message;
-            lastMessageKey = idMessage;
-            // if ( message != null && a == false ) {
-            //     console.log("Message : ", chatMessage, " Key :",  lastMessageKey, " Sender :", client);
-            //     a = true;
-            // }
         }
+
     });
 
-    // Generate a new clientID
-    const clientId = generateId();
+    console.log("hh", tokenAndClientId);
+    let clientId = generateId();
     clients[clientId] = {
         "connection": connection
     }
     console.log(" -> A New client with ID : " + clientId + " has been connected !");
-
-    // Send back this info to the client
     const payLoad = {
         "method": "connect",
         "clientId": clientId,
@@ -297,12 +303,9 @@ wsServer.on("request", request => {
     };
 
     connection.send(JSON.stringify(payLoad));
+    
 });
 
-let sender = null;
-let chatMessage = null;
-let lastMessageKey = null;
-let noPrint = true;
 
 function updateGameState() {
     for (const g of Object.keys(games)) {
@@ -368,6 +371,7 @@ function updateGameState() {
 
         if ( winner != null ) {
             console.log("The winner is : ", winner);
+            console.log("Moul token : ", tokenAndClientId[winner]);
             // Reset the game state
             // Reset the referee
             for (const client of game.clients) {
@@ -378,9 +382,6 @@ function updateGameState() {
         const payLoad = {
             "method": "updateGameState",
             "game": game,
-            "sender": sender,
-            "message": chatMessage,
-            "messageKey": lastMessageKey,
             "winner": winner,
         }
 

@@ -41,6 +41,8 @@ window.onload = function() {
   setBoard();
 }
 
+let chatBox = document.getElementById("chat-box");
+
 function setBoard() {
   boardGame = document.getElementById("board");
   boardMatrix = [];
@@ -417,7 +419,7 @@ joinGame.style.display = "none";
 joinGame.addEventListener('click', () => {
 
     if ( gameId === null ) {
-    gameId = textGameId.value;
+      console.error("No game id found");
     }
 
     const payLoad = {
@@ -456,6 +458,7 @@ newGame.addEventListener('click', () => {
       setTimeout(() => {
           countdown.style.display = "none";
           board.style.visibility = "visible";
+          chatBox.style.display = "block";
       }, 3000);
 
       clearInterval(opponentInterval);
@@ -498,6 +501,15 @@ ws.onmessage = message => {
         if ( response.method === "connect" ) {
             clientId = response.clientId;
             console.log("Welcome Client ID : ", clientId, " !!");
+            const payLoad = {
+              "method": "connect",
+              "token": localStorage.token,
+              "oldClientId": clientId,
+              "username": localStorage.getItem("username")
+            }
+            // console.log("I sent payload ,", payLoad)
+            // send it to the server
+            ws.send(JSON.stringify(payLoad));
         }
 
         // create a new game
@@ -555,10 +567,6 @@ ws.onmessage = message => {
           console.log("ROOM Number : ", gameId);
         }
 
-        for (const messageKey in chatHistory) {
-          console.log(chatHistory[messageKey]);
-        }
-
         // Receive a message from the opponent
         if ( response.method === "chat" ) {
           console.log("MESSAGE From the opponent : ", response.text);
@@ -567,17 +575,6 @@ ws.onmessage = message => {
 
         // upadate the game state
         if ( response.method === "updateGameState" ) {
-          
-          // console.log("MESSAGE : ", response.message, " | SENDER ", response.sender, " | KEY ", )
-          // Add this message to the chat history
-          if ( response.message ) {
-            chatHistory[response.messageKey] =  {
-              key : response.messageKey,
-              sender : response.sender,
-              message : response.message,
-              receiver: opponent
-            };
-          }
 
           if ( response.winner ) {
             // waits for 3 seconds before displaying the winner
@@ -637,7 +634,7 @@ ws.onmessage = message => {
 function storeText() {
   let YOYO = document.getElementById("input-text").value;
   document.getElementById("text-display").textContent = YOYO;
-  
+
   const paylaod = {
     "method": "chat",
     "text": YOYO,
@@ -689,3 +686,22 @@ function addMessage(user, message) {
         '<span class="user" id="user">' + user + ':</span><span class="message">' + message + "</span>";
     messages.appendChild(li);
 }
+
+let iii = 0;
+const mySpan = document.getElementById("toggle-button");
+mySpan.addEventListener("click", function() {
+  let body = document.getElementsByTagName("body")[0];
+  if ( iii == 0 ) {
+    body.style.backgroundImage = "url('../images/137980.jpg')";
+    iii = 1;
+  }
+  else {
+    body.style.backgroundImage = "url('../images/sky-background.jpg')";
+    iii = 0;
+  }
+});
+
+
+const toggleSwitch = document.getElementById("toggle");
+
+toggleSwitch.addEventListener("click", changeBackground);

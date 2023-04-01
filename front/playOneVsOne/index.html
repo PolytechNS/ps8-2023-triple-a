@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
     <link rel="stylesheet" href="style.css">
 
-    <!-- <script src="OnevOne.js"></script> -->
-
   </head>
 
   <body>
@@ -37,11 +35,36 @@
     <button onclick="storeText()">Enregistrer</button>
     <p>Le texte enregistré est : <span id="text-display"></span></p> -->
 
-    
     <div id="content">
+
+      <div class="switch-mode">
+        <div class="wrapper">
+          <input type="checkbox" id="hide-checkbox">
+          <label for="hide-checkbox" class="toggle" id="toggle">
+            <span class="toggle-button" id="toggle-button">
+              <span class="crater crater-1"></span>
+              <span class="crater crater-2"></span>
+              <span class="crater crater-3"></span>   
+              <span class="crater crater-4"></span>
+              <span class="crater crater-5"></span>
+              <span class="crater crater-6"></span>
+              <span class="crater crater-7"></span>
+            </span>
+            <span class="star star-1"></span>
+            <span class="star star-2"></span>
+            <span class="star star-3"></span>
+            <span class="star star-4"></span>
+            <span class="star star-5"></span>
+            <span class="star star-6"></span>
+            <span class="star star-7"></span>
+            <span class="star star-8"></span>
+          </label>
+        </div>
+      </div>      
+
       <div id="board"></div>
 
-      <div class="chat-box">
+      <div class="chat-box" id="chat-box" style="display: none;">
         <div class="chat-messages">
           <ul id="messages"></ul>
         </div>
@@ -53,6 +76,7 @@
 
     </div>
 
+    
     <script src="OnevOne.js"></script>
   </body>
 
