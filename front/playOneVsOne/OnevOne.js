@@ -23,7 +23,7 @@ var columns = 7;
 
 const localHost = 'localhost';
 const url = '15.236.164.81';
-let localHostOrUrl;
+let localHostOrUrl = url;
 
 function chooselocalHostOrUrl(l) {
 if ( l == 2 ) {
