@@ -1,39 +1,85 @@
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <title>Profil de l'utilisateur</title>
     <link rel="stylesheet" href="style.css" />
-    <script  src="profil.js"></script>
+    <script src="profil.js">
+      
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
   </head>
   <body>
-      
     <div class="container">
       <div class="back">
-        <script>
-          const username = localStorage.getItem('username');
-          const usernameElement = document.getElementById("username");
-          usernameElement.innerHTML = username;
-          console.log(username);
-        </script>
-        <h1>Bienvenue sur votre profil <span id="username"></span> !</h1>
-        <h1>ajouter/voir mes amis : </h1>
-        <button class="button" onclick="window.location.href='/friendsList/friendsList.html'">Voir mes amis</button>
-
-
-        
-
-        <!-- <button onclick="getUsername(event)">Cliquez ici</button> -->
-
-        
-
-      </div>
-      <div class="back">
-        <h1>Historique</h1>
-      </div>
-      <div class="back">
-        <h1>Score : </h1>
+        <h1 class="title">Bienvenue sur votre profil <span id="username"></span> !</h1>
+        <h2 class="addFriends">Add/See friends:</h2>
+        <button class="button" onclick="window.location.href='/friendsList/friendsList.html'">
+          Voir mes amis
+        </button>
+        <h2>Rank:</h2>
+        <div id="recompense"></div>
+        <h2>Stats</h2>
+        <p>Score: <span id="score"></span></p>
+        <p>Wins: <span id="wins"></span></p>
+        <p>Losses: <span id="losses"></span></p>
+        <p>Win Rate: <span id="winrate"></span></p>
       </div>
     </div>
-  </body>
+    <script>
+  async function getData(event) {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    const response = await fetch(`http://${localHost}:8000/api/online/data/${token}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: token }),
+    });
+
+    if (response.status === 200) {
+      const data = await response.json();
+      console.log(data);
+      console.log("the user name is :", data.data.username);
+      document.getElementById("username").innerText = data.data.username;
+      document.getElementById("score").innerText = data.data.score;
+      document.getElementById("wins").innerText = data.data.wins;
+      document.getElementById("losses").innerText = data.data.totalGames - data.data.wins;
+      document.getElementById("winrate").innerText = `${(
+        (data.data.wins / data.data.totalGames) *
+        100
+      ).toFixed(2)}%`;
+
+      const recompense = document.getElementById("recompense");
+      const scoreText = document.getElementById("score").innerText;
+      const scoreNumber = parseInt(scoreText);
+
+      if (scoreNumber > 200) {
+        const img = document.createElement("img");
+        img.src = "gold-removebg-preview.png";
+        img.alt = "Médaille d'or";
+        recompense.appendChild(img);
+      } else if (scoreNumber >= 100 && scoreNumber <= 200) {
+        const img = document.createElement("img");
+        img.src = "silver-removebg-preview.png";
+        img.alt = "Médaille d'argent";
+        recompense.appendChild(img);
+      } else if (scoreNumber < 100 && scoreNumber>0) {
+        const img = document.createElement("img");
+        img.src = "bronze-removebg-preview.png";
+        img.alt = "Médaille de bronze";
+        recompense.appendChild(img);
+      }
+    } else {
+      console.log("Error");
+    }
+  }
+
+  window.addEventListener("load", getData);
+</script>
+</body>
 </html>

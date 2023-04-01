@@ -60,6 +60,34 @@ async function manageRequest(request, response) {
                 }
             });
         }
+        if(filePath[3] === "data"){
+            request.on('end', async function () {
+                const data = JSON.parse(body);
+                try {
+                    console.log("before connecting to mongo")
+                    await client.connect();
+                    console.log('Connected to MongoDB in gamification process');
+                    const db = client.db('connect4');
+                    const collection = db.collection('log');
+
+                    const current = await collection.findOne({token : data.token});
+                    if(current){
+                        response.writeHead(200, {'Content-Type': 'application/json'});
+                        response.end(JSON.stringify({status: 'success', data: current}));
+                    }
+                    else {
+                    console.log('Something went wrong in the GAMIFICATION update..');
+
+                    }
+
+               
+            
+        } catch (err) {
+            console.error('Failed to connect to db', err);
+        }
+    });
+        }
+
         if(filePath[3] === "updateScore"){
             request.on('end', async function () {
                 const data = JSON.parse(body);
