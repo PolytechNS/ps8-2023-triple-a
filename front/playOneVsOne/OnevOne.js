@@ -576,26 +576,27 @@ ws.onmessage = message => {
         // upadate the game state
         if ( response.method === "updateGameState" ) {
 
+
           if ( response.winner ) {
+
             // waits for 3 seconds before displaying the winner
             setTimeout(() => {
               // console.log("WINNER IS : ", response.winner);
               if ( response.winner === clientId ) {
-                // console.log("You won !");
-                window.location.href = "winner.html";
+                  //log the winner token and username from the payload
+                  console.log("You won token : ",response.winnerToken);
+                  console.log("You Lost username : ",response.loserToken);
+                  updateScore(response.winnerToken, response.loserToken).then(r => console.log("updated score",r));
+                  window.location.href = "winner.html";
+
               }
               else {
                 // console.log("You lost !");
                 window.location.href = "goodLuck.html";
               }
-            }, 3000)
+            }, 1000)
           }
 
-          // create a code that waits 3 seconds before directing the user to the home page
-          if ( gameOver ) {
-            setTimeout(() => {
-            }, 3000);
-          }
 
           if (!response.game.gameState) return;
               const state = response.game.gameState;
@@ -629,7 +630,30 @@ ws.onmessage = message => {
               }
 
         }
+
 }
+
+async function updateScore(winner,loser){
+    const response = await fetch('http://localhost:8000/api/online/updateScore/%{winner}/%{loser}', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+        winner: winner,
+        loser: loser
+        })
+    });
+    const data = await response.json();
+    console.log(data);
+    if(response.ok){
+        console.log('score updated');
+    }
+    else{
+        console.log('score not updated');
+    }
+}
+
 
 function storeText() {
   let YOYO = document.getElementById("input-text").value;

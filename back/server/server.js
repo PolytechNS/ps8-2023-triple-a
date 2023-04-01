@@ -2,7 +2,6 @@ const { response } = require("express");
 const http = require("http");
 const app = require("express")();
 
-const gamification = require("../gamification/gamification");
 
 const filePath =  require("path").join(__dirname, '..' , '..' , 'front' , 'playOneVsOne' , 'index.html');
 app.get("/", (req, res) => res.sendFile(filePath));
@@ -390,8 +389,8 @@ function updateGameState() {
                         loser = client.clientId;
                     }
                 }
-                gamification.updateScore(tokenAndClientId[winner], tokenAndClientId[loser])
-                            .then(() => console.log("Score updated !"));
+                // gamification.updateScore(tokenAndClientId[winner], tokenAndClientId[loser])
+                //             .then(() => console.log("Score updated !"));
 
                 // Reset the game state
                 // Reset the referee
@@ -402,11 +401,21 @@ function updateGameState() {
                 games[g].over = true;
             }
 
+            //get the loser token
+            let loser = null;
+            for (const client of game.clients) {
+                if ( client.clientId !== winner ) {
+                    loser = client.clientId;
+                }
+
+            }
             const payLoad = {
                 "method": "updateGameState",
+                "winnerToken": tokenAndClientId[winner],
+                "loserToken": tokenAndClientId[loser],
                 "game": game,
                 "winner": winner,
-            } 
+            }
 
             game.clients.forEach(client => {
                 clients[client.clientId].connection.send(JSON.stringify(payLoad))
