@@ -2,6 +2,8 @@ const { response } = require("express");
 const http = require("http");
 const app = require("express")();
 
+const gamification = require("../gamification/gamification");
+
 const filePath =  require("path").join(__dirname, '..' , '..' , 'front' , 'playOneVsOne' , 'index.html');
 app.get("/", (req, res) => res.sendFile(filePath));
 
@@ -372,6 +374,15 @@ function updateGameState() {
         if ( winner != null ) {
             console.log("The winner is : ", winner);
             console.log("Moul token : ", tokenAndClientId[winner]);
+            //retreive the token of the loser
+            let loser = null;
+            for (const client of game.clients) {
+                if ( client.clientId !== winner ) {
+                    loser = client.clientId;
+                }
+            }
+            gamification.updateScore(tokenAndClientId[winner], tokenAndClientId[loser]).then(r => console.log("Score updated !"));
+
             // Reset the game state
             // Reset the referee
             for (const client of game.clients) {

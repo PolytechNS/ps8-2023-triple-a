@@ -32,10 +32,11 @@ function manageRequest(request, response) {
                 token:generate_token({ username: values.username }),
                 friends:[],
                 friendRequests:[],
+                totalGames:0,
                 score:0,
-                Wins:0,
-                Loses:0,
-                Draws:0
+                wins:0,
+                loses:0,
+                draws:0
 
             };
             const valueToCheck={username:values.username,
