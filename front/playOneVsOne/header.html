@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>header</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            overflow: hidden;
+            /* background-image: "../images/blue-sky.jpg"; */
+            /* opacity: 0.4; */
+        }
+
+        /* body #logo{
+            height: 100vh;
+            opacity: 0.4;
+        } */
+
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            background-image: url("../images/Board-image.jpg");
+            color: antiquewhite;
+            position: absolute;
+            top: 0%;
+            width: 100%;
+        }
+
+        .left{
+            width: 30%;
+            background: rgb(114, 231, 225);
+            padding: 0px 20px;
+            display: flex;
+            border-top-right-radius: 20px;
+            justify-content: space-around;
+        }
+
+        .left a{
+            padding: 5px 10px;
+            text-decoration: none;
+            color: rgb(0, 26, 255);
+            font-size: 20px;
+            border-top-right-radius: 20px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .middle img{
+            width: 167px;
+            height: 167px;
+            z-index: 1;
+        }
+
+        .right{
+            width: 30%;
+            background: rgb(114, 231, 225);
+            padding: 0px 20px;
+            display: flex;
+            border-top-left-radius: 20px;
+            justify-content: space-around;
+        }
+
+        .right a{
+            padding: 5px 10px;
+            text-decoration: none;
+            color: rgb(0, 26, 255);
+            font-size: 20px;
+            border-top-left-radius: 20px;
+            font-family: 'Cinzel', serif;
+        }
+
+        a{
+            transition: 0.2 linear;
+        }
+
+        a:hover{
+            background-color: #ffffff;
+            color: #1900ff;
+
+        }
+
+        #line{
+            width: 20px;
+            height: 1px;
+            background-color: #7f52cc;
+            position: absolute;
+            left: 0%;
+            top: 60px;
+            transform: skew(15deg);
+            animation: moveLine 2s linear infinite alternate-reverse;
+        }
+
+        #line2{
+            width: 20px;
+            height: 1px;
+            background-color: #7f52cc;
+            position: absolute;
+            right: 0%;
+            top: 60px;
+            transform: skew(15deg);
+            animation: moveLine 2s linear infinite alternate-reverse;
+        }
+
+        @keyframes moveLine{
+            0%{
+                width: 0%;
+            }
+            100%{
+                width: 50%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <section class="left">
+            <a href="#">home</a>
+            <a href="#">about</a>
+            <a href="#">contact</a>
+        </section>
+        <section class="middle"></section>
+            <img src="../images/small-logo.png" alt="" width="20%">
+        <section class="right">
+            <a href="#">Blogs</a>
+            <a href="#">Login</a>
+            <a href="#">Sign Up</a>
+        </section>
+        <div id="line"></div>
+        <div id="line2"></div>
+    </div>
+</body>
+</html>

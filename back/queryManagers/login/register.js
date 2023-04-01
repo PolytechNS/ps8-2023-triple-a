@@ -37,15 +37,15 @@ function manageRequest(request, response) {
                 wins:0,
                 loses:0,
                 draws:0
-
             };
-            const valueToCheck={username:values.username,
+            const valueToCheck = {
+                username:values.username,
                 password:values.password,
                 }
             mongoDBConnection.createInDataBase(response,valueToInsert,"log",valueToCheck);
         });
     }
-    else{
+    else {
         response.statusCode = 400;
         response.end("Something in your request (${request.url}) is strange...");
     }

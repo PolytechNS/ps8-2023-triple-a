@@ -18,6 +18,7 @@ const clients = { }
 let games = { }
 let referee = { }
 let tokenAndClientId = {}
+let usernameAndClientId = {}
 
 
 var playerRed = "RED";
@@ -54,9 +55,6 @@ function updateAvailableRooms() {
         else {
         }
     }
-    for (const g of Object.keys(availableGames)) {
-        // console.log("Game ID : " + availableGames[g].gameId + " available to join !!");
-    }
 }
 
 
@@ -68,11 +66,12 @@ wsServer.on("request", request => {
     
     connection.on("close", () => {
         // Display the number of clients connected to the server
-        console.log("Number of clients connected to the server : " + Object.keys(clients).length);
-        console.log("Closed");
+        console.log(" -> ", usernameAndClientId[clientId], " has been disconnected !!");
         // Remove the client from the clients hashmap
         delete clients[clientId];
-        console.log("Number of clients connected to the server : " + Object.keys(clients).length);
+        console.log(" ");
+        console.log("▲ Number of Online clients : " + Object.keys(clients).length);
+        console.log(" ");
     
         // Remove client from all games they are connected to
         for (const gameId of Object.keys(games)) {
@@ -81,10 +80,10 @@ wsServer.on("request", request => {
             if (index >= 0) {
                 // Remove client from the game
                 game.clients.splice(index, 1);
-                console.log(`Client ${clientId} removed from game ${gameId}`);
+                // console.log(`Client ${clientId} removed from game ${gameId}`);
                 // If game has no clients left, remove it from the games object
                 if (game.clients.length === 0) {
-                    console.log(`Game ${gameId} has no clients left, removing from games`);
+                    // console.log(`Game ${gameId} has no clients left, removing from games`);
                     delete games[gameId];
                 }
             }
@@ -102,9 +101,9 @@ wsServer.on("request", request => {
             // Check if tokenAndClientId contains already the token
             if ( !tokenAndClientId[result.token] ) {
                 let clientId = result.oldClientId;
-                console.log("Ancien server ID : " + clientId);
-                console.log("Token : " + result.token);
                 tokenAndClientId[clientId] = result.token;
+                usernameAndClientId[clientId] = result.username;
+                console.log(" -> With username : " + result.username);
             }
         }
 
@@ -121,6 +120,7 @@ wsServer.on("request", request => {
                     "id": gameId,
                     "gameState": gameBoard,
                     "clients": [],
+                    "over": false,
                 }
             }
 
@@ -135,6 +135,7 @@ wsServer.on("request", request => {
                     "id": gameId,
                     "gameState": games[gameId].gameState,
                     "clients": games[gameId].clients,
+                    "over": false,
                 }               
             }
 
@@ -145,7 +146,14 @@ wsServer.on("request", request => {
                 "clients": games[gameId].clients,
             }
 
-            console.log("Game created with ID : " + gameId);
+            // si le nombre de clients est 1
+            if ( games[gameId].clients.length === 0 ) {
+                console.log(" ° ", usernameAndClientId[clientId], "is opening the room : " + gameId);
+            }
+            else {
+                console.log(" ° ", usernameAndClientId[clientId], "is joining the room : " + gameId);
+                console.log(" ");
+            }
 
             const con = clients[clientId].connection;
             con.send(JSON.stringify(payLoad));
@@ -202,7 +210,10 @@ wsServer.on("request", request => {
             }
 
             // Start the game when we have 2 players
-            if (game.clients.length === 2 ) updateGameState();
+            if (game.clients.length === 2 && game.over != true) {
+                updateGameState();
+            }
+            
 
             // console.log("");
             // console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
@@ -212,6 +223,7 @@ wsServer.on("request", request => {
                 "id": gameId,
                 "gameState": games[gameId].gameState,
                 "clients": games[gameId].clients,
+                "over": false,
             }
             
             for (const g of Object.keys(availableGames)) {
@@ -264,7 +276,7 @@ wsServer.on("request", request => {
                 oldState[row][column] = color;
                 // Send back the new state to the clients
                 games[gameId].gameState = oldState;
-                console.log(" ", clientId, " wants to play : [", row, " , ", column, "] with color : ", color);
+                console.log(" ⬪ ", usernameAndClientId[clientId], " wants to play : [", row, " , ", column, "] | color : ", color);
                 // He played so it's not his turn anymore
                 referee[clientId].turn = false;
                 // Set the other player turn to true
@@ -282,17 +294,12 @@ wsServer.on("request", request => {
                 }
                 clients[clientId].connection.send(JSON.stringify(payLoad));
             }
-        }
-
-        if (result.method === "updateGameState") {
-            let client = result.clientId;
-            let message = result.text;
-            let idMessage = result.messageKey;
+            updateGameState();
         }
 
     });
 
-    console.log("hh", tokenAndClientId);
+    console.log(" ");
     let clientId = generateId();
     clients[clientId] = {
         "connection": connection
@@ -311,109 +318,105 @@ wsServer.on("request", request => {
 
 function updateGameState() {
     for (const g of Object.keys(games)) {
-        const game = games[g];
-        let winner = null;
+        if ( games[g].over !== true ) {
+            const game = games[g];
+            let winner = null;
 
-        for (let i = 0; i < 6; i++) {
-            for (let j = 0; j < 7; j++) {
-                if (game.gameState[i][j] === playerRed) {
-                    if (j < 4) {
-                        if (game.gameState[i][j + 1] === playerRed && game.gameState[i][j + 2] === playerRed && game.gameState[i][j + 3] === playerRed) {
-                            winner = playerRed;
-                        }
-                    }
-                    if (i < 3) {
-                        if (game.gameState[i + 1][j] === playerRed && game.gameState[i + 2][j] === playerRed && game.gameState[i + 3][j] === playerRed) {
-                            winner = playerRed;
-                        }
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (game.gameState[i][j] === playerRed) {
                         if (j < 4) {
-                            if (game.gameState[i + 1][j + 1] === playerRed && game.gameState[i + 2][j + 2] === playerRed && game.gameState[i + 3][j + 3] === playerRed) {
+                            if (game.gameState[i][j + 1] === playerRed && game.gameState[i][j + 2] === playerRed && game.gameState[i][j + 3] === playerRed) {
                                 winner = playerRed;
                             }
                         }
-                        if (j > 2) {
-                            if (game.gameState[i + 1][j - 1] === playerRed && game.gameState[i + 2][j - 2] === playerRed && game.gameState[i + 3][j - 3] === playerRed) {
+                        if (i < 3) {
+                            if (game.gameState[i + 1][j] === playerRed && game.gameState[i + 2][j] === playerRed && game.gameState[i + 3][j] === playerRed) {
                                 winner = playerRed;
                             }
+                            if (j < 4) {
+                                if (game.gameState[i + 1][j + 1] === playerRed && game.gameState[i + 2][j + 2] === playerRed && game.gameState[i + 3][j + 3] === playerRed) {
+                                    winner = playerRed;
+                                }
+                            }
+                            if (j > 2) {
+                                if (game.gameState[i + 1][j - 1] === playerRed && game.gameState[i + 2][j - 2] === playerRed && game.gameState[i + 3][j - 3] === playerRed) {
+                                    winner = playerRed;
+                                }
+                            }
                         }
                     }
-                }
-                if (game.gameState[i][j] === playerYellow) {
-                    if (j < 4) {
-                        if (game.gameState[i][j + 1] === playerYellow && game.gameState[i][j + 2] === playerYellow && game.gameState[i][j + 3] === playerYellow) {
-                            winner = playerYellow;
-                        }
-                    }
-                    if (i < 3) {
-                        if (game.gameState[i + 1][j] === playerYellow && game.gameState[i + 2][j] === playerYellow && game.gameState[i + 3][j] === playerYellow) {
-                            winner = playerYellow;
-                        }
+                    if (game.gameState[i][j] === playerYellow) {
                         if (j < 4) {
-    
-                            if (game.gameState[i + 1][j + 1] === playerYellow && game.gameState[i + 2][j + 2] === playerYellow && game.gameState[i + 3][j + 3] === playerYellow) {
+                            if (game.gameState[i][j + 1] === playerYellow && game.gameState[i][j + 2] === playerYellow && game.gameState[i][j + 3] === playerYellow) {
                                 winner = playerYellow;
                             }
                         }
-                        if (j > 2) {
-                            if (game.gameState[i + 1][j - 1] === playerYellow && game.gameState[i + 2][j - 2] === playerYellow && game.gameState[i + 3][j - 3] === playerYellow) {
+                        if (i < 3) {
+                            if (game.gameState[i + 1][j] === playerYellow && game.gameState[i + 2][j] === playerYellow && game.gameState[i + 3][j] === playerYellow) {
                                 winner = playerYellow;
+                            }
+                            if (j < 4) {
+        
+                                if (game.gameState[i + 1][j + 1] === playerYellow && game.gameState[i + 2][j + 2] === playerYellow && game.gameState[i + 3][j + 3] === playerYellow) {
+                                    winner = playerYellow;
+                                }
+                            }
+                            if (j > 2) {
+                                if (game.gameState[i + 1][j - 1] === playerYellow && game.gameState[i + 2][j - 2] === playerYellow && game.gameState[i + 3][j - 3] === playerYellow) {
+                                    winner = playerYellow;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        if ( winner === playerRed ) {
-            winner = game.clients[0].clientId;
-        }
-        else if ( winner === playerYellow ) {
-            winner = game.clients[1].clientId;
-        }
+            if ( winner === playerRed ) {
+                winner = game.clients[0].clientId;
+            }
+            else if ( winner === playerYellow ) {
+                winner = game.clients[1].clientId;
+            }
 
-        if ( winner != null ) {
-            console.log("The winner is : ", winner);
-            console.log("Moul token : ", tokenAndClientId[winner]);
-            //retreive the token of the loser
-            let loser = null;
-            for (const client of game.clients) {
-                if ( client.clientId !== winner ) {
-                    loser = client.clientId;
+            if ( winner != null ) {
+                console.log(" ");
+                console.log(" ♣ The winner is : ", usernameAndClientId[winner]);
+                console.log(" ");
+                //retreive the token of the loser
+                let loser = null;
+                for (const client of game.clients) {
+                    if ( client.clientId !== winner ) {
+                        loser = client.clientId;
+                    }
                 }
+                gamification.updateScore(tokenAndClientId[winner], tokenAndClientId[loser])
+                            .then(() => console.log("Score updated !"));
+
+                // Reset the game state
+                // Reset the referee
+                for (const client of game.clients) {
+                    referee[client.clientId].turn = false;
+                }
+                // Set the over attribute to true
+                games[g].over = true;
             }
-            gamification.updateScore(tokenAndClientId[winner], tokenAndClientId[loser]).then(r => console.log("Score updated !"));
 
-            // Reset the game state
-            // Reset the referee
-            for (const client of game.clients) {
-                referee[client.clientId].turn = false;
-            }
+            const payLoad = {
+                "method": "updateGameState",
+                "game": game,
+                "winner": winner,
+            } 
+
+            game.clients.forEach(client => {
+                clients[client.clientId].connection.send(JSON.stringify(payLoad))
+            });
+
         }
-
-        const payLoad = {
-            "method": "updateGameState",
-            "game": game,
-            "winner": winner,
-        }
-
-        game.clients.forEach(client => {
-            clients[client.clientId].connection.send(JSON.stringify(payLoad))
-        });
-
     }
-    setTimeout(updateGameState, 10);
+    setTimeout(updateGameState, 300);
 }
 
-
-function gamesDetails() {
-    let i = 0;
-    for ( let key in games ) {
-        console.log("--- Game Number : " + (i + 1) + " ---");
-        console.log("--- Game ID : ", games[key].id);
-        // console.log("Game State : ", games[key].gameState);
-        console.log("Clients : ", games[key].clients);
-    }
-}
 
 function generateId() { 
     let result = '';
@@ -425,18 +428,3 @@ function generateId() {
     if (games[result]) return generateId();
     return result + Math.floor(Math.random() * 1000);
 }
-
-function displayAll() {
-    let i = 0;
-    console.log("number of games     : ", Object.keys(games).length);
-    for (const g of Object.keys(games)) {
-        console.log("--- Game Number : " + i++ + " ---");
-        console.log("Game ID : " + games[g].id);
-        console.log("Game State : ");
-        console.table(games[g].gameState);
-        console.log("Clients : ");
-        console.table(games[g].clients);
-    }
-}
-
-// setInterval(displayAll, 3000);
