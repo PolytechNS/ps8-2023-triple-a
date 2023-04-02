@@ -35,7 +35,7 @@ else if ( l == 1 ) {
 }
 
 // 1 : URL | 2 : Localhost
-chooselocalHostOrUrl(1);
+chooselocalHostOrUrl(2);
 
 window.onload = function() {
   setBoard();

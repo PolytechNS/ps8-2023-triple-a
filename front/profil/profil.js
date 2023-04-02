@@ -1,6 +1,6 @@
 const localHost = 'localhost';
 const url = '15.236.164.81';
-let localHostOrUrl = url;
+let localHostOrUrl = localHost;
 
 let name = localStorage.getItem('username');
 console.log("score is :", localStorage.getItem('score'));

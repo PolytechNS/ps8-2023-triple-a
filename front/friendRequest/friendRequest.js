@@ -1,11 +1,14 @@
 const localHost = 'localhost';
+const url = '15.236.164.81';
+let localHostOrUrl = localHost;
+
 let persons = [];
 async function getFriendRequests() {
 
     console.log('loading req');
     const token = localStorage.getItem('token');
 
-    const response = await fetch('http://' + localHost + ':8000/api/friend/requestList', {
+    const response = await fetch('http://' + localHostOrUrl + ':8000/api/friend/requestList', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -60,7 +63,7 @@ async function acceptRequest(event) {
     console.log("this is the player id : ", playerToken);
     console.log("user name to be added : ", event.target.innerHTML);
 
-    const response = await fetch('http://' + localHost + ':8000/api/friend/accept/${playerToken}/%{requestToken}', {
+    const response = await fetch('http://' + localHostOrUrl + ':8000/api/friend/accept/${playerToken}/%{requestToken}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -90,7 +93,7 @@ async function rejectRequest(event) {
         console.log("this is the player id : ", playerToken);
         console.log("this is the requester token: ", requestToken);
 
-        const response = await fetch('http://' + localHost + ':8000/api/friend/reject/£{playerToken}/${requestToken}', {
+        const response = await fetch('http://' + localHostOrUrl + ':8000/api/friend/reject/£{playerToken}/${requestToken}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
