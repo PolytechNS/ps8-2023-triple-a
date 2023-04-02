@@ -1,4 +1,3 @@
-
 const localHost = 'localhost';
 let persons = [];
 async function getPlayers() {

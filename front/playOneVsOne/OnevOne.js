@@ -854,20 +854,6 @@ function addMessage(user, message) {
     messages.appendChild(li);
 }
 
-let iii = 0;
-const mySpan = document.getElementById("toggle-button");
-mySpan.addEventListener("click", function() {
-  let body = document.getElementsByTagName("body")[0];
-  if ( iii == 0 ) {
-    body.style.backgroundImage = "url('../images/137980.jpg')";
-    iii = 1;
-  }
-  else {
-    body.style.backgroundImage = "url('../images/sky-background.jpg')";
-    iii = 0;
-  }
-});
-
 window.addEventListener('DOMContentLoaded', (event) => {
     const urlParams = new URLSearchParams(window.location.search);
     const triggerFunction = urlParams.get('trigger');
@@ -923,10 +909,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     }
 });
-
-const toggleSwitch = document.getElementById("toggle");
-
-toggleSwitch.addEventListener("click", changeBackground);
 
 // let acceptFriendChallenge = document.getElementById("acceptChallenge");
 // acceptFriendChallenge.addEventListener("click", respondToChallenge);

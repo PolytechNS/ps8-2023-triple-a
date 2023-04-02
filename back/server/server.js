@@ -264,9 +264,9 @@ wsServer.on("request", request => {
                     const con = clients[clientId].connection;
                     con.send(JSON.stringify(payLoad));
                 }
-            } 
+            }
         }
- 
+
         // Challenger play
         if ( result.method === "challengerPlay" ) {
             const clientId = result.clientId;
@@ -571,4 +571,4 @@ function generateId() {
     // check if the id already exists
     if (games[result]) return generateId();
     return result + Math.floor(Math.random() * 1000);
-} 
+}

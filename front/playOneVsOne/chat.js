@@ -19,20 +19,20 @@ var messages = document.getElementById("messages");
         }
 
         var openCloseButton = document.getElementById("openCloseButton");
-        var chatBox = document.querySelector(".chat-box");
+        var chatBox2 = document.querySelector(".chat-box");
 
         // openCloseButton.addEventListener("click", function () {
-        //   if (chatBox.style.display === "none") {
-        //     chatBox.style.display = "block";
+        //   if (chatBox2.style.display === "none") {
+        //     chatBox2.style.display = "block";
         //     openCloseButton.innerText = "Close Chat";
         //   } else {
-        //     chatBox.style.display = "none";
+        //     chatBox2.style.display = "none";
         //     openCloseButton.innerText = "Open Chat";
         //   }
         // });
 
         function closeChat() {
-          chatBox.style.display = "none";
+          chatBox2.style.display = "none";
           // get the image chat and make it visible
           let image = document.getElementById("open");
           image.style.display = "inline-block";
@@ -49,7 +49,7 @@ var messages = document.getElementById("messages");
         }
 
         function openChat() {
-          chatBox.style.display = "block";
+          chatBox2.style.display = "block";
           // get the image chat and make it visible
           let image = document.getElementById("open");
           image.style.display = "none";

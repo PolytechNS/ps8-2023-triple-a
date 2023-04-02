@@ -5,11 +5,7 @@ body {
     background-image: url(../images/sky-background.jpg);
 }
 
-input {
-    outline: none;
-    font-size: 1.0rem;
-    padding: 0 5px;
-}
+
 
 button {
     text-transform: uppercase;
@@ -37,15 +33,6 @@ li {
     padding: 10px 10px 10px 10px;
 }
 
-canvas {
-    display: block;
-    margin: 10px auto;
-}
-
-
-#events {
-    height: 150px;
-}
 
 .box {
     width: auto;
@@ -61,28 +48,16 @@ image {
 }
 
 #board {
-    position: fixed;
-    left: 10cm;
-    margin-top: 1.5cm;
+    margin-top: 3cm;
     height: 420px;
     width: 480px;
     background-color: rgb(129, 196, 235);
     border: 5px solid navy;
-
     border-radius: 5%;
     display: flex;
     flex-wrap: wrap;
-
     margin-left: auto;
-    margin-right: auto;    
-
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    /* font-family: 'Poppins', sans-serif; */
-    font-family: 'Nunito', sans-serif;
-    top: 42,5cm;
-    overflow: auto;
+    margin-right: auto;
 }
 
 .tile {
@@ -92,8 +67,7 @@ image {
 
     /* Circle */
     background-color: rgb(183, 226, 229);
-    /* set the background image to the specied url */
-    border-radius: 100%;
+    border-radius: 70%;
     border: 3px solid navy;
 }
 
@@ -250,9 +224,6 @@ h1 {
 
 /* Switch Mode */
 
-* {
-  box-sizing: inherit;
-}
 
 p {
   text-align: center;
@@ -269,3 +240,8 @@ p {
     padding: 10px;
 }
 
+input {
+    outline: none;
+    font-size: 1.0rem;
+    padding: 0 5px;
+}
