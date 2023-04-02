@@ -200,7 +200,7 @@ let localHostOrUrl = url;
   async function getData(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    const response = await fetch(`http://${localHostOrUrl}:8000/api/online/data/${token}`, {
+    const response = await fetch('http://' + url + ':8000/api/online/data/${token}', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
