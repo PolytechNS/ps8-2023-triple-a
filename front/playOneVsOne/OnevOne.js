@@ -98,7 +98,7 @@ function fillTile(i, j, color) {
     boardMatrix[i][j] = playerYellow;
   }
   else {
-    getTile(i, j).classList.add(colorPalette[4]);
+    getTile(i, j).classList.add(colorPalette[2]);
     boardMatrix[i][j] = playerRed;
   }
   updateTurn();
