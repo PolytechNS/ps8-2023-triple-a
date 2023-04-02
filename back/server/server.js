@@ -264,7 +264,7 @@ wsServer.on("request", request => {
                     const con = clients[clientId].connection;
                     con.send(JSON.stringify(payLoad));
                 }
-            }
+            } 
         }
  
         // Challenger play
