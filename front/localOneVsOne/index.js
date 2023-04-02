@@ -228,7 +228,6 @@ async function saveGame(event, gameType) {
             console.log("tab ", response.tab);
             console.log("tab ", tab);
             window.location.href = '../../modeGamePage/selectMode.html'
-
         }
         else{
             console.log("error");
@@ -242,7 +241,6 @@ document.getElementById("saveButton").addEventListener("click",function(){saveGa
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");
     redirect.href ="../playOneVsOne/index.html" ;
-
 }
 
 async function getSavedGames() {
