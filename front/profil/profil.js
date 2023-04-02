@@ -28,9 +28,7 @@ async function getUsername(event) {
     console.log('Error');
   }
 
-
-}
-                              
+}                          
 
 async function getData(event) {
   event.preventDefault();
@@ -59,8 +57,4 @@ async function getData(event) {
   else{
     console.log('Error');
   }
-
-
 }
-
-window.onload(getData(event));

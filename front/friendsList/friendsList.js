@@ -83,13 +83,19 @@ async function getFriends() {
                 // Create the challenge button
                 const challengeButton = document.createElement('button');
                 challengeButton.textContent = 'Nouveau défi';
+                
                 challengeButton.addEventListener('click', () => {
-                    window.location.href ="../playOneVsOne/index.html";
-                    // handle the click event to invite the friend to a game
+                    // get the header and chenge its icon
+                    const header = document.getElementById('header');
+                    // get the client token
+                    const opponentUsername = friendName;
+
+                    // set the url with the client token as a parameter
+                    const url = `../playOneVsOne/index.html?trigger=challengeFriend&opponentUsername=${opponentUsername}`;
+                    window.location.href = url;
                 });
+
                 friendItem.appendChild(challengeButton);
-
-
 
                 const trashIcon = document.createElement('i');
                 trashIcon.classList.add('gg-trash', 'trash-icon');
@@ -340,6 +346,4 @@ window.onload = function() {
     getPlayers().then(r => console.log('players loaded'));
     getFriends().then(r => console.log('friends loaded'));
     getFriendRequests().then(r => console.log('players loaded'));
-
 }
-

@@ -412,6 +412,7 @@ let ws = new WebSocket('ws://' + localHostOrUrl + ':9090');
 
 const newGame = document.getElementById('newGame');
 const joinGame = document.getElementById('joinGame');
+const startCh = document.getElementById('startCh');
 
 joinGame.style.display = "none";
 
@@ -431,6 +432,42 @@ joinGame.addEventListener('click', () => {
     ws.send(JSON.stringify(payLoad));
 
 })
+
+let startChallenge = false;
+
+startCh.addEventListener('click', () => {
+
+  if ( gameId === null ) {
+    console.log("No game id found");
+  }
+
+  const payLoad = {
+    "method": "challengerPlay",
+    "clientId": clientId,
+    "gameId": gameId
+  }
+  ws.send(JSON.stringify(payLoad));
+
+})
+
+const intervalId22 = setInterval(() => {
+  if (startChallenge) {
+    const intervalId2 = setInterval(() => {
+      if (opponent) {
+        console.log("Now I can play");
+        startCh.click();
+        clearInterval(intervalId2);
+      }
+      else {
+        startCh.click();
+      }
+    }, 100);
+
+  clearInterval(intervalId22);
+  }
+  else {
+  }
+}, 100);
 
 newGame.addEventListener('click', () => {
 
@@ -471,8 +508,6 @@ newGame.addEventListener('click', () => {
   canClick = true;
 })
 
-
-
 const intervalId = setInterval(() => {
   if (canClick) {
     const intervalId2 = setInterval(() => {
@@ -492,6 +527,7 @@ const intervalId = setInterval(() => {
 }, 100);
             
 let turn = true;
+let privateRoomId = null;
 
 ws.onmessage = message => {
         // I the client receive a message from the server !
@@ -522,10 +558,117 @@ ws.onmessage = message => {
           for (let i = 0; i < c.length; i++) {
             if ( c[i].clientId !== clientId ) {
                 opponent = c[i].clientId;
-                // console.log("OPOPOP is : ", opponent);
                 break;
             }
           }
+        }
+
+        // Create a private challenge room
+        if ( response.method === "createChallenge" ) {
+          gameId = response.game.id;
+          // console.log("game succesfully created with id : ", gameId + " | by client : " + clientId);
+          // itearte over the clients array and check if it has two clients : the one with clientId from clientId goes to opponent
+          let c = response.clients;
+          // console.log("clients array : ", c);
+          for (let i = 0; i < c.length; i++) {
+            if ( c[i].clientId !== clientId ) {
+                opponent = c[i].clientId;
+                break;
+            }
+          }
+          const payLoad = {
+            "method": "createChallenge",
+            "clientId": clientId,
+            "gameId": generateId(),
+            "room": "private",
+          }
+          console.log("I create this challenge : ", payLoad)
+          ws.send(JSON.stringify(payLoad));
+        }
+
+        // Join a private challenge room
+        if ( response.method === "respondChallenge" ) {
+
+            clientColor = null;
+            let c = response.clients;
+            for (let i = 0; i < c.length; i++) {
+              if ( c[i].clientId === clientId ) {
+                  clientColor = c[i].color;
+                  break;
+              }
+            }
+            console.log("Yes you have a challenge to join : ", response.gameId, " against : ", response.opponent);
+
+            let board = document.getElementById('board');
+            board.style.visibility = "visible";
+
+            boardGame.addEventListener("click", function(event) {
+              let target = event.target;
+              if (target.classList.contains("tile")) {
+    
+                  let coords = target.id.split("-");
+                  let row = parseInt(coords[0]);
+                  let column = parseInt(coords[1]);
+                  let adjustedCoords = adjustCoordinates(row, column);
+    
+                  row = adjustedCoords[0];
+                  column = adjustedCoords[1];
+    
+                  const payLoad = {
+                      "method": "play",
+                      "clientId": clientId,
+                      "gameId": response.gameId,
+                      "row": row,
+                      "column": column,
+                      "color": clientColor
+                  }
+                  ws.send(JSON.stringify(payLoad));
+                }
+              });
+
+        }
+
+        // Challnger play
+        if ( response.method === "challengerPlay" ) {
+
+            clientColor = null;
+            let c = response.clients;
+            for (let i = 0; i < c.length; i++) {
+              if ( c[i].clientId === clientId ) {
+                  clientColor = c[i].color;
+                  break;
+              }
+            }
+            console.log("Your opponent is here you can play");
+
+            let board = document.getElementById('board');
+            board.style.visibility = "visible";
+
+            boardGame.addEventListener("click", function(event) {
+              let target = event.target;
+              if (target.classList.contains("tile")) {
+    
+                  let coords = target.id.split("-");
+                  let row = parseInt(coords[0]);
+                  let column = parseInt(coords[1]);
+                  let adjustedCoords = adjustCoordinates(row, column);
+    
+                  row = adjustedCoords[0];
+                  column = adjustedCoords[1];
+    
+                  const payLoad = {
+                      "method": "play",
+                      "clientId": clientId,
+                      "gameId": response.gameId,
+                      "row": row,
+                      "column": column,
+                      "color": clientColor
+                  }
+                  console.log("I sent this payload : ", payLoad)
+                  ws.send(JSON.stringify(payLoad));
+                }
+              });
+
         }
 
         // join a game
@@ -637,7 +780,7 @@ async function updateScore(winner,loser){
     const response = await fetch('http://localhost:8000/api/online/updateScore/%{winner}/%{loser}', {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
         winner: winner,
@@ -725,7 +868,88 @@ mySpan.addEventListener("click", function() {
   }
 });
 
+window.addEventListener('DOMContentLoaded', (event) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const triggerFunction = urlParams.get('trigger');
+    const opponentUsername = urlParams.get('opponentUsername');
+    if (triggerFunction === 'challengeFriend') {
+
+      console.log("I'm challenging ", opponentUsername);
+
+      setTimeout(() => {
+
+        // create a challenge
+        const payLoad = {
+          "method": "createChallenge",
+          "clientId": clientId,
+          "opponentUsername": opponentUsername,
+          "room": "private",
+          "gameId": generateId(),
+        }
+        
+        ws.send(JSON.stringify(payLoad));
+  
+        waiting.style.display = "block";
+        newGame.style.display = "none";
+
+        // listen for opponent variable changes
+        let opponentInterval = setInterval(() => {
+          if (opponent !== null) {
+            console.log("Opponent found !", opponent);
+            console.log("GAME ID IS : ", gameId);
+            startChallenge = true;
+
+            let board = document.getElementById('board');
+
+            waiting.style.display = "none";
+
+            // The oponent is found, we can start the game
+            countdown.style.display = "block";
+
+            setTimeout(() => {
+                countdown.style.display = "none";
+                board.style.visibility = "visible";
+                chatBox.style.display = "block";
+            }, 3000);
+
+            clearInterval(opponentInterval);
+          }
+          else {
+            console.log("Looking for an oponent...");
+          }
+        }, 1000);
+
+      }, 1000);
+
+    }
+});
 
 const toggleSwitch = document.getElementById("toggle");
 
 toggleSwitch.addEventListener("click", changeBackground);
+
+// let acceptFriendChallenge = document.getElementById("acceptChallenge");
+// acceptFriendChallenge.addEventListener("click", respondToChallenge);
+
+// Check in database if the client has received a friend request
+function respondToChallenge() {
+  setTimeout(() => {
+    if ( gameId === null ) {
+      console.log("Ask the server if I have a friend challenge to respond to !");
+    }
+
+    const payLoad = {
+      "method": "respondChallenge",
+      "clientId": clientId,
+      "username": localStorage.getItem("username"),
+      "token": localStorage.getItem("token"),
+    }
+
+    ws.send(JSON.stringify(payLoad));
+  }, 1000);
+
+}
+
+
+
+// call the function respondToChallenge() every 2 seconds

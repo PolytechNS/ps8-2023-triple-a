@@ -2,9 +2,12 @@ const { response } = require("express");
 const http = require("http");
 const app = require("express")();
 
+const profilPath =  require("path").join(__dirname, '..' , '..' , 'front' , 'profil' , 'profil.html');
+app.get("/profil", (req, res) => res.sendFile(profilPath));
 
 const filePath =  require("path").join(__dirname, '..' , '..' , 'front' , 'playOneVsOne' , 'index.html');
 app.get("/", (req, res) => res.sendFile(filePath));
+
 
 app.listen(9091, () => console.log("Listening on port 9091 ..."));
 const websocketServer = require("websocket").server;
@@ -12,13 +15,11 @@ const httpServer = http.createServer();
 httpServer.listen(9090, () => console.log("Server is running ..."));
 
 // Hashmap to store all the clients connected to the server
-const clients = { }
-// Hashmap to store all the created games
-let games = { }
+const clients = { }// Hashmap to store all the created games
+let games = { } 
 let referee = { }
-let tokenAndClientId = {}
-let usernameAndClientId = {}
-
+let tokenAndClientId = {} 
+let usernameAndClientId = {} 
 
 var playerRed = "RED";
 var playerYellow = "YELLOW";
@@ -45,19 +46,21 @@ let availableGames = {};
 
 function updateAvailableRooms() {
     for (const g of Object.keys(games)) {
-        const game = games[g];
-        if (game.clients.length <= 1) {
-            availableGames[games[g].id] = {
-                "gameId": games[g].id,
-            };
-        } 
-        else {
+        if ( games[g].room != "private" ) {
+            const game = games[g];
+            if (game.clients.length <= 1) {
+                availableGames[games[g].id] = {
+                    "gameId": games[g].id,
+                };
+            } 
+            else {
+            }
         }
     }
 }
 
 
-wsServer.on("request", request => {
+wsServer.on("request", request => { 
     // Connect event : When a client connects to the server
     const connection = request.accept(null, request.origin);
     // Once connected what to do depending to the following
@@ -73,7 +76,7 @@ wsServer.on("request", request => {
         console.log(" ");
     
         // Remove client from all games they are connected to
-        for (const gameId of Object.keys(games)) {
+        for (const gameId of Object.keys(games)) { 
             const game = games[gameId];
             const index = game.clients.findIndex(c => c.clientId === clientId);
             if (index >= 0) {
@@ -106,6 +109,15 @@ wsServer.on("request", request => {
             }
         }
 
+        if ( result.method === "profil" ) { 
+            console.log("somoene is in his profil page");
+            const paylaod = {
+                "method": "profil",
+            }
+            const con = clients[clientId].connection;
+            con.send(JSON.stringify(paylaod));
+        }
+
         if (result.method === "createGame") {
             const clientId = result.clientId;
             let gameId = null;
@@ -129,12 +141,12 @@ wsServer.on("request", request => {
                 gameId = firstValue.gameId;
 
                 // remove it from the available games
-
                 games[gameId] = {
                     "id": gameId,
                     "gameState": games[gameId].gameState,
                     "clients": games[gameId].clients,
                     "over": false,
+                    "room": ""
                 }               
             }
 
@@ -143,6 +155,7 @@ wsServer.on("request", request => {
                 "method": "createGame",
                 "game": games[gameId],
                 "clients": games[gameId].clients,
+                "gameId": gameId,
             }
 
             // si le nombre de clients est 1
@@ -161,9 +174,134 @@ wsServer.on("request", request => {
             // console.log("Game ID : " + gameId + " has " + games[gameId].clients.length + " clients");
         }
 
-        // recuve YOYO from the client
-        if (result.method === "chat") {
+        // Set the game to private
+        if ( result.method === "createChallenge" ) {
             const clientId = result.clientId;
+            const gameId = result.gameId;
+            let gameBoard = emptyBoard();
+            games[gameId] = {
+                "id": gameId,
+                "gameState": gameBoard,
+                "clients": [],
+                "over": false,
+                "room": "private",
+                "challengedPlayer": result.opponentUsername,
+            }
+            // Add the client to the game
+            games[gameId].clients.push({
+                "clientId": clientId,
+                "color": playerRed,
+            });
+            const payLoad = {
+                "method": "createGame",
+                "game": games[gameId],
+                "clients": games[gameId].clients,
+                "gameId": gameId,
+            }
+
+            referee[clientId] = {
+                "clientId": clientId,
+                "turn": true, 
+            }
+            console.log(" ° ", usernameAndClientId[clientId], " created challenge : " + gameId, " against " + result.opponentUsername);
+            const con = clients[clientId].connection;
+            con.send(JSON.stringify(payLoad));
+        }
+
+        // Respond to a challenge
+        if ( result.method === "respondChallenge" ) { 
+            // Check if there is a challenge for this player
+            const clientId = result.clientId;
+            let gameId = null;
+            let game = null;
+            // const opponentUsername = game.challengedPlayer;
+            for ( const g of Object.keys(games) ) {
+
+                // Add the player to usernameAndClientId
+                usernameAndClientId[clientId] = result.username;
+                tokenAndClientId[clientId] = result.token;
+
+                // Check if the game is a challenge
+                if ( games[g].challengedPlayer === usernameAndClientId[clientId] ) {
+                    // retrive the game first client
+                    const firstClient = games[g].clients[0];
+                    console.log(" Client : " , usernameAndClientId[firstClient], " is challenging you in game : " , g);
+
+                    // Add the client to the game
+                    games[g].clients.push({ 
+                        "clientId": clientId,
+                        "color": playerYellow, 
+                    });
+
+                    gameId = g;
+                    game = games[g];
+
+                    if (games[gameId].clients.length === 2 && games[gameId].over != true) {
+                        updateGameState();
+                    }
+ 
+                    const payLoad = {
+                        "method": "respondChallenge",
+                        "game": g,
+                        "clients": g.clients,
+                        "gameId": gameId,
+                        "opponent": firstClient,  
+                        "clients": games[g].clients, 
+                    }
+
+                    clients[clientId].connection.send(JSON.stringify(payLoad));
+
+                    console.log(" ° ", usernameAndClientId[clientId], " accepted challenge : " + gameId, " against " + usernameAndClientId[games[g].clients[0].clientId]);
+
+                    // Add the client with its turn set to false to the referee
+                    referee[clientId] = {
+                        "clientId": clientId,
+                        "turn": false,
+                    }
+
+                    console.log("REFEREE : " , referee) 
+
+                    const con = clients[clientId].connection;
+                    con.send(JSON.stringify(payLoad));
+                }
+            }
+        }
+
+        // Challenger play
+        if ( result.method === "challengerPlay" ) {
+            const clientId = result.clientId;
+            let gameId = result.gameId;
+
+            console.log("my game : ", games[gameId])
+
+            // const opponentUsername = game.challengedPlayer;
+            for ( const g of Object.keys(games) ) {
+
+                // Check the game 
+                console.log("REFEREE : " , referee)
+                console.log("The challenger is ready")
+                
+                if (games[gameId].clients.length === 2 && games[gameId].over != true) {
+                    updateGameState();
+                }
+                    
+
+                const payLoad = { 
+                    "method": "challengerPlay",
+                    "gameId": gameId,
+                    "clients": games[g].clients, 
+                }
+
+                const con = clients[clientId].connection;
+                con.send(JSON.stringify(payLoad));
+                
+            } 
+ 
+        }
+
+        // Chat message
+        if (result.method === "chat") {  
+            const clientId = result.clientId; 
             const gameId = result.gameId;
             const message = result.text;
 
@@ -212,13 +350,8 @@ wsServer.on("request", request => {
             if (game.clients.length === 2 && game.over != true) {
                 updateGameState();
             }
-            
 
-            // console.log("");
-            // console.log("Game :", gameId, "has", games[gameId].clients.length, "clients");
-            // console.log("");
-
-            games[gameId] =  { 
+            games[gameId] =  {  
                 "id": gameId,
                 "gameState": games[gameId].gameState,
                 "clients": games[gameId].clients,
@@ -261,7 +394,8 @@ wsServer.on("request", request => {
         }
  
         // A client wants to play 
-        if (result.method === "play") {
+        if (result.method === "play") { 
+            console.log(result.clientId + " wants to play")
             // check if the client's turn is true
             if ( referee[clientId].turn === true ) {
                 const gameId = result.gameId;
@@ -272,10 +406,11 @@ wsServer.on("request", request => {
                 let oldState = games[gameId].gameState; 
                 if ( !oldState ) oldState = emptyBoard();
                 // Update the game State
-                oldState[row][column] = color;
+                oldState[row][column] = color; 
                 // Send back the new state to the clients
                 games[gameId].gameState = oldState;
                 console.log(" ⬪ ", usernameAndClientId[clientId], " wants to play : [", row, " , ", column, "] | color : ", color);
+                console.log("REFEREE : " , referee)
                 // He played so it's not his turn anymore
                 referee[clientId].turn = false;
                 // Set the other player turn to true
@@ -285,7 +420,7 @@ wsServer.on("request", request => {
                     }
                 }
             }
-            else {
+            else { 
                 // send back a message to the client
                 const payLoad = {
                     "method": "illegalMove",
@@ -311,8 +446,8 @@ wsServer.on("request", request => {
     };
 
     connection.send(JSON.stringify(payLoad));
-    
 });
+
 
 
 function updateGameState() {
@@ -427,7 +562,7 @@ function updateGameState() {
 }
 
 
-function generateId() { 
+function generateId() {   
     let result = '';
     const characters = 'XUV';
     for (let i = 0; i < 3; i++) {
@@ -436,4 +571,4 @@ function generateId() {
     // check if the id already exists
     if (games[result]) return generateId();
     return result + Math.floor(Math.random() * 1000);
-}
+} 
