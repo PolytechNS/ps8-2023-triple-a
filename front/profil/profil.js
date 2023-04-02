@@ -12,7 +12,7 @@ document.getElementById("name").textContent = zebi;
 async function getUsername(event) {
   event.preventDefault();
   const token = localStorage.getItem('token').toString();
-  const response = await fetch('http://' + localHost + ':8000/api/game/user/${token}', {
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/user/${token}', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
