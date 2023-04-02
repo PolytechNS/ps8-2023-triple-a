@@ -35,7 +35,7 @@ async function getFriendRequests() {
                 // gameItem.innerHTML = `<button data-player="${player._id}" class="player-button">local - ${player.date}</button>`;
                 playerItem.innerHTML = `
                                         <div class="game-container">
-                                            <button data-player="${player.token}" class="game-button">${player.name}</button>
+                                            <button data-player="${player.token}" class="game-button2">${player.name}</button>
                                             <i class="gg-trash" data-player="${player.token}"></i>
                                             
                                         </div>
