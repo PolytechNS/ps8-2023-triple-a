@@ -12,10 +12,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
   </head>
+
+
   <body>
-    <div id="header">
+    <header>
       <object type="text/html" data="header.html" style="width:100%; height:100%;"></object>
-    </div>
+    </header>
 
     <div class="container">
       <div class="back">
@@ -25,12 +27,16 @@
           Voir mes amis
         </button>
         <h2 class="rank">Rank :</h2>
+        <span id="rank"></span>
         <div id="recompense"></div>
         <h2 class="stats">Stats</h2>
         <p class="score">Score: <span id="score"></span></p>
         <p class="wins">Wins: <span id="wins"></span></p>
         <p class="losses">Losses: <span id="losses"></span></p>
         <p class="winrate">Win Rate: <span id="winrate"></span></p>
+        <h2 class="globalRank">Global Rank: </h2>
+        <div id="ranking-container"></div>
+        
       </div>
     </div>
     <script>
@@ -66,24 +72,77 @@
         const img = document.createElement("img");
         img.src = "gold-removebg-preview.png";
         img.alt = "Médaille d'or";
+        document.getElementById("rank").innerText = "Gold";
         recompense.appendChild(img);
       } else if (scoreNumber >= 100 && scoreNumber <= 200) {
         const img = document.createElement("img");
         img.src = "silver-removebg-preview.png";
         img.alt = "Médaille d'argent";
+        document.getElementById("rank").innerText = "Silver";
         recompense.appendChild(img);
       } else if (scoreNumber < 100 && scoreNumber>0) {
         const img = document.createElement("img");
         img.src = "bronze-removebg-preview.png";
         img.alt = "Médaille de bronze";
+        document.getElementById("rank").innerText = "Bronze";
         recompense.appendChild(img);
       }
     } else {
       console.log("Error");
     }
   }
+  async function getPlayers2() {
+  console.log('loading players');
+  const token = localStorage.getItem('token').toString();
+
+  const response = await fetch('http://' + localHost + ':8000/api/game/user', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token })
+  });
+
+  if (response.ok) {
+      const players = await response.json();
+      console.log("players : ", players);
+      const playerList = [];
+
+      for (let i = 0; i < players.length; i++) {
+          const player = players[i];
+          playerList.push(player);
+      }
+      console.log("playerList : ", playerList)
+
+      return playerList;
+  } else {
+      console.log('Failed to retrieve players');
+      return [];
+  }
+}
+
+async function displayPlayersRanking() {
+  const players = await getPlayers2();
+  players.sort((a, b) => b.score - a.score); // Tri des joueurs par score décroissant
+  const playerList = document.createElement('ol'); // Création d'une liste ordonnée pour afficher les joueurs
+
+  players.map((player, index) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${index + 1}. ${player.username} - ${player.score} points`;
+      playerList.appendChild(listItem);
+  });
+
+  const rankingContainer = document.getElementById('ranking-container'); 
+  rankingContainer.appendChild(playerList);
+}
+
+//displayPlayersRanking();
 
   window.addEventListener("load", getData);
+  window.addEventListener("load", displayPlayersRanking);
 </script>
+
+
+
 </body>
 </html>

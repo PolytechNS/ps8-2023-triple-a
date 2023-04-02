@@ -58,3 +58,50 @@ async function getData(event) {
     console.log('Error');
   }
 }
+
+async function getPlayers2() {
+  console.log('loading players');
+  const token = localStorage.getItem('token').toString();
+
+  const response = await fetch('http://' + localHost + ':8000/api/game/user', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token })
+  });
+
+  if (response.ok) {
+      const players = await response.json();
+      console.log("players : ", players);
+      const playerList = [];
+
+      for (let i = 0; i < players.length; i++) {
+          const player = players[i];
+          playerList.push(player);
+      }
+      console.log("playerList : ", playerList)
+
+      return playerList;
+  } else {
+      console.log('Failed to retrieve players');
+      return [];
+  }
+}
+
+async function displayPlayersRanking() {
+  const players = await getPlayers2();
+  players.sort((a, b) => b.score - a.score); // Tri des joueurs par score décroissant
+  const playerList = document.createElement('ol'); // Création d'une liste ordonnée pour afficher les joueurs
+
+  players.map((player, index) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${index + 1}. ${player.username} - ${player.score} points`;
+      playerList.appendChild(listItem);
+  });
+
+  const rankingContainer = document.getElementById('ranking-container'); // Remplacer 'ranking-container' avec l'ID de l'élément HTML où le classement des joueurs doit être affiché
+  rankingContainer.appendChild(playerList);
+}
+
+displayPlayersRanking();
