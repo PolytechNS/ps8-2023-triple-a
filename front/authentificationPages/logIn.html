@@ -74,10 +74,12 @@
                     // console.log('tocken : ' +token)
                     console.log('status ' +response.status)
                     console.log("username : " +localStorage.getItem('username'))
-                    fetch('../modeGamePage/selectMode.html')
-                        .then(response => response.text())
-                        .then(html => document.body.innerHTML = html)
-                        .catch(error => console.log('Error:', error));
+                    // fetch('../modeGamePage/selectMode.html')
+                    //     .then(response => response.text())
+                    //     .then(html => document.body.innerHTML = html)
+                    //     .catch(error => console.log('Error:', error));
+                    const newWindow = window.open('../modeGamePage/selectMode.html', '_blank');
+                    newWindow.focus();
                 } else {
                     console.log('status ' +response.status)
 
