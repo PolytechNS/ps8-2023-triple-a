@@ -1,10 +1,21 @@
 h1 {
     text-align: center;
+    border-top-right-radius: 20px;
+    font-family: 'Cinzel', serif;
   }
+
+h2 {
+
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
+}
 
 #friend-list {
   width: 100%;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
   max-width: 600px; /* increase the maximum width /
+  
 margin: 0 auto;
 display: flex; / add flex display to the parent container /
 justify-content: flex-start; / align the child elements to the left /
@@ -15,6 +26,8 @@ flex-wrap: wrap; / allow the elements to wrap if they exceed the container width
   list-style: none;
   padding: 0;
   margin: 0;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 #friend-ul li {
@@ -28,10 +41,14 @@ flex-wrap: wrap; / allow the elements to wrap if they exceed the container width
   padding: 10px;
   border-radius: 10px;
   width: 200px;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 .friend-name {
   margin-right: 10px;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 .friend-li {
@@ -50,6 +67,8 @@ flex-wrap: wrap; / allow the elements to wrap if they exceed the container width
   cursor: pointer;
   font-size: 18px;
   margin-left: 10px;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 
@@ -57,6 +76,8 @@ flex-wrap: wrap; / allow the elements to wrap if they exceed the container width
     margin: 20px auto;
     width: 50%;
     text-align: center;
+    border-top-right-radius: 20px;
+    font-family: 'Cinzel', serif;
   }
   
   #search-bar input[type="text"] {
@@ -64,6 +85,8 @@ flex-wrap: wrap; / allow the elements to wrap if they exceed the container width
     border-radius: 5px;
     border: none;
     box-shadow: 0 2px 2px #ccc;
+    border-top-right-radius: 20px;
+    font-family: 'Cinzel', serif;
   }
   
   #search-bar button {
@@ -73,6 +96,8 @@ flex-wrap: wrap; / allow the elements to wrap if they exceed the container width
     background-color: #62b4e4;
     color: #fff;
     box-shadow: 0 2px 2px #ccc;
+    border-top-right-radius: 20px;
+    font-family: 'Cinzel', serif;
   }
 body {
   font-family: "Helvetica Neue", sans-serif;
@@ -84,6 +109,8 @@ input {
   outline: none;
   font-size: 1.0rem;
   padding: 0 5px;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 button {
@@ -99,6 +126,8 @@ button {
   box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
   transition: all 150ms ease-in;
   outline: none;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 
@@ -117,10 +146,14 @@ ul {
   padding: 0;
   border-bottom: 1px solid lightgrey;
   overflow-y: scroll;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 li {
   padding: 10px 10px 10px 10px;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 canvas {
@@ -372,6 +405,8 @@ h1 {
   font-size: 2rem;
   margin-bottom: 1.2rem;
   color: #0f1114;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
 }
 
 form input {
@@ -477,5 +512,7 @@ h1 {
   background-color: #62b4e4;
   color: #1751bb;
 }
+
+
 
 

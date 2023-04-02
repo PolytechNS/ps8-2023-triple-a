@@ -63,7 +63,6 @@
                     body: JSON.stringify({ username, password }),
                 });
                 if (response.ok) {
-
                     console.log('data' +response.data)
                     const { token,username } = await response.json();
 

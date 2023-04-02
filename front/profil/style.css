@@ -54,6 +54,9 @@ body {
   color: #1751bb;
   margin-bottom: 0.5em;
   text-align: center;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
+
 }
 
 .addFriends {
@@ -75,15 +78,33 @@ p {
   border-top-right-radius: 20px;
   font-family: 'Cinzel', serif;
 }
+.score:hover {
+  background-color: #83b4ec; 
+  color: #fff; /* Couleur du texte en blanc */
+}
+.wins:hover {
+  background-color: #83b4ec;
+  color: #fff; /* Couleur du texte en blanc */
+}
+.losses:hover {
+  background-color: #83b4ec; 
+  color: #fff; /* Couleur du texte en blanc */
+}
+.winrate:hover {
+  background-color: #83b4ec; 
+  color: #fff; /* Couleur du texte en blanc */
+}
 
 .stats {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  font-size : 28px;
 }
 
 .stats p {
   margin-right: 2em;
+}
+.rank{
+
+  font-size : 28px;
 }
 
 @media only screen and (max-width: 600px) {

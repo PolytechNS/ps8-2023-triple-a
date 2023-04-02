@@ -2,7 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    border-top-right-radius: 20px;
+    font-family: 'Cinzel', serif;
   }
   
   body {
@@ -23,6 +24,8 @@
     font-size: 2rem;
     margin-bottom: 1.2rem;
     color: #0f1114;
+    border-top-right-radius: 20px;
+    font-family: 'Cinzel', serif;
   }
   
   form input {
@@ -46,6 +49,8 @@
     color: #fff;
     cursor: pointer;
     background: rgb(17, 107, 143);
+    border-top-right-radius: 20px;
+    font-family: 'Cinzel', serif;
   }
   
   button:hover {
