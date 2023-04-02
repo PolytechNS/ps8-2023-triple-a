@@ -206,6 +206,21 @@ wsServer.on("request", request => {
             console.log(" ° ", usernameAndClientId[clientId], " created challenge : " + gameId, " against " + result.opponentUsername);
             const con = clients[clientId].connection;
             con.send(JSON.stringify(payLoad));
+
+            // Notify the player that someone is challenging him
+            const payLoad2 = {
+                "method": "notifyChallenge",
+                "gameId": gameId,
+                "challenger": usernameAndClientId[clientId]
+            }
+            for ( const c of Object.keys(clients) ) {
+                if ( usernameAndClientId[c] === result.opponentUsername ) {
+                    const con = clients[c].connection;
+                    con.send(JSON.stringify(payLoad2));
+                }
+                console.log("I notified " + usernameAndClientId[c] + " that " + usernameAndClientId[clientId] + " is challenging him ");
+            }
+
         }
 
         // Respond to a challenge
@@ -259,8 +274,6 @@ wsServer.on("request", request => {
                         "turn": false,
                     }
 
-                    console.log("REFEREE : " , referee) 
-
                     const con = clients[clientId].connection;
                     con.send(JSON.stringify(payLoad));
                 }
@@ -271,8 +284,6 @@ wsServer.on("request", request => {
         if ( result.method === "challengerPlay" ) {
             const clientId = result.clientId;
             let gameId = result.gameId;
-
-            console.log("my game : ", games[gameId])
 
             // const opponentUsername = game.challengedPlayer;
             for ( const g of Object.keys(games) ) {
@@ -285,7 +296,6 @@ wsServer.on("request", request => {
                     updateGameState();
                 }
                     
-
                 const payLoad = { 
                     "method": "challengerPlay",
                     "gameId": gameId,
@@ -294,7 +304,7 @@ wsServer.on("request", request => {
 
                 const con = clients[clientId].connection;
                 con.send(JSON.stringify(payLoad));
-                
+            
             } 
  
         }

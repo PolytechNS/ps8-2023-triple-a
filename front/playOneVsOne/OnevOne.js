@@ -716,6 +716,14 @@ ws.onmessage = message => {
           addMessage("Opponent :", response.text);
         }
 
+        // Receive challenge notification
+        if ( response.method === "notifyChallenge" ) { 
+          console.log("You have a challenge from : ", response.challenger);
+          let nott = document.getElementById("notification");
+          // set its display to block
+          nott.style.display = "block";
+        }
+
         // upadate the game state
         if ( response.method === "updateGameState" ) {
 
@@ -932,6 +940,22 @@ function respondToChallenge() {
 
 }
 
+const acceptBtn = document.getElementById("accept-btn");
+const notification = document.querySelector(".notification");
 
+acceptBtn.addEventListener("click", function() {
+  let acceptChallenge = document.getElementById("acceptChallenge");
+  acceptChallenge.click();
+  // display ide.html for 3 seconds
+  setTimeout(() => {
+    countdown.style.display = "block";
+  }, 3000);
+  setTimeout(() => {
+    countdown.style.display = "none";
+    board.style.visibility = "visible";
+    chatBox.style.display = "block";
+  }, 6000);
+  notification.style.display = "none";
+});
 
 // call the function respondToChallenge() every 2 seconds

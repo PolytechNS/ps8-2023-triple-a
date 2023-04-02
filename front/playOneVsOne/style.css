@@ -245,3 +245,30 @@ input {
     font-size: 1.0rem;
     padding: 0 5px;
 }
+
+.notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 2px solid #000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .notification p {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  #accept-btn {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
