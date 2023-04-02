@@ -8,6 +8,43 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <script>
+        
+        function switchMode() {
+            let night = document.getElementById("night");
+            let day = document.getElementById("day");
+            if (night.style.display === "none") {
+                night.style.display = "block";
+                day.style.display = "none";
+            } else {
+                night.style.display = "none";
+                day.style.display = "block";
+            }
+        }
+
+        // Get a reference to the element that triggers the page navigation
+        const homeButton = document.getElementById('test');
+
+        // Attach a click event listener to the button
+        homeButton.addEventListener('click', function(event) {
+        // Prevent the default behavior of the link
+        event.preventDefault();
+
+        // Send a GET request to the target page using XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '../home/home.html');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+            // Replace the contents of the current page with the contents of the target page
+            document.documentElement.innerHTML = xhr.responseText;
+            } else {
+            console.log('Request failed. Status:', xhr.status);
+            }
+        };
+        xhr.send();
+        });
+
+    </script>
     <style>
         *{
             margin: 0;
@@ -141,7 +178,10 @@
 <body>
     <div class="header">
         <section class="left">
-            <a href="#">home</a>
+            <div href="" style="display: flex; justify-content: center; align-items: center;" onclick="switchMode()">
+                <img id="night" src="../images/night-mode.png" width="20%" alt="">
+                <img id="day" src="../images/moon.png" style="display: none;" width="20%" alt="">
+            </div>
             <a href="#">about</a>
             <a href="#">contact</a>
         </section>
@@ -151,16 +191,16 @@
             <img src="../images/Logo.png" alt="" width="60%">
         </div>
         <section class="right">
-            <a href="../home/home.html">
-                <img src="../images/home.png" style="height: 1cm;" alt="">
-            </a>
-            <a href="../profil/profil.html">
-                <img src="../images/user.png" style="height: 1cm;" alt="">
-            </a>
-            <a href="#">
-                <img src="../images/not.png" style="height: 1cm;" alt="">
+            <div onclick="location.href='../home/home.html'" style="cursor:pointer;" id="test">
+                <img src="../images/home.png" style="height: 0.7cm;" alt="">
+            </div>
+            <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+                <img src="../images/user.png" style="height: 0.7cm;" alt="">
+            </div>
+            <div onclick="location.href=''" style="cursor:pointer;">
+                <img src="../images/not.png" style="height: 0.7cm;" alt="">
                 <img src="../images/active.png" style="height: 1cm; display: none;" alt="">
-            </a>
+            </div>
         </section>
         <div id="line"></div>
         <div id="line2"></div>

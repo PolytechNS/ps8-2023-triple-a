@@ -478,7 +478,7 @@ newGame.addEventListener('click', () => {
 
   ws.send(JSON.stringify(payLoad));
   
-  waiting.style.display = "block";
+  // waiting.style.display = "block";
   newGame.style.display = "none";
 
   // listen for opponent variable changes
