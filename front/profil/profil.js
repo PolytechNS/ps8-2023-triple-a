@@ -1,5 +1,7 @@
 const localHost = 'localhost';
 const url = '15.236.164.81';
+let localHostOrUrl = url;
+
 let name = localStorage.getItem('username');
 console.log("score is :", localStorage.getItem('score'));
 
@@ -33,7 +35,7 @@ async function getUsername(event) {
 async function getData(event) {
   event.preventDefault();
   const token = localStorage.getItem('token');
-  const response = await fetch('http://' + localHost + ':8000/api/online/data/${token}', {
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/online/data/${token}', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -63,7 +65,7 @@ async function getPlayers2() {
   console.log('loading players');
   const token = localStorage.getItem('token').toString();
 
-  const response = await fetch('http://' + localHost + ':8000/api/game/user', {
+  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/user', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
