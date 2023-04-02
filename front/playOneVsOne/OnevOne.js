@@ -35,7 +35,7 @@ else if ( l == 1 ) {
 }
 
 // 1 : URL | 2 : Localhost
-chooselocalHostOrUrl(2);
+chooselocalHostOrUrl(1);
 
 window.onload = function() {
   setBoard();
@@ -303,6 +303,8 @@ const intervalId22 = setInterval(() => {
   }
 }, 100);
 
+let opp = document.getElementById('acceptChallenge');
+
 newGame.addEventListener('click', () => {
 
   const payLoad = {
@@ -314,6 +316,7 @@ newGame.addEventListener('click', () => {
   
   waiting.style.display = "block";
   newGame.style.display = "none";
+  opp.style.display = "none";
 
   // listen for opponent variable changes
   let opponentInterval = setInterval(() => {
@@ -619,7 +622,7 @@ ws.onmessage = message => {
 }
 
 async function updateScore(winner,loser){
-    const response = await fetch('http://localhost:8000/api/online/updateScore/%{winner}/%{loser}', {
+    const response = await fetch('http://' + localHostOrUrl + ':8000/api/online/updateScore/%{winner}/%{loser}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -780,6 +783,9 @@ const notification = document.querySelector(".notification");
 acceptBtn.addEventListener("click", function() {
   let acceptChallenge = document.getElementById("acceptChallenge");
   acceptChallenge.click();
+  acceptChallenge.style.display = "none";
+  joinGame.style.display = "none";
+
   // display ide.html for 3 seconds
   setTimeout(() => {
     countdown.style.display = "block";
