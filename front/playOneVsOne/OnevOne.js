@@ -230,54 +230,13 @@ return copy;
 
 // document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
 
-async function saveGame(event, gameType) {
-
-event.preventDefault();
-
-console.log("in saveGame")
-let token = localStorage.getItem("token");
-const savingDate = new Date();
-
-console.log(token);
-const tab = {
-  gameType: gameType,
-  tab: boardMatrixCopy(),
-  playerToPlay: currentPlayer,
-  userToken: token,
-  date : savingDate.toLocaleDateString()+ " " +  savingDate.toLocaleTimeString()
-};
-console.log(tab)
-
-try {
-  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(tab)
-  });
-
-  if(response.ok) {
-      console.log("im in" , response.data);
-      console.log("tab ", response.tab);
-      console.log("tab ", tab);
-      window.location.href = '../../modeGamePage/playersChooseColors.html'
-
-  }
-  else{
-      console.log("error");
-  }
-} catch (err) {
-  console.log(err);
-}
-}
 
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");
     redirect.href ="../playOneVsOne/index.html" ;
   }
 
-  async function getSavedGames() {
+  export async function getSavedGames() {
 
   const token = localStorage.getItem("token");
   const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/list', {
@@ -315,7 +274,7 @@ async function resumeGame() {
   }
 }
 
-async function restoreSavedGame(event) {
+export async function restoreSavedGame(event) {
   event.preventDefault();
   const gameId = event.target.dataset.game;
   console.log("this is the game id : ", gameId);
@@ -366,7 +325,7 @@ async function restoreSavedGame(event) {
   }
 }
 
-async function deleteSavedGame(event) {
+export async function deleteSavedGame(event) {
 
   event.preventDefault();
 
