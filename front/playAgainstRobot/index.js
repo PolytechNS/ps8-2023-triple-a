@@ -454,8 +454,8 @@ function setup(AIplays) {
     return true;
 }
 
-exports.setup = setup;
-exports.nextMove = nextMove;
+// exports.setup = setup;
+// exports.nextMove = nextMove;
 
 ////////////////////////////////// END IA //////////////////////////////////////
 function boardMatrixCopy(){
@@ -501,7 +501,6 @@ async function saveGame(event, gameType) {
             console.log("tab ", response.tab);
             console.log("tab ", tab);
             window.location.href = '../../modeGamePage/selectMode.html'
-
         }
         else{
             console.log("error");
@@ -515,7 +514,6 @@ document.getElementById("saveButton2").addEventListener("click",function(){saveG
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");
     redirect.href ="../playOneVsOne/index.html" ;
-
 }
 
 async function getSavedGames() {

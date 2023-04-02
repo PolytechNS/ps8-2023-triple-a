@@ -48,15 +48,16 @@
 </header>
 <div id="board"></div>
 <a>
-    <button class="button" id="saveButton" >Save game and exit</button>
+    <button class="button" id="saveButton">Save game and exit</button>
+    <button class="button" id="toggle-btn">Show saved games</button>
 </a>
-
-<div id="games-container">
-    <h2>Saved Games</h2>
-    <ul id="games-list">
-        <li>No saved games found.</li>
-    </ul>
-</div>
+    
+    <div id="games-container" onclick="toggleList()">
+        <h2>Saved Games</h2>
+        <ul id="games-list">
+          <li>No saved games found.</li>
+        </ul>
+    </div>
 
 <div id="popup-message" class="hidden">
     <p id="winner-message"></p>

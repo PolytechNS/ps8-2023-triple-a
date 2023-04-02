@@ -48,7 +48,8 @@
 </header>
 <div id="board"></div>
 <a>
-    <button class="button" id="saveButton2" >Save game and exit</button>
+    <button class="button" id="saveButton2">Save game and exit</button>
+    <button class="button" id="toggle-btn">Show saved games</button>
 </a>
 
 <div id="games-container">
@@ -57,6 +58,20 @@
         <li>No saved games found.</li>
     </ul>
 </div>
+
+<script>
+    const toggleBtn = document.getElementById('toggle-btn');
+    const gamesContainer = document.getElementById('games-container');
+
+    toggleBtn.addEventListener('click', function() {
+        if (gamesContainer.style.display === 'none') {
+            gamesContainer.style.display = 'block';
+        } else {
+            gamesContainer.style.display = 'none';
+        }
+    });
+</script>  
+
 <div id="popup-message" class="hidden">
     <p id="winner-message"></p>
     <p>Click home to return to the homepage.</p>
