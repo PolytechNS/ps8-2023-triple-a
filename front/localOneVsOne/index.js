@@ -61,7 +61,18 @@ function getTile(i, j) {
     return target;
 }
 
+let i = 0;
+
 function fillTheClickedTile() {
+
+    if ( i == 0 ) {
+        decrementRed();
+        i++;
+    }
+    else if ( i == 1 ) {
+        decrementYellow();
+        i--;
+    }
 
     if (gameOver) {
         return;
@@ -357,3 +368,59 @@ async function deleteSavedGame(event) {
 
 // Call getSavedGames when the page loads
 getSavedGames();
+
+//////// decrement timer ////////
+
+const redTimer = document.querySelector('.red .timer');
+const yellowTimer = document.querySelector('.yellow .timer');
+
+let redTime = 60;
+let yellowTime = 60;
+
+// const yellowCountdown = setInterval(decrementYellow, 1000);
+// const redCountdown = setInterval(decrementRed, 1000);
+
+function decrementYellow() {
+    let timer = document.getElementById("tr");
+    timer.style.display = "none";
+
+    let timer2 = document.getElementById("tl");
+    timer2.style.display = "none";
+
+    let im1 = document.getElementById("right");
+    im1.style.display = "block";
+
+    let im = document.getElementById("left");
+    im.style.display = "none";
+    yellowTime--;
+
+    if (yellowTime >= 0) {
+        yellowTimer.textContent = yellowTime;
+    } else {
+        clearInterval(yellowCountdown);
+        yellowTimer.textContent = 'Time\'s up!';
+    }
+}
+
+function decrementRed() {
+    let timer = document.getElementById("tl");
+    timer.style.display = "none";
+
+    let timer2 = document.getElementById("tr");
+    timer2.style.display = "none";
+
+    let im1 = document.getElementById("left");
+    im1.style.display = "block";
+
+    let im = document.getElementById("right");
+    im.style.display = "none";
+
+    redTime--;
+
+    if (redTime >= 0) {
+        redTimer.textContent = redTime;
+    } else {
+        clearInterval(redCountdown);
+        redTimer.textContent = 'Time\'s up!';
+    }
+}

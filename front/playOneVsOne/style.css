@@ -48,7 +48,6 @@ image {
 }
 
 #board {
-    margin-top: 3cm;
     height: 420px;
     width: 480px;
     background-color: rgb(129, 196, 235);
