@@ -266,7 +266,7 @@ wsServer.on("request", request => {
                 }
             }
         }
-
+ 
         // Challenger play
         if ( result.method === "challengerPlay" ) {
             const clientId = result.clientId;
