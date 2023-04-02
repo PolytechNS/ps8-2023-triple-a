@@ -11,8 +11,6 @@ var winner = null;
 
 // Stoque la matrice du jeu dont les éléments sont, 
 // si remplis, soit 'RED' soit 'YELLOW'
-var boardMatrix;
-
 var boardMatrix = boardMatrix;
 
 // Stoque la matrice du jeu dont les éléments sont, 
