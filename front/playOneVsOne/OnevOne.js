@@ -473,10 +473,10 @@ ws.onmessage = message => {
                       decrementRed();
                       playFirst++;
                   }
-                  // else if ( playFirst == 1 ) {
-                  //     decrementYellow();
-                  //     playFirst--;
-                  // }
+                  else if ( playFirst == 1 ) {
+                      decrementYellow();
+                      playFirst--;
+                  }
 
                   ws.send(JSON.stringify(payLoad));
                 }
@@ -665,7 +665,7 @@ async function updateScore(winner,loser){
 
 
 function storeText() {
-  let YOYO = document.getElementById("input-text").value;
+  let YOYO = document.getElementById("messageInput").value;
   document.getElementById("text-display").textContent = YOYO;
 
   const paylaod = {
