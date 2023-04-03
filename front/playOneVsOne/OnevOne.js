@@ -54,7 +54,7 @@ function setBoard() {
       tile.id = r.toString() + "-" + c.toString();
       tile.classList.add("tile");
       boardGame.appendChild(tile);
-      divv.style.display = "none";
+      divv.style.visibility = "hidden";
     }
   }
   return boardGame;
@@ -439,7 +439,7 @@ ws.onmessage = message => {
             console.log("Yes you have a challenge to join : ", response.gameId, " against : ", response.opponent);
 
             let board = document.getElementById('board');
-            board.style.display = "block";
+            board.style.visibility = "visible";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -481,7 +481,7 @@ ws.onmessage = message => {
             console.log("Your opponent is here you can play");
 
             let board = document.getElementById('board');
-            board.style.display = "block";
+            board.style.visibility = "visible";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -796,7 +796,7 @@ acceptBtn.addEventListener("click", function() {
   }, 3000);
   setTimeout(() => {
     countdown.style.display = "none";
-    board.style.display = "none";
+    board.style.visibility = "hidden";
     chatBox.style.display = "block";
   }, 6000);
   notification.style.display = "none";
