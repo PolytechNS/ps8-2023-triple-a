@@ -665,7 +665,7 @@ async function updateScore(winner,loser){
 
 
 function storeText() {
-  let YOYO = document.getElementById("messageInput").value;
+  let YOYO = document.getElementById("input-text").value;
   document.getElementById("text-display").textContent = YOYO;
 
   const paylaod = {
@@ -674,6 +674,8 @@ function storeText() {
     "clientId": clientId,
     "gameId": gameId,
   }
+
+  console.log("I sent this payload : ", paylaod)
 
   ws.send(JSON.stringify(paylaod));
 }
@@ -707,6 +709,9 @@ sendButton.addEventListener("click", function () {
       "clientId": clientId,
       "gameId": gameId,
     }
+
+    console.log("I sent this payload 3: ", paylaod)
+
 
     ws.send(JSON.stringify(paylaod));
 

@@ -326,6 +326,7 @@ wsServer.on("request", request => {
                 "clientId": clientId,
                 "gameId": gameId,
             }
+            console.log(" ___ ", usernameAndClientId[clientId], " sent a message in game : " + message + " in " + gameId);
             con.send(JSON.stringify(payLoad));
         }
         
