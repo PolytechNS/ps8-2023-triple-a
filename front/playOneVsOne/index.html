@@ -174,7 +174,7 @@
     <div style=" display: flex; justify-content: center; align-items: center;">
       <button style="display: inline-block; margin-right:500px;" class="button" id = 'newGame'>Look for Oponnent</button>
       <button class="button" id = 'startCh' style="display: none;">Start Challenge</button>
-      <button style="display: inline-block; margin-right:-300px;" class="button" id = 'acceptChallenge' onclick="respondToChallenge()">Accept challenge</button>
+      <button style="display: none; margin-right:-300px;" class="button" id = 'acceptChallenge' onclick="respondToChallenge()">Accept challenge</button>
       <button id = 'joinGame' style="display: none;">Ready ? Start the game</button>
     </div>
     <div class="too" id="too">
@@ -191,7 +191,7 @@
 
     <div id="content">
 
-      <div id="board"></div>
+      <div id="board" style="visibility: hidden;"></div>
 
       <div id="notification" class="notification" style="display: none;">
         <p>You have a challenge !</p>
