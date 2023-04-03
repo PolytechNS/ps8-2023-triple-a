@@ -570,7 +570,7 @@ ws.onmessage = message => {
         // Receive a message from the opponent
         if ( response.method === "chat" ) {
           console.log("MESSAGE From the opponent : ", response.text);
-          addMessage("⬪ " + response.opponentName + " : " + response.text);
+          addMessage(response.opponentName + " : " + response.text);
         }
 
         // Receive challenge notification
@@ -907,7 +907,7 @@ var sendButton = document.getElementById("sendButton");
 sendButton.addEventListener("click", function () {
 var messageText = messageInput.value;
 if (messageText.trim() !== "") {
-    addMessage("⬪ " + localStorage.getItem(username) + " : " , messageText);
+    addMessage("" + localStorage.username + " : " , messageText);
     messageInput.value = "";
 }
 });
