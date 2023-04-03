@@ -665,7 +665,7 @@ async function updateScore(winner,loser){
 
 function storeText() {
   let YOYO = document.getElementById("messageInput").value;
-  document.getElementById("text-display").textContent = YOYO;
+  // document.getElementById("text-display").textContent = YOYO;
   console.log("YOYO : ", YOYO);
   const paylaod = {
     "method": "chat",
@@ -699,7 +699,7 @@ sendButton.addEventListener("click", function () {
         addMessage("You", messageText);
         messageInput.value = "";
     }
-    console.log("this is the message : ", messageText)
+
     // Send the message to the server
     const paylaod = {
       "method": "chat",
@@ -707,11 +707,6 @@ sendButton.addEventListener("click", function () {
       "clientId": clientId,
       "gameId": gameId,
     }
-
-    console.log("YOYOY : ", messageText)
-    console.log("I sent this payload 3: ", paylaod)
-
-    storeText();
 
     ws.send(JSON.stringify(paylaod));
 
