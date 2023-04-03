@@ -705,8 +705,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const urlParams = new URLSearchParams(window.location.search);
     const triggerFunction = urlParams.get('trigger');
     const opponentUsername = urlParams.get('opponentUsername');
-    let photo = document.getElementById("too");
-    photo.style.display = "none";
     let acceptChallenge1 = document.getElementById("acceptChallenge");
     acceptChallenge1.style.display = "none";
     
@@ -745,6 +743,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             countdown.style.display = "block";
 
             setTimeout(() => {
+                let photo = document.getElementById("too");
+                photo.style.display = "none";
                 countdown.style.display = "none";
                 board.style.visibility = "visible";
                 chatBox.style.display = "block";

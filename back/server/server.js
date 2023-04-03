@@ -562,9 +562,11 @@ function updateGameState() {
                 "winner": winner,
             } 
 
-            game.clients.forEach(client => {
-                clients[client.clientId].connection.send(JSON.stringify(payLoad))
-            });
+            if ( game.clients.length != 0 ) {
+                game.clients.forEach(client => {
+                    clients[client.clientId].connection.send(JSON.stringify(payLoad))
+                });
+            }
 
         }
     }
