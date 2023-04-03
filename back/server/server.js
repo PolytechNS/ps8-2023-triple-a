@@ -380,7 +380,7 @@ wsServer.on("request", request => {
                 "game": game,
                 "state": game.gameState,
                 "clients": game.clients,
-            }
+            } 
 
             // Add the client with it turn set to false to the referee
             // check the length of the clients in the gameId

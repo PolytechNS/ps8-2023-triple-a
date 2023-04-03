@@ -664,7 +664,7 @@ async function updateScore(winner,loser){
 
 
 function storeText() {
-  let YOYO = document.getElementById("input-text").value;
+  let YOYO = document.getElementById("messageInput").value;
   document.getElementById("text-display").textContent = YOYO;
   console.log("YOYO : ", YOYO);
   const paylaod = {
@@ -689,18 +689,18 @@ function generateId() {
 }
 
 var messages = document.getElementById("messages");
-var messageInput = document.getElementById("messageInput");
+let messageInput = document.getElementById("messageInput");
 var sendButton = document.getElementById("sendButton");
 
 sendButton.addEventListener("click", function () {
 
     // Display the message locally
-    var messageText = messageInput.value;
+    let messageText = messageInput.value;
     if (messageText.trim() !== "") {
         addMessage("You", messageText);
         messageInput.value = "";
     }
-
+    console.log("this is the message : ", messageText)
     // Send the message to the server
     const paylaod = {
       "method": "chat",
