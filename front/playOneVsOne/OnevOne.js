@@ -705,6 +705,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const urlParams = new URLSearchParams(window.location.search);
     const triggerFunction = urlParams.get('trigger');
     const opponentUsername = urlParams.get('opponentUsername');
+    let photo = document.getElementById("too");
     photo.style.display = "none";
     let acceptChallenge1 = document.getElementById("acceptChallenge");
     acceptChallenge1.style.display = "none";

@@ -145,7 +145,7 @@ h1 {
   max-width: 300px;
   filter: drop-shadow(0 0 4px #000);
   transition: 0.5s;
-  animation: animate 2s linear infinite;
+  animation: animate 5s linear infinite;
 }
 
 @keyframes animate {
