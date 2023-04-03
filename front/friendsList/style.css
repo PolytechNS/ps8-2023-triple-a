@@ -285,7 +285,7 @@ image {
 }
 
 .game-button::after {
-  content: "Click to Accept friend request";
+  content: "Click to send friend request";
   position: absolute;
   bottom: 0;
   left: 0;

@@ -8,6 +8,9 @@ var previousPlayer = null;
 
 var gameOver = false;
 var winner = null;
+const localHost = 'localhost';
+const url = '15.236.164.81';
+let localHostOrUrl = url;
 
 // Stoque la matrice du jeu dont les éléments sont, 
 // si remplis, soit 'RED' soit 'YELLOW'
