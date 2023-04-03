@@ -337,6 +337,7 @@ newGame.addEventListener('click', () => {
           board.style.visibility = "visible";
           let chrono = document.getElementById("chrono");
           chrono.style.display = "block";
+          let chatBox = document.getElementById("chat-box");
           chatBox.style.display = "block";
       }, 3000);
 
@@ -444,6 +445,8 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
+            let chrono = document.getElementById("chrono");
+            chrono.style.display = "block";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -496,6 +499,8 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
+            let chrono = document.getElementById("chrono");
+            chrono.style.display = "block";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -764,6 +769,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 board.style.visibility = "visible";
                 let chrono = document.getElementById("chrono");
                 chrono.style.display = "block";
+                let chatBox = document.getElementById("chat-box");
                 chatBox.style.display = "block";
             }, 3000);
 
@@ -821,6 +827,7 @@ acceptBtn.addEventListener("click", function() {
     board.style.visibility = "visible";
     let chrono = document.getElementById("chrono");
     chrono.style.display = "block";
+    let chatBox = document.getElementById("chat-box");
     chatBox.style.display = "block";
   }, 3000);
   notification.style.display = "none";
