@@ -36,7 +36,7 @@
         <script>
             const localHost = 'localhost';
             const url = '15.236.164.81';
-            var localHostOrUrl = url;
+            var localHostOrUrl = localHost;
             
             function chooseLocalHostOrUrl(l) {
                 if ( l == "local" ) {
@@ -47,7 +47,7 @@
                 }
             }
 
-            chooseLocalHostOrUrl("url");
+            chooseLocalHostOrUrl("local");
 
             const loginForm = document.querySelector('#loginForm');
             loginForm.addEventListener('submit', async (event) => {

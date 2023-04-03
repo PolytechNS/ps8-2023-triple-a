@@ -197,7 +197,7 @@
   async function getData(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
-    const response = await fetch('http://' + localHostOrUrl + ':8000/api/online/data/${token}', {
+    const response = await fetch('http://localhost:8000/api/online/data/${token}', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -249,7 +249,7 @@
   console.log('loading players');
   const token = localStorage.getItem('token').toString();
 
-  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/user', {
+  const response = await fetch('http://localhost:8000/api/game/user', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

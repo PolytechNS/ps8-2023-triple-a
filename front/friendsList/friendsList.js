@@ -1,6 +1,6 @@
 const localHost = 'localhost';
 const url = '15.236.164.81';
-let localHostOrUrl = url;
+let localHostOrUrl = localHost;
 
 let persons = [];
 async function getPlayers() {

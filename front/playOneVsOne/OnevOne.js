@@ -23,7 +23,7 @@ var columns = 7;
 
 const localHost = 'localhost';
 const url = '15.236.164.81';
-let localHostOrUrl = url;
+let localHostOrUrl = localHost;
 
 function chooselocalHostOrUrl(l) {
 if ( l == 2 ) {
@@ -35,7 +35,7 @@ else if ( l == 1 ) {
 }
 
 // 1 : URL | 2 : Localhost
-chooselocalHostOrUrl(1);
+chooselocalHostOrUrl(2);
 
 window.onload = function() {
   setBoard();
@@ -317,8 +317,6 @@ newGame.addEventListener('click', () => {
   waiting.style.display = "block";
   newGame.style.display = "none";
   opp.style.display = "none";
-  let photo = document.getElementById('too');
-  photo.style.display = "none";
 
   // listen for opponent variable changes
   let opponentInterval = setInterval(() => {
@@ -330,14 +328,10 @@ newGame.addEventListener('click', () => {
 
       // The oponent is found, we can start the game
       countdown.style.display = "block";
-      board.style.visibility = "hidden";
 
       setTimeout(() => {
           countdown.style.display = "none";
           board.style.visibility = "visible";
-          let chrono = document.getElementById("chrono");
-          chrono.style.visibility = "visible";
-          let chatBox = document.getElementById("chat-box");
           chatBox.style.display = "block";
       }, 3000);
 
@@ -371,7 +365,6 @@ const intervalId = setInterval(() => {
             
 let turn = true;
 let privateRoomId = null;
-let playFirst = 0;
 
 ws.onmessage = message => {
         // I the client receive a message from the server !
@@ -445,8 +438,6 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
-            let chrono = document.getElementById("chrono");
-            chrono.style.visibility = "visible";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -468,23 +459,13 @@ ws.onmessage = message => {
                       "column": column,
                       "color": clientColor
                   }
-                  decrementRed();
-                  if ( playFirst == 0 ) {
-                      decrementRed();
-                      playFirst++;
-                  }
-                  else if ( playFirst == 1 ) {
-                      decrementYellow();
-                      playFirst--;
-                  }
-
                   ws.send(JSON.stringify(payLoad));
                 }
               });
 
         }
 
-        // The challenger play
+        // Challnger play
         if ( response.method === "challengerPlay" ) {
 
             clientColor = null;
@@ -499,8 +480,6 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
-            let chrono = document.getElementById("chrono");
-            chrono.style.visibility = "visible";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -522,6 +501,7 @@ ws.onmessage = message => {
                       "column": column,
                       "color": clientColor
                   }
+                  console.log("I sent this payload : ", payLoad)
                   ws.send(JSON.stringify(payLoad));
                 }
               });
@@ -664,17 +644,15 @@ async function updateScore(winner,loser){
 
 
 function storeText() {
-  let YOYO = document.getElementById("messageInput").value;
-  // document.getElementById("text-display").textContent = YOYO;
-  console.log("YOYO : ", YOYO);
+  let YOYO = document.getElementById("input-text").value;
+  document.getElementById("text-display").textContent = YOYO;
+
   const paylaod = {
     "method": "chat",
     "text": YOYO,
     "clientId": clientId,
     "gameId": gameId,
   }
-
-  console.log("I sent this payload : ", paylaod)
 
   ws.send(JSON.stringify(paylaod));
 }
@@ -689,12 +667,13 @@ function generateId() {
 }
 
 var messages = document.getElementById("messages");
+var messageInput = document.getElementById("messageInput");
 var sendButton = document.getElementById("sendButton");
 
 sendButton.addEventListener("click", function () {
 
     // Display the message locally
-    let messageText = messageInput.value;
+    var messageText = messageInput.value;
     if (messageText.trim() !== "") {
         addMessage("You", messageText);
         messageInput.value = "";
@@ -724,11 +703,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const urlParams = new URLSearchParams(window.location.search);
     const triggerFunction = urlParams.get('trigger');
     const opponentUsername = urlParams.get('opponentUsername');
-    let acceptChallenge1 = document.getElementById("acceptChallenge");
-    acceptChallenge1.style.display = "none";
-    let photo = document.getElementById("too");
-    photo.style.display = "none";
-    
     if (triggerFunction === 'challengeFriend') {
 
       console.log("I'm challenging ", opponentUsername);
@@ -762,16 +736,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             // The oponent is found, we can start the game
             countdown.style.display = "block";
-            board.style.visibility = "hidden";
 
             setTimeout(() => {
-                let photo = document.getElementById("too");
-                photo.style.display = "none";
                 countdown.style.display = "none";
                 board.style.visibility = "visible";
-                let chrono = document.getElementById("chrono");
-                chrono.style.visibility = "visible";
-                let chatBox = document.getElementById("chat-box");
                 chatBox.style.display = "block";
             }, 3000);
 
@@ -817,142 +785,17 @@ acceptBtn.addEventListener("click", function() {
   acceptChallenge.click();
   acceptChallenge.style.display = "none";
   joinGame.style.display = "none";
-  let photo = document.getElementById("too");
-  photo.style.display = "none";
-  let neww = document.getElementById("newGame");
-  neww.style.display = "none";
-  // display countwodn.html for 3 seconds then display ide.html
-  countdown.style.display = "block";
-  board.style.visibility = "hidden";
+
+  // display ide.html for 3 seconds
+  setTimeout(() => {
+    countdown.style.display = "block";
+  }, 3000);
   setTimeout(() => {
     countdown.style.display = "none";
     board.style.visibility = "visible";
-    let chrono = document.getElementById("chrono");
-    chrono.style.visibility = "visible";
-    let chatBox = document.getElementById("chat-box");
     chatBox.style.display = "block";
-  }, 3000);
+  }, 6000);
   notification.style.display = "none";
 });
 
 // call the function respondToChallenge() every 2 seconds
-//////// decrement timer ////////
-
-const redTimer = document.querySelector('.red .timer');
-const yellowTimer = document.querySelector('.yellow .timer');
-
-let redTime = 60;
-let yellowTime = 60;
-
-// const yellowCountdown = setInterval(decrementYellow, 1000);
-// const redCountdown = setInterval(decrementRed, 1000);
-
-function decrementYellow() {
-    let timer = document.getElementById("tr");
-    timer.style.display = "none";
-
-    let timer2 = document.getElementById("tl");
-    timer2.style.display = "none";
-
-    let im1 = document.getElementById("right");
-    im1.style.display = "block";
-
-    let im = document.getElementById("left");
-    im.style.display = "none";
-    yellowTime--;
-
-    if (yellowTime >= 0) {
-        yellowTimer.textContent = yellowTime;
-    } else {
-        clearInterval(yellowCountdown);
-        yellowTimer.textContent = 'Please fill a tile !';
-    }
-}
-
-function decrementRed() {
-    let timer = document.getElementById("tl");
-    timer.style.display = "none";
-
-    let timer2 = document.getElementById("tr");
-    timer2.style.display = "none";
-
-    let im1 = document.getElementById("left");
-    im1.style.display = "block";
-
-    let im = document.getElementById("right");
-    im.style.display = "none";
-
-    redTime--;
-
-    if (redTime >= 0) {
-        redTimer.textContent = redTime;
-    } else {
-        clearInterval(redCountdown);
-        redTimer.textContent = 'Time\'s up!';
-    }
-}
-
-function closeChat() {
-  chatBox2.style.display = "none";
-  // get the image chat and make it visible
-  let image = document.getElementById("open");
-  image.style.display = "inline-block";
-}
-
-// chat query
-var messages = document.getElementById("messages");
-var messageInput = document.getElementById("messageInput");
-var sendButton = document.getElementById("sendButton");
-
-sendButton.addEventListener("click", function () {
-var messageText = messageInput.value;
-if (messageText.trim() !== "") {
-    addMessage("You", messageText);
-    messageInput.value = "";
-}
-});
-
-function addMessage(user, message) {
-var li = document.createElement("li");
-li.className = "chat-message";
-li.innerHTML =
-    '<span class="user">' + user + ':</span><span class="message">' + message + "</span>";
-messages.appendChild(li);
-}
-
-var openCloseButton = document.getElementById("openCloseButton");
-var chatBox2 = document.querySelector(".chat-box");
-
-        // openCloseButton.addEventListener("click", function () {
-        //   if (chatBox2.style.display === "none") {
-        //     chatBox2.style.display = "block";
-        //     openCloseButton.innerText = "Close Chat";
-        //   } else {
-        //     chatBox2.style.display = "none";
-        //     openCloseButton.innerText = "Open Chat";
-        //   }
-        // });
-
-        function closeChat() {
-          chatBox2.style.display = "none";
-          // get the image chat and make it visible
-          let image = document.getElementById("open");
-          image.style.display = "inline-block";
-        }
-
-        function mute() {
-          document.querySelector(".chat-box img:nth-child(2)").style.display = "none";
-          document.querySelector(".chat-box img:nth-child(3)").style.display = "inline-block";
-        }
-
-        function unmute() {
-          document.querySelector(".chat-box img:nth-child(2)").style.display = "inline-block";
-          document.querySelector(".chat-box img:nth-child(3)").style.display = "none";
-        }
-
-        function openChat() {
-          chatBox2.style.display = "block";
-          // get the image chat and make it visible
-          let image = document.getElementById("open");
-          image.style.display = "none";
-        }
