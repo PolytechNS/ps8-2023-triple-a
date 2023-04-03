@@ -177,6 +177,9 @@
       <button style="display: inline-block; margin-right:-300px;" class="button" id = 'acceptChallenge' onclick="respondToChallenge()">Accept challenge</button>
       <button id = 'joinGame' style="display: none;">Ready ? Start the game</button>
     </div>
+    <div class="too" id="too">
+      <img src="../images/game.png" alt="" id="toHide" style="height: 7cm; margin-top: 7cm;">
+    </div>
 
     <div id="component" style="display: none;">
       <object type="text/html" data="waiting.html" style="width:100%; height:700px;"></object>
@@ -195,10 +198,10 @@
         <button id="accept-btn">Accept Challenge</button>
       </div>
       
+      <img src="../images/chat.png" id="open" style="height: 1.5cm; display: inline-block; margin-right: 10px; position: absolute; bottom: 20px; right : 3px;" alt="" onclick="openChat()">
+      <div class="chat-box"  style="display : none">
 
-      <div class="chat-box">
-
-        <div style="height: 0.5cm;">
+        <div style="height: 0.5cm;"">
           <img src="../images/close.png" style="height: 0.5cm; display: inline-block; margin-right: 10px; position: absolute; top: 3px; left : 3px" alt="" onclick="closeChat()">
           <img src="../images/mute.png" style="height: 0.5cm; display: inline-block; position: absolute; top: 3px; left : 32px" alt="" onclick="mute()">
           <img src="../images/volume.png" style="height: 0.5cm; display: inline-block; position: absolute; top: 3px; left : 32px; display:none" alt="" onclick="unmute()">

@@ -54,7 +54,7 @@ function setBoard() {
       tile.id = r.toString() + "-" + c.toString();
       tile.classList.add("tile");
       boardGame.appendChild(tile);
-      divv.style.visibility = "hidden";
+      divv.style.display = "none";
     }
   }
   return boardGame;
@@ -317,6 +317,8 @@ newGame.addEventListener('click', () => {
   waiting.style.display = "block";
   newGame.style.display = "none";
   opp.style.display = "none";
+  let photo = document.getElementById('too');
+  photo.style.display = "none";
 
   // listen for opponent variable changes
   let opponentInterval = setInterval(() => {
@@ -331,7 +333,7 @@ newGame.addEventListener('click', () => {
 
       setTimeout(() => {
           countdown.style.display = "none";
-          board.style.visibility = "visible";
+          board.style.display = "bolck";
           chatBox.style.display = "block";
       }, 3000);
 
@@ -437,7 +439,7 @@ ws.onmessage = message => {
             console.log("Yes you have a challenge to join : ", response.gameId, " against : ", response.opponent);
 
             let board = document.getElementById('board');
-            board.style.visibility = "visible";
+            board.style.display = "block";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -479,7 +481,7 @@ ws.onmessage = message => {
             console.log("Your opponent is here you can play");
 
             let board = document.getElementById('board');
-            board.style.visibility = "visible";
+            board.style.display = "block";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -739,7 +741,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             setTimeout(() => {
                 countdown.style.display = "none";
-                board.style.visibility = "visible";
+                board.style.display = "block";
                 chatBox.style.display = "block";
             }, 3000);
 
@@ -785,6 +787,8 @@ acceptBtn.addEventListener("click", function() {
   acceptChallenge.click();
   acceptChallenge.style.display = "none";
   joinGame.style.display = "none";
+  let photo = document.getElementById("too");
+  photo.style.display = "none";
 
   // display ide.html for 3 seconds
   setTimeout(() => {
@@ -792,7 +796,7 @@ acceptBtn.addEventListener("click", function() {
   }, 3000);
   setTimeout(() => {
     countdown.style.display = "none";
-    board.style.visibility = "visible";
+    board.style.display = "none";
     chatBox.style.display = "block";
   }, 6000);
   notification.style.display = "none";
