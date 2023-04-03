@@ -468,15 +468,15 @@ ws.onmessage = message => {
                       "column": column,
                       "color": clientColor
                   }
-
+                  decrementRed();
                   if ( playFirst == 0 ) {
                       decrementRed();
                       playFirst++;
                   }
-                  else if ( playFirst == 1 ) {
-                      decrementYellow();
-                      playFirst--;
-                  }
+                  // else if ( playFirst == 1 ) {
+                  //     decrementYellow();
+                  //     playFirst--;
+                  // }
 
                   ws.send(JSON.stringify(payLoad));
                 }
@@ -865,7 +865,7 @@ function decrementYellow() {
         yellowTimer.textContent = yellowTime;
     } else {
         clearInterval(yellowCountdown);
-        yellowTimer.textContent = 'Time\'s up!';
+        yellowTimer.textContent = 'Please fill a tile !';
     }
 }
 
