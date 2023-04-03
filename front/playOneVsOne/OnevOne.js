@@ -726,6 +726,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const opponentUsername = urlParams.get('opponentUsername');
     let acceptChallenge1 = document.getElementById("acceptChallenge");
     acceptChallenge1.style.display = "none";
+    let photo = document.getElementById("too");
+    photo.style.display = "none";
     
     if (triggerFunction === 'challengeFriend') {
 
