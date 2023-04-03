@@ -336,7 +336,7 @@ newGame.addEventListener('click', () => {
           countdown.style.display = "none";
           board.style.visibility = "visible";
           let chrono = document.getElementById("chrono");
-          chrono.style.display = "block";
+          chrono.style.visibility = "visible";
           let chatBox = document.getElementById("chat-box");
           chatBox.style.display = "block";
       }, 3000);
@@ -446,7 +446,7 @@ ws.onmessage = message => {
             let board = document.getElementById('board');
             board.style.visibility = "visible";
             let chrono = document.getElementById("chrono");
-            chrono.style.display = "block";
+            chrono.style.visibility = "visible";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -500,7 +500,7 @@ ws.onmessage = message => {
             let board = document.getElementById('board');
             board.style.visibility = "visible";
             let chrono = document.getElementById("chrono");
-            chrono.style.display = "block";
+            chrono.style.visibility = "visible";
 
             boardGame.addEventListener("click", function(event) {
               let target = event.target;
@@ -770,7 +770,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 countdown.style.display = "none";
                 board.style.visibility = "visible";
                 let chrono = document.getElementById("chrono");
-                chrono.style.display = "block";
+                chrono.style.visibility = "visible";
                 let chatBox = document.getElementById("chat-box");
                 chatBox.style.display = "block";
             }, 3000);
@@ -828,7 +828,7 @@ acceptBtn.addEventListener("click", function() {
     countdown.style.display = "none";
     board.style.visibility = "visible";
     let chrono = document.getElementById("chrono");
-    chrono.style.display = "block";
+    chrono.style.visibility = "visible";
     let chatBox = document.getElementById("chat-box");
     chatBox.style.display = "block";
   }, 3000);
