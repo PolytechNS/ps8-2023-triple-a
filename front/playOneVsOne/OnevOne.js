@@ -330,10 +330,13 @@ newGame.addEventListener('click', () => {
 
       // The oponent is found, we can start the game
       countdown.style.display = "block";
+      board.style.visibility = "hidden";
 
       setTimeout(() => {
           countdown.style.display = "none";
           board.style.visibility = "visible";
+          let chrono = document.getElementById("chrono");
+          chrono.style.display = "block";
           chatBox.style.display = "block";
       }, 3000);
 
@@ -367,6 +370,7 @@ const intervalId = setInterval(() => {
             
 let turn = true;
 let privateRoomId = null;
+let playFirst = 0;
 
 ws.onmessage = message => {
         // I the client receive a message from the server !
@@ -461,13 +465,23 @@ ws.onmessage = message => {
                       "column": column,
                       "color": clientColor
                   }
+
+                  if ( playFirst == 0 ) {
+                      decrementRed();
+                      playFirst++;
+                  }
+                  else if ( playFirst == 1 ) {
+                      decrementYellow();
+                      playFirst--;
+                  }
+
                   ws.send(JSON.stringify(payLoad));
                 }
               });
 
         }
 
-        // Challnger play
+        // The challenger play
         if ( response.method === "challengerPlay" ) {
 
             clientColor = null;
@@ -741,12 +755,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             // The oponent is found, we can start the game
             countdown.style.display = "block";
+            board.style.visibility = "hidden";
 
             setTimeout(() => {
                 let photo = document.getElementById("too");
                 photo.style.display = "none";
                 countdown.style.display = "none";
                 board.style.visibility = "visible";
+                let chrono = document.getElementById("chrono");
+                chrono.style.display = "block";
                 chatBox.style.display = "block";
             }, 3000);
 
@@ -798,12 +815,70 @@ acceptBtn.addEventListener("click", function() {
   neww.style.display = "none";
   // display countwodn.html for 3 seconds then display ide.html
   countdown.style.display = "block";
+  board.style.visibility = "hidden";
   setTimeout(() => {
     countdown.style.display = "none";
     board.style.visibility = "visible";
+    let chrono = document.getElementById("chrono");
+    chrono.style.display = "block";
     chatBox.style.display = "block";
   }, 3000);
   notification.style.display = "none";
 });
 
 // call the function respondToChallenge() every 2 seconds
+//////// decrement timer ////////
+
+const redTimer = document.querySelector('.red .timer');
+const yellowTimer = document.querySelector('.yellow .timer');
+
+let redTime = 60;
+let yellowTime = 60;
+
+// const yellowCountdown = setInterval(decrementYellow, 1000);
+// const redCountdown = setInterval(decrementRed, 1000);
+
+function decrementYellow() {
+    let timer = document.getElementById("tr");
+    timer.style.display = "none";
+
+    let timer2 = document.getElementById("tl");
+    timer2.style.display = "none";
+
+    let im1 = document.getElementById("right");
+    im1.style.display = "block";
+
+    let im = document.getElementById("left");
+    im.style.display = "none";
+    yellowTime--;
+
+    if (yellowTime >= 0) {
+        yellowTimer.textContent = yellowTime;
+    } else {
+        clearInterval(yellowCountdown);
+        yellowTimer.textContent = 'Time\'s up!';
+    }
+}
+
+function decrementRed() {
+    let timer = document.getElementById("tl");
+    timer.style.display = "none";
+
+    let timer2 = document.getElementById("tr");
+    timer2.style.display = "none";
+
+    let im1 = document.getElementById("left");
+    im1.style.display = "block";
+
+    let im = document.getElementById("right");
+    im.style.display = "none";
+
+    redTime--;
+
+    if (redTime >= 0) {
+        redTimer.textContent = redTime;
+    } else {
+        clearInterval(redCountdown);
+        redTimer.textContent = 'Time\'s up!';
+    }
+}

@@ -30,11 +30,10 @@ ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid lightgrey;
 }
 
 li {
-    padding: 10px 10px 10px 10px;
+    padding: 15px 5px 5px 5px;
 }
 
 
@@ -250,7 +249,7 @@ h1 {
 .user {
   font-weight: bold;
   margin-right: 10px;
-  background-color: rgb(221, 186, 186);
+  background-color: rgb(0 26 255 / 35%);
 }
 
 .yy {
