@@ -560,7 +560,7 @@ function updateGameState() {
                 "loserToken": tokenAndClientId[loser],
                 "game": game,
                 "winner": winner,
-            }
+            } 
 
             game.clients.forEach(client => {
                 clients[client.clientId].connection.send(JSON.stringify(payLoad))

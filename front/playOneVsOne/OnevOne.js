@@ -333,7 +333,7 @@ newGame.addEventListener('click', () => {
 
       setTimeout(() => {
           countdown.style.display = "none";
-          board.style.display = "bolck";
+          board.style.visibility = "visible";
           chatBox.style.display = "block";
       }, 3000);
 
@@ -705,6 +705,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const urlParams = new URLSearchParams(window.location.search);
     const triggerFunction = urlParams.get('trigger');
     const opponentUsername = urlParams.get('opponentUsername');
+    photo.style.display = "none";
+    let acceptChallenge1 = document.getElementById("acceptChallenge");
+    acceptChallenge1.style.display = "none";
+    
     if (triggerFunction === 'challengeFriend') {
 
       console.log("I'm challenging ", opponentUsername);
@@ -741,7 +745,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
             setTimeout(() => {
                 countdown.style.display = "none";
-                board.style.display = "block";
+                board.style.visibility = "visible";
                 chatBox.style.display = "block";
             }, 3000);
 
@@ -789,16 +793,15 @@ acceptBtn.addEventListener("click", function() {
   joinGame.style.display = "none";
   let photo = document.getElementById("too");
   photo.style.display = "none";
-
-  // display ide.html for 3 seconds
-  setTimeout(() => {
-    countdown.style.display = "block";
-  }, 3000);
+  let neww = document.getElementById("newGame");
+  neww.style.display = "none";
+  // display countwodn.html for 3 seconds then display ide.html
+  countdown.style.display = "block";
   setTimeout(() => {
     countdown.style.display = "none";
-    board.style.visibility = "hidden";
+    board.style.visibility = "visible";
     chatBox.style.display = "block";
-  }, 6000);
+  }, 3000);
   notification.style.display = "none";
 });
 
