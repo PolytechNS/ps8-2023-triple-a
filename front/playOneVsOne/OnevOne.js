@@ -522,7 +522,6 @@ ws.onmessage = message => {
                       "column": column,
                       "color": clientColor
                   }
-                  console.log("I sent this payload : ", payLoad)
                   ws.send(JSON.stringify(payLoad));
                 }
               });
@@ -667,7 +666,7 @@ async function updateScore(winner,loser){
 function storeText() {
   let YOYO = document.getElementById("input-text").value;
   document.getElementById("text-display").textContent = YOYO;
-
+  console.log("YOYO : ", YOYO);
   const paylaod = {
     "method": "chat",
     "text": YOYO,
@@ -710,8 +709,10 @@ sendButton.addEventListener("click", function () {
       "gameId": gameId,
     }
 
+    console.log("YOYOY : ", messageText)
     console.log("I sent this payload 3: ", paylaod)
 
+    storeText();
 
     ws.send(JSON.stringify(paylaod));
 
