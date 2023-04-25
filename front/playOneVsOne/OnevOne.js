@@ -22,7 +22,7 @@ var rows = 6;
 var columns = 7;
 
 const localHost = 'localhost';
-const url = '15.236.164.81';
+const url = '44.201.141.34';
 let localHostOrUrl = url;
 
 function chooselocalHostOrUrl(l) {
@@ -35,7 +35,7 @@ else if ( l == 1 ) {
 }
 
 // 1 : URL | 2 : Localhost
-chooselocalHostOrUrl(2);
+chooselocalHostOrUrl(1);
 
 window.onload = function() {
   setBoard();

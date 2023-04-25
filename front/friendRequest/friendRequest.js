@@ -1,6 +1,6 @@
 const localHost = 'localhost';
-const url = '15.236.164.81';
-let localHostOrUrl = localHost;
+const url = '44.201.141.34';
+let localHostOrUrl = url;
 
 let persons = [];
 async function getFriendRequests() {
