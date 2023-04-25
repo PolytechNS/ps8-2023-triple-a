@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
@@ -141,6 +143,11 @@
                 border-top-left-radius: 20px;
                 border: 1px solid #ffffff;
             }
+          @media (min-width: 100px) and (max-width: 992px) {
+              #header{
+                  display: none;
+              }
+          }
         </style>
         <section class="left">
             <div onclick="location.href='../authentificationPages/logIn.html'" style="cursor:pointer;" id="test">
