@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
     <head>
         <title>Connec4 Login </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="stylesheet" href="style.css">
 
         <style>
@@ -24,7 +27,7 @@
                 <label>
                     <input type="password" placeholder="Enter Password" name="log_pswd" class="inp" required>
                 </label>
-                 <a href="#">Forgot Password ?</a>
+<!--                 <a href="#">Forgot Password ?</a>-->
                 <button class ="button" type="submit" id="loginButton">Login</button>
                 <br>
                 <div class="member">
@@ -35,7 +38,7 @@
 
         <script>
             const localHost = 'localhost';
-            const url = '15.236.164.81';
+            const url = '44.201.141.34';
             var localHostOrUrl = url;
             
             function chooseLocalHostOrUrl(l) {
@@ -47,7 +50,7 @@
                 }
             }
 
-            chooseLocalHostOrUrl("url");
+            chooseLocalHostOrUrl("local");
 
             const loginForm = document.querySelector('#loginForm');
             loginForm.addEventListener('submit', async (event) => {

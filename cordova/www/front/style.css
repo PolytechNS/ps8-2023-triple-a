@@ -4,16 +4,16 @@ body {
 }
 
 .box {
-    width: auto;
-    height: 2cm;
-    margin-left: auto;
-    margin-right: auto;
+  width: auto;
+  height: 2cm;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*the image should be 50% of the box*/
 image {
-    width: 50%;
-    height: 50%;
+  width: 50%;
+  height: 50%; 
 }
 
 #board {
@@ -26,7 +26,6 @@ image {
     flex-wrap: wrap;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 3cm;
 }
 
 .tile {
@@ -49,80 +48,79 @@ image {
 }
 
 *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: #dfe9f5;
+  background-color: #dfe9f5;
 }
 
 button {
-    font-size: 1rem;
-    margin-top: 1.8rem;
-    padding: 10px 0px;
-    border-radius: 20px;
-    outline: none;
-    border: none;
-    width: 90%;
-    color: #fff;
-    cursor: pointer;
-    background: rgb(17, 107, 143);
+  font-size: 1rem;
+  margin-top: 1.8rem;
+  padding: 10px 0px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 90%;
+  color: #fff;
+  cursor: pointer;
+  background: rgb(17, 107, 143);
 }
 
 button:hover {
-    background: rgb(17, 187, 143, 0.877);
+  background: rgb(17, 187, 143, 0.877);
 }
 
 input:focus {
-    border: 1px solid rgb(192, 192, 192);
+  border: 1px solid rgb(192, 192, 192);
 }
 
 .recover {
-    text-align: right;
-    font-size: 0.7rem;
-    margin: 0.3rem 1.4rem 0 0;
+  text-align: right;
+  font-size: 0.7rem;
+  margin: 0.3rem 1.4rem 0 0;
 }
 
 .recover a {
-    text-decoration: none;
-    color: #464647;
+  text-decoration: none;
+  color: #464647;
 }
 
 h1 {
-    text-align: center;
-    padding-top: 15px;
+  text-align: center;
+  padding-top: 15px;
 }
 
 .back {
-    width: 600px;
-    text-align: center;
-    height: auto;
-    border: 2px solid;
-    justify-content: center;
-    text-align: center;
-    margin: 1cm;
-    padding: 1cm;
-    box-shadow: tomato;
-    border-radius: 10px;
-    background-color: #fafafa;
-    margin-left: auto;
-    margin-right: auto;
+  width: 600px;
+  text-align: center;
+  height: auto;
+  border: 2px solid;
+  justify-content: center;
+  text-align: center;
+  margin: 1cm;
+  padding: 1cm;
+  box-shadow: tomato;
+  border-radius: 10px;
+  background-color: #fafafa;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .button {
-    height: auto;
-    width: 5cm;
-    background-image: url("../images/Board-image.jpg");
-    background-color: #62b4e4;
-    color: #1751bb;
+  height: auto;
+  width: 5cm;
+  background-image: url("../images/Board-image.jpg");
+  background-color: #62b4e4;
+  color: #1751bb;
 }
 *{
     margin: 0;
     padding: 0;
-    font-family: Cinzel, serif;
 }
 
 .header{
@@ -244,18 +242,17 @@ a:hover{
     position: fixed;
     top: 80px;
     left: 20px;
-    display: none;
     bottom: 20px;
+    width: 300px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     padding: 20px;
-    width :22%;
 }
 
 #games-container h2 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Cinzel', Serif;
     font-size: 1.2em;
     margin-bottom: 10px;
 }
@@ -330,15 +327,15 @@ a:hover{
     left: -2px
 }
 #popup-message {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: white;
-    border: 2px solid black;
-    z-index: 999;
-}
+     position: fixed;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     padding: 20px;
+     background-color: white;
+     border: 2px solid black;
+     z-index: 999;
+ }
 
 #popup-message p {
     margin: 0;
@@ -350,41 +347,3 @@ a:hover{
 .hidden {
     display: none;
 }
-@media (min-width: 768px) and (max-width: 992px) {
-    #board-buttons {
-        height: 480px;
-        width: 480px;
-        margin: 0 auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-
-    .games-container {
-        width: 22%;
-    }
-
-
-
-}
-#button-container {
-    position: relative;
-    width: 100%;
-}
-
-/*#saveButton2 {*/
-/*    position: absolute;*/
-/*    bottom: 0;*/
-/*    left: 0;*/
-/*}*/
-
-/*#toggle-btn {*/
-/*    position: absolute;*/
-/*    bottom: 0;*/
-/*    right: 0;*/
-/*}*/
-
-
-

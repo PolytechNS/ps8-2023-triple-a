@@ -48,34 +48,110 @@
     <div id="line2"></div>
 
 </header>
-<div id="board-buttons">
+
+<header id="chrono">
+    <div class="player red">
+        <img id="left" src="../images/right.png" alt="" height="200%" style="display: none">
+        <div class="timer" id="tl" style="display: none">60</div>
+    </div>
+    <div class="player yellow">
+        <img id="right" src="../images/left.png" alt="" height="200%" style="display: none">
+        <div class="timer" id="tr" style="display: none">60</div>
+    </div>
+
+    <style>  
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    margin-bottom: -1.5cm;
+}
+
+.game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.player {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    font-family: sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.red {
+    background-color: #f44336;
+    color: rgb(247, 1, 1);
+}
+
+.red img {
+    margin-left: -8cm;
+}
+
+.yellow {
+    background-color: #ffc107;
+    color: rgb(255, 255, 0);
+}
+
+.yellow img {
+    margin-right: -8cm;
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    margin-top: 1em;
+    font-weight: bold;
+}
+
+header {
+    display: flex;
+}
+
+.player {
+    margin: 0 20px;
+}
+
+
+    </style>
+</header>
+
 <div id="board"></div>
-<div id="button-container">
-    <button class="button" id="saveButton2">Save game and exit</button>
+<a>
+    <button class="button" id="saveButton">Save game and exit</button>
     <button class="button" id="toggle-btn">Show saved games</button>
-</div>
-</div>
+</a>
+    
+    <div id="games-container" onclick="toggleList()">
+        <h2>Saved Games</h2>
+        <ul id="games-list">
+          <li>No saved games found.</li>
+        </ul>
+    </div>
 
-<div id="games-container">
+    <script>
+        const toggleBtn = document.getElementById('toggle-btn');
+        const gamesContainer = document.getElementById('games-container');
 
-    <h2>Saved Games</h2>
-    <ul id="games-list">
-        <li>No saved games found.</li>
-    </ul>
-</div>
-
-<script>
-    const toggleBtn = document.getElementById('toggle-btn');
-    const gamesContainer = document.getElementById('games-container');
-
-    toggleBtn.addEventListener('click', function() {
-        if (gamesContainer.style.display === 'none') {
-            gamesContainer.style.display = 'block';
-        } else {
-            gamesContainer.style.display = 'none';
-        }
-    });
-</script>  
+        toggleBtn.addEventListener('click', function() {
+            if (gamesContainer.style.display === 'none') {
+                gamesContainer.style.display = 'block';
+            } else {
+                gamesContainer.style.display = 'none';
+            }
+        });
+    </script>
 
 <div id="popup-message" class="hidden">
     <p id="winner-message"></p>

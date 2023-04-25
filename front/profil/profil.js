@@ -1,5 +1,5 @@
 const localHost = 'localhost';
-const url = '15.236.164.81';
+const url = '44.201.141.34';
 let localHostOrUrl = url;
 
 let name = localStorage.getItem('username');

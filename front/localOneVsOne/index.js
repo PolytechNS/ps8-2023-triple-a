@@ -9,7 +9,7 @@ var previousPlayer = null;
 var gameOver = false;
 var winner = null;
 const localHost = 'localhost';
-const url = '15.236.164.81';
+const url = '44.201.141.34';
 let localHostOrUrl = url;
 
 // Stoque la matrice du jeu dont les éléments sont, 
@@ -229,7 +229,7 @@ async function saveGame(event, gameType) {
     console.log(tab)
 
     try {
-        const response = await fetch('http://' + localHostOrUrl + '8000/api/game', {
+        const response = await fetch('http://localhost:8000/api/game', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

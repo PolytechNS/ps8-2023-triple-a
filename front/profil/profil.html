@@ -174,9 +174,9 @@
 
     <div class="container">
       <div class="back">
-        <h1 class="title">Bienvenue sur votre profil <span id="username"></span></h1>
+        <h1 class="title">Welcome to your profile <span id="username"></span></h1>
         <button class="button" onclick="window.location.href='/friendsList/friendsList.html'">
-          Voir mes amis
+          See my friends
         </button>
         <br>
         <h2 class="rank">Rank :</h2>
@@ -193,6 +193,10 @@
       </div>
     </div>
     <script>
+
+const localHost = 'localhost';
+const url = '44.201.141.34';
+let localHostOrUrl = url;
 
   async function getData(event) {
     event.preventDefault();

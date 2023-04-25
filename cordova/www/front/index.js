@@ -8,10 +8,9 @@ var previousPlayer = null;
 
 var gameOver = false;
 var winner = null;
-
 const localHost = 'localhost';
-const url = '44.201.141.34';
-let localHostOrUrl = url;
+const url = '15.236.164.81';
+let localHostOrUrl = localHost;
 
 // Stoque la matrice du jeu dont les éléments sont, 
 // si remplis, soit 'RED' soit 'YELLOW'
@@ -24,21 +23,8 @@ var boardGame;
 var rows = 6;
 var columns = 7;
 
-var durationLimit = 1000;
-let IAStartFirst = false;
-
 window.onload = function() {
-
-    setup(2);
-
-    if (IAStartFirst) {
-        main();
-    }
-    else {
-        main();
-        IAfillsATile();
-    }
-
+    main();
 }
 
 function main() {
@@ -67,9 +53,6 @@ function setBoard() {
             tile.addEventListener("click", fillTheClickedTile);
             document.getElementById("board").append(tile);
 
-            tile.addEventListener("click", IAfillsATile);
-            document.getElementById("board").append(tile);
-
         }
 
     }
@@ -81,17 +64,18 @@ function getTile(i, j) {
     return target;
 }
 
-let lastMove = [];
-
-function updateLastMove(move) {
-    if (move == []) {
-    }
-    else {
-        lastMove = move;
-    }
-}
+let i = 0;
 
 function fillTheClickedTile() {
+
+    if ( i == 0 ) {
+        decrementRed();
+        i++;
+    }
+    else if ( i == 1 ) {
+        decrementYellow();
+        i--;
+    }
 
     if (gameOver) {
         return;
@@ -107,8 +91,6 @@ function fillTheClickedTile() {
     c = adjustedCoords[1];
 
     let humanLastMove = [c, r];
-
-    updateLastMove(humanLastMove);
 
     let tile = document.getElementById(r.toString() + "-" + c.toString());
     
@@ -164,72 +146,6 @@ function adjustCoordinates(row, column) {
     return [adjustedRow, adjustedColumn];
 }
 
-function fromBoardMatrixToBoardGame() {
-    let board = [];
-    for (let i = 0; i < rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < columns; j++) {
-            if (boardMatrix[i][j] == ' ') {
-                board[i][j] = emptyCercle;
-            }
-            else if (boardMatrix[i][j] == playerRed) {
-                board[i][j] = redCercle;
-            }
-            else if (boardMatrix[i][j] == playerYellow) {
-                board[i][j] = yellowCercle;
-            }
-        }
-    }
-    return board;
-}
-
-let round = 0;
-let adjustedCoordinates;
-
-function IAfillsATile() {
-
-    console.log("------------- Tour n° ------------- ", ++round);
-    if (gameOver) {
-        return;
-    }
-
-    nextMove(lastMove)
-        .then((nextMove) => {
-            let IAmove = nextMove;
-            console.log("IA next move", IAmove);
-            fillTileOfCoords(IAmove[1], IAmove[0]);
-            checkWinner();
-        })
-        .catch((error) => {
-            console.error("An error occurred: ", error);
-        });
-
-}
-
-function nextMove(lastMove) {
-    return new Promise((resolve, reject) => {
-      let start = performance.now();
-      console.log("Human last move was :", lastMove);
-      
-      let whosTurn;
-      if (currentPlayer == playerRed) whosTurn = redCercle;
-      else if (currentPlayer == playerYellow) whosTurn = yellowCercle;
-  
-      let moveColumn = suggestMove(fromBoardMatrixToBoardGame(), whosTurn, durationLimit);
-      let moveRow = rows - 1;
-  
-      adjustedCoordinates = adjustCoordinates(moveRow, moveColumn);
-  
-      let end = performance.now() - start;
-      console.log("IA thinking .........  ");
-      console.log("The process of choosing the next move took ", end, " ms.");
-  
-      let nextMove = [ adjustedCoordinates[1], adjustedCoordinates[0] ];
-      resolve(nextMove);
-    });
-  }
-  
-
 function checkWinner() {
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
@@ -240,7 +156,7 @@ function checkWinner() {
                     setTimeout(() => {
                         console.log("GMAE OVER ! ", winner + " wins !");
                         window.alert(winner + " wins !");
-                        const url = `../playAgainstRobot/goodLuck.html?winnerColor=${winner}`;
+                        const url = `../localOneVsOne/winner.html?winnerColor=${winner}`;
                         window.location.href = url;
                         }, 500);
                 }
@@ -282,186 +198,7 @@ function checkVertical(r, c) {
     return false;
 }
 
-//////////////////////////////// START OUR IA //////////////////////////////////////
 
-var invalidCercle = -1;
-var emptyCercle = 0;
-var yellowCercle = 1;
-var redCercle = 2;
-var drawCercle = 3;
-
-// Tested
-function get(board, row, col) {
-    if ( row < 0 || row >= rows || col < 0 || col >= columns ) {
-        return invalidCercle;
-    }
-    return board[row][col];
-}
-
-// Tested
-function colIsFull(board, col) {
-    return get(board, 0, col) != emptyCercle;
-}
-
-// Tested
-function generateCopyOfBoard(boardToCopy) {
-    let newBoard = [];
-    for ( let r = 0 ; r < rows ; r++ ) {
-        newBoard[r] = [];
-        for ( let c = 0 ; c < columns ; c++ ) {
-            newBoard[r][c] = boardToCopy[r][c];
-        }
-    }
-    return newBoard;
-}
-
-// Tested
-function fillIndex(board, col, value) {
-    if ( colIsFull(board, col) ) {
-        return 0;
-    }
-    for ( let r = rows - 1 ; r >= 0 ; r-- ) {
-        if ( board[r][col] == emptyCercle ) {
-            board[r][col] = value;
-            break;
-        }
-    }
-    return 1;
-}
-
-// Tested
-function checkDiagonalInBoard(board, r, c) {
-    if (r < 3 && c < 4) {
-        if (board[r][c] === board[r+1][c+1] && board[r][c] === board[r+2][c+2] && board[r][c] === board[r+3][c+3]) {
-            return true;
-        }
-    }
-    if (r < 3 && c > 2) {
-        if (board[r][c] === board[r+1][c-1] && board[r][c] === board[r+2][c-2] && board[r][c] === board[r+3][c-3]) {
-            return true;
-        }
-    }
-    return false;
-}
-
-// Tested
-function checkHorizontalInBoard(board, r, c) {
-    if (c < 4) {
-        if (board[r][c] == board[r][c+1] && board[r][c] == board[r][c+2] && board[r][c] == board[r][c+3]) {
-            return true;
-        }
-    }
-    return false;
-}
-
-// Tested
-function checkVerticalInBoard(board, r, c) {
-    if (r < 3) {
-        if (board[r][c] === board[r+1][c] && board[r][c] === board[r+2][c] && board[r][c] === board[r+3][c]) {
-            return true;
-        }
-    }
-    return false;
-}
-
-// Tested
-function getWinner(board) {
-    let empty = 0;
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < columns; c++) {
-            let color = get(board, r, c);
-            if ( color == emptyCercle ) {
-                empty++;
-                continue;
-            }
-            if ( checkHorizontalInBoard(board, r, c) || checkVerticalInBoard(board, r, c) || checkDiagonalInBoard(board, r, c) ) {
-                return color;
-            }
-        }
-    }
-    if ( empty == 0 ) {
-        return drawCercle;
-    }
-    return emptyCercle;
-}
-
-// Tested
-function suggestMove(board, whosTurn, durationLimit) {
-
-    let endTime;
-    let bestMove = -1;
-    let bestRatio = 0;
-    let gamesPerMove = 100;
-    for ( let c = 0 ; c < columns ; c++ ) {
-        let startTime = performance.now();
-        if (colIsFull(board, c)) {
-            continue;
-        }
-        let wins = 0;
-        let losts = 0;
-        let i = 0;
-
-        let duration;
-        while (  i < gamesPerMove ) {
-            let copy = generateCopyOfBoard(board);
-            fillIndex(copy, c, whosTurn);
-            if (getWinner(copy) == whosTurn) {
-                return c;
-            }
-            let next = ( whosTurn == yellowCercle ) ? redCercle : yellowCercle;
-            let winner = randomGame(copy, next);
-            if (winner == yellowCercle || winner == redCercle) {
-                if (winner == whosTurn) {
-                    wins++;
-                } else {
-                    losts++;
-                }
-            }
-            endTime = performance.now();
-            duration = endTime - startTime;
-            i += 1;
-            // if ( duration >= ( ( durationLimit / 7 ) - 2 ) ) {
-            //     break;
-            // }
-        }
-        let ratio = wins / losts;
-        // console.log("Move : ", c, " has ratio ", (Math.round(ratio * 100) / 100), " took : ", Math.floor(duration), " ms ", i, " parties simulées !");
-        if (ratio > bestRatio || bestMove == -1) {
-            bestRatio = ratio;
-            bestMove = c;
-        }
-    }
-    return bestMove;
-}
-
-// Tested
-function randomGame(board, whosTurn) {
-    while ( true ) {
-        var col = Math.floor(Math.random() * 7)
-        if ( fillIndex(board, col, whosTurn ) ) {
-            whosTurn = ( whosTurn == yellowCercle ) ? redCercle : yellowCercle;
-        }
-        let winner = getWinner(board);
-        if ( winner != emptyCercle ) {
-            return winner;
-        }
-    }
-}
-
-function setup(AIplays) {
-    if (AIplays === 2){
-        IAStartFirst = true;
-    }
-    else if (AIplays === 1) {
-        IAStartFirst = false;
-    }
-    return true;
-}
-
-// exports.setup = setup;
-// exports.nextMove = nextMove;
-
-////////////////////////////////// END IA //////////////////////////////////////
 function boardMatrixCopy(){
     let copy = [];
     for (let i = 0; i < rows ; i++) {
@@ -472,7 +209,6 @@ function boardMatrixCopy(){
     }
     return copy;
 }
-
 
 // document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
 
@@ -493,7 +229,7 @@ async function saveGame(event, gameType) {
     console.log(tab)
 
     try {
-        const response = await fetch('http://' + localHostOrUrl + ':8000/api/game', {
+        const response = await fetch('http://localhost:8000/api/game', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -514,7 +250,7 @@ async function saveGame(event, gameType) {
         console.log(err);
     }
 }
-document.getElementById("saveButton2").addEventListener("click",function(){saveGame(event, "IA")});
+document.getElementById("saveButton").addEventListener("click",function(){saveGame(event, "local")});
 
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");
@@ -523,7 +259,7 @@ async function resumeGame() {
 
 async function getSavedGames() {
     const token = localStorage.getItem("token");
-    const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/list', {
+    const response = await fetch('http://localhost:8000/api/game/list', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -543,7 +279,7 @@ async function getSavedGames() {
                 // gameItem.innerHTML = `<button data-game="${game._id}" class="game-button">local - ${game.date}</button>`;
                 gameItem.innerHTML = `
                                         <div class="game-container">
-                                            <button data-game="${game._id}" class="game-button"><IA></IA> - ${game.date}</button>
+                                            <button data-game="${game._id}" class="game-button">local - ${game.date}</button>
                                             <i class="gg-trash" data-game="${game._id}"></i>
                                         </div>  
     `;
@@ -563,7 +299,7 @@ async function restoreSavedGame(event) {
     const gameId = event.target.dataset.game;
     console.log("this is the game id : ", gameId);
     const token = localStorage.getItem("token");
-    const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/retrieve/${gameId}', {
+    const response = await fetch('http://localhost:8000/api/game/retrieve/${gameId}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -615,7 +351,7 @@ async function deleteSavedGame(event) {
     const gameId = event.target.getAttribute('data-game');
     console.log("this is the game id : ", gameId);
     const token = localStorage.getItem("token");
-    const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/delete/${gameId}', {
+    const response = await fetch('http://localhost:8000/api/game/delete/${gameId}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -633,8 +369,61 @@ async function deleteSavedGame(event) {
     }
 }
 
-
-
-
 // Call getSavedGames when the page loads
 getSavedGames();
+
+//////// decrement timer ////////
+
+const redTimer = document.querySelector('.red .timer');
+const yellowTimer = document.querySelector('.yellow .timer');
+
+let redTime = 60;
+let yellowTime = 60;
+
+// const yellowCountdown = setInterval(decrementYellow, 1000);
+// const redCountdown = setInterval(decrementRed, 1000);
+
+function decrementYellow() {
+    let timer = document.getElementById("tr");
+    timer.style.display = "none";
+
+    let timer2 = document.getElementById("tl");
+    timer2.style.display = "none";
+
+    let im1 = document.getElementById("right");
+    im1.style.display = "block";
+
+    let im = document.getElementById("left");
+    im.style.display = "none";
+    yellowTime--;
+
+    if (yellowTime >= 0) {
+        yellowTimer.textContent = yellowTime;
+    } else {
+        clearInterval(yellowCountdown);
+        yellowTimer.textContent = 'Time\'s up!';
+    }
+}
+
+function decrementRed() {
+    let timer = document.getElementById("tl");
+    timer.style.display = "none";
+
+    let timer2 = document.getElementById("tr");
+    timer2.style.display = "none";
+
+    let im1 = document.getElementById("left");
+    im1.style.display = "block";
+
+    let im = document.getElementById("right");
+    im.style.display = "none";
+
+    redTime--;
+
+    if (redTime >= 0) {
+        redTimer.textContent = redTime;
+    } else {
+        clearInterval(redCountdown);
+        redTimer.textContent = 'Time\'s up!';
+    }
+}
