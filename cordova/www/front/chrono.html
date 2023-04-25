@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chrono</title>
+</head>
+<body>
+    
+    <header>
+        <div class="player red">
+          <h2>Player 1</h2>
+          <div class="timer">60</div>
+        </div>
+        <div class="player yellow">
+          <h2>Player 2</h2>
+          <div class="timer">60</div>
+        </div>
+    </header>
+
+    <style>
+            
+            .game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 300px;
+  border-radius: 10px;
+  font-family: sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.red {
+  background-color: #f44336;
+  color: white;
+}
+
+.yellow {
+  background-color: #ffc107;
+  color: black;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5em;
+  margin-top: 1em;
+  font-weight: bold;
+}
+
+header {
+  display: flex;
+}
+
+.player {
+  margin: 0 20px;
+}
+
+      </style>
+
+      <script>
+        const redTimer = document.querySelector('.red .timer');
+        const yellowTimer = document.querySelector('.yellow .timer');
+
+        let redTime = 60;
+        let yellowTime = 60;
+
+        const yellowCountdown = setInterval(decrementYellow, 1000);
+        // const redCountdown = setInterval(decrementRed, 1000);
+
+        function decrementYellow() {
+            yellowTime--;
+
+            if (yellowTime >= 0) {
+                yellowTimer.textContent = yellowTime;
+            } else {
+                clearInterval(yellowCountdown);
+                yellowTimer.textContent = 'Time\'s up!';
+            }
+        }
+
+        function decrementRed() {
+            redTime--;
+
+            if (redTime >= 0) {
+                redTimer.textContent = redTime;
+            } else {
+                clearInterval(redCountdown);
+                redTimer.textContent = 'Time\'s up!';
+            }
+        }
+
+      </script>
+
+</body>
+</html>
+  
