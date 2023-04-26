@@ -513,6 +513,31 @@ h1 {
   color: #1751bb;
 }
 
+.friend_Requests_mini{
+  display: none;
 
+}
+#saved-games2{
+  display: block;
+}
+#non{
+  cursor: pointer;
+  margin-top: -90px;
+  margin-left: 370px;
 
+}
 
+@media screen and (max-width:900px) {
+  #saved-games2{
+    display: none;
+    height:100%;
+    width: 100%;
+  }
+  .friend_Requests_mini{
+    display: block;
+    margin-top: -90px;
+    margin-left: 370px;
+    cursor: pointer;
+  }
+  
+}

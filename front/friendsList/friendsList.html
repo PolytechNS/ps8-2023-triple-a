@@ -28,7 +28,18 @@
   <div class="container">
     <input class="input" id="searchInput" type="text" placeholder="Search ..."/>
     <div id="suggestions" class="suggestions"></div>
+    <div class="friend_Requests_mini">
+     
+      <img src="R2.png" alt="" width="30px" onclick="mini()">
+
+    </div>
     <script>
+      function mini(){
+        var code = document.getElementById("saved-games2");
+        code.style.display=(code.style.display== "none") ?"block":"none";
+        
+      }
+
 
 const localHost1 = 'localhost';
 const url1 = '15.236.164.81';
@@ -133,11 +144,18 @@ async function sendInvite(event) {
     </ul>
   </div>
     <body>
+      
       <div id="saved-games2">
+     
+     
+        <img src="non.svg" alt="" width="30px" id="non" onclick="mini()">
+    
+    
         <h2>friend Requests</h2>
 
 
         <ul id="requests-list"></ul>
+ 
       </div>
     </body>
 
