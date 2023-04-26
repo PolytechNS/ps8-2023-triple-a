@@ -21,9 +21,23 @@
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
 document.addEventListener('deviceready', onDeviceReady, false);
 
+navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+function onSuccess(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  console.log('Latitude: ' + latitude + ' Longitude: ' + longitude);
+}
+
+function onError(error) {
+  console.log('Error code: ' + error.code + ' Error message: ' + error.message);
+}
+
+
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
 }
+

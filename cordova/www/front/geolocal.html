@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ma position</title>
+  </head>
+  <body>
+    <h1>Ma position</h1>
+    <p>Latitude : <span id="latitude"></span></p>
+    <p>Longitude : <span id="longitude"></span></p>
+    <script>
+      document.addEventListener("deviceready", onDeviceReady, false);
+
+      function onDeviceReady() {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+      }
+
+      function onSuccess(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        document.getElementById("latitude").textContent = latitude;
+        document.getElementById("longitude").textContent = longitude;
+      }
+
+      function onError(error) {
+        alert('code d\'erreur : ' + error.code + '\n' + 'message : ' + error.message + '\n');
+      }
+    </script>
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
