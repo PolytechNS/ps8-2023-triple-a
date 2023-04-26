@@ -8,7 +8,7 @@ echo "--------------------BUILD----------------------"
 docker-compose build
 
 echo "---------------------UP------------------------"
-docker-compose up 
+docker-compose up -d
 
 echo "Stopping Docker containers: Node and MongoDB"
 read -p "Press any key to quit ..."
