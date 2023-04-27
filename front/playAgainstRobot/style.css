@@ -1,6 +1,16 @@
+
+
 body {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+
+    height: auto !important;
+}
+
+
+
+body {
+    background-color: #dfe9f5;
 }
 
 .box {
@@ -17,16 +27,18 @@ image {
 }
 
 #board {
-    height: 420px;
-    width: 480px;
+
+    width: 500px;
+
+    height: auto;
     background-color: rgb(129, 196, 235);
     border: 5px solid navy;
     border-radius: 5%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
     margin-left: auto;
     margin-right: auto;
-    margin-top: 3cm;
+    margin-top: 100px !important;
 }
 
 .tile {
@@ -48,16 +60,7 @@ image {
     background-color: yellow;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
 
-body {
-    background-color: #dfe9f5;
-}
 
 button {
     font-size: 1rem;
@@ -119,13 +122,13 @@ h1 {
     background-color: #62b4e4;
     color: #1751bb;
 }
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: Cinzel, serif;
 }
 
-.header{
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -137,7 +140,7 @@ h1 {
     width: 100%;
 }
 
-.left{
+.left {
     width: 30%;
     background: rgb(114, 231, 225);
     padding: 0px 20px;
@@ -146,22 +149,27 @@ h1 {
     justify-content: space-around;
 }
 
-.left a{
+.left a {
     padding: 5px 10px;
     text-decoration: none;
     color: rgb(0, 26, 255);
     font-size: 20px;
     border-top-right-radius: 20px;
-    font-family: 'Cinzel', serif;
+    font-family: "Cinzel", serif;
 }
 
-.middle img{
+.btns{
+    display: flex;
+    justify-content: center;
+}
+
+.middle img {
     width: 167px;
     height: 167px;
     z-index: 1;
 }
 
-.right{
+.right {
     width: 30%;
     background: rgb(114, 231, 225);
     padding: 0px 20px;
@@ -170,26 +178,26 @@ h1 {
     justify-content: space-around;
 }
 
-.right a{
+.right a {
     padding: 5px 10px;
     text-decoration: none;
     color: rgb(0, 26, 255);
     font-size: 20px;
     border-top-left-radius: 20px;
-    font-family: 'Cinzel', serif;
+    font-family: "Cinzel", serif;
 }
 
-a{
+a {
     transition: 0.2 linear;
 }
 
-a:hover{
+a:hover {
     background-color: #ffffff;
     color: #1900ff;
     border: 1px solid #7f52cc;
 }
 
-#line{
+#line {
     width: 20px;
     height: 1px;
     background-color: #7f52cc;
@@ -200,7 +208,7 @@ a:hover{
     animation: moveLine 2s linear infinite alternate-reverse;
 }
 
-#line2{
+#line2 {
     width: 20px;
     height: 1px;
     background-color: #7f52cc;
@@ -211,16 +219,16 @@ a:hover{
     animation: moveLine 2s linear infinite alternate-reverse;
 }
 
-@keyframes moveLine{
-    0%{
+@keyframes moveLine {
+    0% {
         width: 0%;
     }
-    100%{
+    100% {
         width: 50%;
     }
 }
 
-#image{
+#image {
     background: rgb(114, 231, 225);
     justify-content: space-around;
     /* put the div in the center */
@@ -228,7 +236,7 @@ a:hover{
     left: 50%;
     top: 50%;
     width: 8cm;
-    height: 1,7cm;
+    height: 1, 7cm;
     transform: translate(-50%, -50%);
     overflow: hidden;
     /* put the image in the center */
@@ -251,11 +259,11 @@ a:hover{
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     padding: 20px;
-    width :22%;
+    width: 22%;
 }
 
 #games-container h2 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 1.2em;
     margin-bottom: 10px;
 }
@@ -271,7 +279,7 @@ a:hover{
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 1em;
 }
 
@@ -298,13 +306,12 @@ a:hover{
     transform: translateY(-50%);
 }
 
-
 .gg-trash::after,
 .gg-trash::before {
     content: "";
     display: block;
     box-sizing: border-box;
-    position: absolute
+    position: absolute;
 }
 
 .gg-trash::after {
@@ -313,9 +320,9 @@ a:hover{
     width: 16px;
     height: 2px;
     top: -4px;
-    left: -5px
+    left: -5px;
 }
-.gg-trash:hover{
+.gg-trash:hover {
     cursor: pointer;
 }
 
@@ -327,7 +334,7 @@ a:hover{
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     top: -7px;
-    left: -2px
+    left: -2px;
 }
 #popup-message {
     position: fixed;
@@ -350,26 +357,9 @@ a:hover{
 .hidden {
     display: none;
 }
-@media (min-width: 768px) and (max-width: 992px) {
-    #board-buttons {
-        height: 480px;
-        width: 480px;
-        margin: 0 auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
 
-
-    .games-container {
-        width: 22%;
-    }
-
-
-
-}
 #button-container {
+    text-align: center;
     position: relative;
     width: 100%;
 }
@@ -385,6 +375,3 @@ a:hover{
 /*    bottom: 0;*/
 /*    right: 0;*/
 /*}*/
-
-
-

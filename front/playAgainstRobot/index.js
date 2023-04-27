@@ -44,7 +44,7 @@ window.onload = function() {
 function main() {
     setPlayerToStart(playerYellow);
     setBoard();
-}      
+}
 
 function setPlayerToStart(player) {
     playerToStart = player;
@@ -111,14 +111,14 @@ function fillTheClickedTile() {
     updateLastMove(humanLastMove);
 
     let tile = document.getElementById(r.toString() + "-" + c.toString());
-    
+
     fillTile(tile);
 
     checkWinner();
 }
 
 function fillTile(tile) {
-    
+
     let coords = tile.id.split("-");
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
@@ -208,41 +208,41 @@ function IAfillsATile() {
 
 function nextMove(lastMove) {
     return new Promise((resolve, reject) => {
-      let start = performance.now();
-      console.log("Human last move was :", lastMove);
-      
-      let whosTurn;
-      if (currentPlayer == playerRed) whosTurn = redCercle;
-      else if (currentPlayer == playerYellow) whosTurn = yellowCercle;
-  
-      let moveColumn = suggestMove(fromBoardMatrixToBoardGame(), whosTurn, durationLimit);
-      let moveRow = rows - 1;
-  
-      adjustedCoordinates = adjustCoordinates(moveRow, moveColumn);
-  
-      let end = performance.now() - start;
-      console.log("IA thinking .........  ");
-      console.log("The process of choosing the next move took ", end, " ms.");
-  
-      let nextMove = [ adjustedCoordinates[1], adjustedCoordinates[0] ];
-      resolve(nextMove);
+        let start = performance.now();
+        console.log("Human last move was :", lastMove);
+
+        let whosTurn;
+        if (currentPlayer == playerRed) whosTurn = redCercle;
+        else if (currentPlayer == playerYellow) whosTurn = yellowCercle;
+
+        let moveColumn = suggestMove(fromBoardMatrixToBoardGame(), whosTurn, durationLimit);
+        let moveRow = rows - 1;
+
+        adjustedCoordinates = adjustCoordinates(moveRow, moveColumn);
+
+        let end = performance.now() - start;
+        console.log("IA thinking .........  ");
+        console.log("The process of choosing the next move took ", end, " ms.");
+
+        let nextMove = [ adjustedCoordinates[1], adjustedCoordinates[0] ];
+        resolve(nextMove);
     });
-  }
-  
+}
+
 
 function checkWinner() {
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
             if (boardMatrix[r][c] != ' ') {
                 if (checkHorizontal(r, c) || checkVertical(r, c) || checkDiagonal(r, c)) {
-                    gameOver = true; 
+                    gameOver = true;
                     winner = previousPlayer;
                     setTimeout(() => {
                         console.log("GMAE OVER ! ", winner + " wins !");
                         window.alert(winner + " wins !");
                         const url = `../playAgainstRobot/goodLuck.html?winnerColor=${winner}`;
                         window.location.href = url;
-                        }, 500);
+                    }, 500);
                 }
             }
         }
