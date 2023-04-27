@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    background-image: url("../images/sky-background.jpg");
+    background-color: #62b4e4;
+    border-top-right-radius: 20px;
+    font-family: 'Cinzel', serif;
+}
+
+h1{
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
+
+}
+
+.box {
+  width: auto;
+  height: 2cm;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form input {
+  width: 92%;
+  outline: none;
+  border: 2px solid rgb(3, 3, 128);
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background: #e4e4e4;
+}
+
+/*the image should be 50% of the box*/
+image {
+  width: 50%;
+  height: 50%; 
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
+}
+
+body {
+  background-color: #dfe9f5;
+}
+
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+  color: #0f1114;
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
+}
+a{
+  border-top-right-radius: 20px;
+  font-family: 'Cinzel', serif;
+}
+
+button:hover {
+  background: rgb(17, 187, 143, 0.877);
+}
+
+.back {
+  width: 600px;
+  text-align: center;
+  height: auto;
+  border: 2px solid rgb(3, 3, 128);
+  justify-content: center;
+  text-align: center;
+  margin: 1cm;
+  padding: 1cm;
+  box-shadow: tomato;
+  border-radius: 10px;
+  background-color: #fafafa;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3cm;
+}
+
+button {
+  font-size: 1rem;
+  margin-top: 1.8rem;
+  padding: 10px 0px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 90%;
+  color: #fff;
+  cursor: pointer;
+  background: rgb(17, 107, 143);
+}
+
+.choose {
+  color: rgb(3, 3, 128);
+  height: auto;
+  width: 5cm;
+  border: 1px solid rgb(3, 3, 128);
+  background-image: url("../images/Board-image.jpg");
+}

@@ -1,0 +1,196 @@
+
+@media screen and (max-width: 375px) {
+  #board {
+    width: 100%;
+    height: auto;
+  }
+
+  .tile {
+    height: 45px !important;
+    width: 45px !important;
+  }
+
+  .player {
+    width: 110px !important;
+    height: 32px !important;
+  }
+}
+
+@media screen and (max-width: 519px) {
+  #board {
+    width: 100%;
+    transform: translate(0px);
+    height: auto;
+  }
+
+  .tile {
+    height: 55px;
+    width: 55px;
+  }
+
+  .player {
+    width: 130px !important;
+    height: 45px !important;
+  }
+}
+
+@media screen and (min-width: 520px) {
+  #board {
+    margin: auto;
+    width: 500px;
+    transform: translate(15px);
+    height: auto;
+  }
+
+  .tile {
+    height: 55px;
+    width: 55px;
+  }
+
+  .player {
+    width: 200px !important;
+    height: 40px !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+    
+  #board {
+
+    width: 500px;
+    margin: auto;
+    height: auto;
+  }
+  .tile {
+    height: 75px;
+    width: 75px;
+  }
+
+  .player {
+    width: 220px !important;
+    height: 62px !important;
+  }
+}
+@media screen and (min-width: 912px) {
+  #board {
+    width: 700px;
+    margin: auto;
+    height: auto;
+  }
+
+  .tile {
+    height: 75px;
+    width: 75px;
+  }
+
+  .player {
+    width: 200px !important;
+    height: 62px !important;
+  }
+
+  .btns button {
+    border-radius: 0.8rem;
+    font-size: 1.8rem !important;
+    margin-left: 12px;
+  }
+}
+
+@media screen and (min-width: 1024px){
+    #board {
+        width: 600px !important;
+        margin: auto;
+        height: auto;
+      }
+    
+      .tile {
+        height: 75px !important;
+        width: 75px !important;
+      }
+    
+      .btns button {
+        border-radius: 0.8rem;
+        font-size: 0.9rem !important;
+        margin-left: 12px;
+      }
+    
+      .player {
+        width: 207px !important;
+        height: 46px !important;
+      }
+
+}
+@media screen and (min-width: 1024px) and (orientation: landscape) {
+
+  #board {
+    width: 400px;
+    margin: auto;
+    height: auto;
+  }
+
+  .tile {
+    height: 45px;
+    width: 45px;
+  }
+
+  .btns button {
+    border-radius: 0.8rem;
+    font-size: 0.9rem !important;
+    margin-left: 12px;
+  }
+
+  .player {
+    width: 207px !important;
+    height: 46px !important;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #board {
+    width: 35%;
+    margin: auto;
+    height: auto;
+  }
+
+  .tile {
+    height: 70px;
+    width: 70px;
+  }
+}
+
+@media screen and (min-width: 1201px) {
+  #board {
+    width: 45%;
+    margin: auto;
+    height: auto;
+  }
+
+  .tile {
+    height: 65px;
+    width: 65px;
+  }
+
+  .btns button {
+    border-radius: 0.8rem;
+    font-size: 1.1rem !important;
+    margin-left: 12px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  #board {
+    width: 35%;
+    margin: auto;
+    height: auto;
+  }
+
+  .tile {
+    height: 65px;
+    width: 65px;
+  }
+
+  .btns button {
+    border-radius: 0.8rem;
+    font-size: 1.1rem !important;
+    margin-left: 12px;
+  }
+}
