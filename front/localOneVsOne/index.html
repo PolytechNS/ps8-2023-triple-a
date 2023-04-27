@@ -7,7 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link rel="stylesheet" type="text/css" href="../home/global.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
 </head>
 
@@ -81,8 +82,8 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 200px;
-    height: 30px;
+    width: 250px;
+    height: 60px;
     border-radius: 10px;
     font-family: sans-serif;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -127,18 +128,22 @@ header {
     </style>
 </header>
 
-<div id="board"></div>
-<a>
+<div id="board">
+
+
+</div>
+ <a class="btns">
     <button class="button" id="saveButton">Save game and exit</button>
     <button class="button" id="toggle-btn">Show saved games</button>
 </a>
     
-    <div id="games-container" onclick="toggleList()">
+  <!--  <div id="games-container" onclick="toggleList()">
         <h2>Saved Games</h2>
         <ul id="games-list">
           <li>No saved games found.</li>
         </ul>
-    </div>
+    </div> 
+    -->
 
     <script>
         const toggleBtn = document.getElementById('toggle-btn');
@@ -159,6 +164,6 @@ header {
     <button id="popup-home-button">Home</button>
 </div>
 
-<script type="module" src="index.js"></script>
+<script src="index.js"></script>
 </body>
 </html>
