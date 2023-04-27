@@ -155,7 +155,7 @@ function checkWinner() {
                     winner = previousPlayer;
                     setTimeout(() => {
                         console.log("GMAE OVER ! ", winner + " wins !");
-                        window.alert(winner + " wins !");
+                        // window.alert(winner + " wins !");
                         const url = `../localOneVsOne/winner.html?winnerColor=${winner}`;
                         window.location.href = url;
                         }, 500);

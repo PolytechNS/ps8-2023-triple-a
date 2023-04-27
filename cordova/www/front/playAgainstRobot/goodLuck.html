@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <title>winner</title>
+
+  
+</head>
+<body>
+    
+    <header class="header" id="header">
+        <style>
+          *{
+                margin: 0;
+                padding: 0;
+            }
+    
+            body{
+                overflow: hidden;
+                /* background-image: "../images/blue-sky.jpg"; */
+                /* opacity: 0.4; */
+            }
+    
+            .header{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 60px;
+                background-image: url("../images/Board-image.jpg");
+                color: antiquewhite;
+                position: absolute;
+                top: 0%;
+                width: 100%;
+            }
+    
+            .left{
+                width: 30%;
+                background: rgb(114, 231, 225);
+                padding: 0px 20px;
+                display: flex;
+                border-top-right-radius: 20px;
+                justify-content: space-around;
+            }
+    
+            .left a{
+                padding: 5px 10px;
+                text-decoration: none;
+                color: rgb(0, 26, 255);
+                font-size: 20px;
+                border-top-right-radius: 20px;
+                font-family: 'Cinzel', serif;
+            }
+    
+            .middle img{
+                width: 167px;
+                height: 167px;
+                z-index: 1;
+            }
+    
+            .right{
+                width: 30%;
+                background: rgb(114, 231, 225);
+                padding: 0px 20px;
+                display: flex;
+                border-top-left-radius: 20px;
+                justify-content: space-around;
+            }
+    
+            .right a{
+                padding: 5px 10px;
+                text-decoration: none;
+                color: rgb(0, 26, 255);
+                font-size: 20px;
+                border-top-left-radius: 20px;
+                font-family: 'Cinzel', serif;
+            }
+    
+            a{
+                transition: 0.2 linear;
+            }
+    
+            a:hover{
+                background-color: #ffffff;
+                color: #1900ff;
+                border: 1px solid #7f52cc;
+            }
+    
+            #line{
+                width: 20px;
+                height: 1px;
+                background-color: #7f52cc;
+                position: absolute;
+                left: 0%;
+                top: 60px;
+                transform: skew(15deg);
+                animation: moveLine 2s linear infinite alternate-reverse;
+            }
+    
+            #line2{
+                width: 20px;
+                height: 1px;
+                background-color: #7f52cc;
+                position: absolute;
+                right: 0%;
+                top: 60px;
+                transform: skew(15deg);
+                animation: moveLine 2s linear infinite alternate-reverse;
+            }
+    
+            @keyframes moveLine{
+                0%{
+                    width: 0%;
+                }
+                100%{
+                    width: 50%;
+                }
+            }
+    
+            #image{
+                background: rgb(114, 231, 225);
+                justify-content: space-around;
+                /* put the div in the center */
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 8cm;
+                height: 1,7cm;
+                transform: translate(-50%, -50%);
+                overflow: hidden;
+                /* put the image in the center */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                /* set the border to solid and make them green */
+                border-top-right-radius: 20px;
+                border-top-left-radius: 20px;
+                border: 1px solid #ffffff;
+            }
+          @media (min-width: 100px) and (max-width: 992px) {
+              #header{
+                  display: none;
+              }
+          }
+        </style>
+        <section class="left">
+            <div onclick="location.href='../authentificationPages/logIn.html'" style="cursor:pointer;" id="test">
+              <img src="../images/logout.png" style="height: 0.7cm;" alt="">
+            </div>
+            <!-- Uncomment if you want to add third option -->
+            <!-- <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+                <img src="../images/" style="height: 0.7cm;" alt="">
+            </div> -->
+            <div onclick="" style="cursor:pointer;">
+              <img src="../images/night-mode.png" style="height: 0.7cm; display: none;" alt="">
+              <img src="../images/moon.png" style="height: 0.7cm;" alt="">
+            </div>
+        </section>
+        <section class="middle"></section>
+        <!-- Put my image inside an envolop  -->
+        <div id="image">
+            <img src="../images/Logo.png" alt="" width="60%">
+        </div>
+        <section class="right">
+            <div onclick="location.href='../home/home.html'" style="cursor:pointer;" id="test">
+                <img src="../images/home.png" style="height: 0.7cm;" alt="">
+            </div>
+            <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+                <img src="../images/user.png" style="height: 0.7cm;" alt="">
+            </div>
+            <div onclick="location.href=''" style="cursor:pointer;">
+                <img src="../images/not.png" style="height: 0.7cm;" alt="">
+                <img src="../images/active.png" style="height: 1cm; display: none;" alt="">
+            </div>
+        </section>
+        <div id="line"></div>
+        <div id="line2"></div>
+      </header>
+
+    <div class="content">
+        <div class="trophy">
+            <img src="../images/goodLuck.png" alt="trophy">
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="text">
+            <h1>Hard luck next</h1>
+        </div>
+    </div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800;900&display=swap');
+
+    * {
+        padding: 0;
+        margin: 0;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    html {
+        font-size: 62.5%;
+    }
+
+    body {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url("../images/sky-background.jpg");
+    }
+
+    .content {}
+
+    .content .trophy img {
+        display: block;
+        margin: auto;
+        max-width: 300px;
+        filter: drop-shadow(0 0 4px #000);
+        transition: 0.5s;
+        animation: animate 2s linear infinite;
+    }
+
+    @keyframes animate {
+        0% {
+            transform: scale(1);
+        }
+
+        25% {
+            transform: scale(1.1);
+        }
+
+        50% {
+            transform: scale(1);
+        }
+
+        75% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1.1);
+        }
+    }
+
+    .content .text h1 {
+        font-weight: 900;
+        font-size: 4rem;
+        color: #222324;
+        text-shadow: 8px 0px 0px #FABE2C;
+    }
+    #developerPra {
+        position: fixed;
+        bottom: 4rem;
+        right: 4rem;
+        font-size: 4rem;
+        color: rgba(0, 0, 0, 0.7);
+    }
+</style>

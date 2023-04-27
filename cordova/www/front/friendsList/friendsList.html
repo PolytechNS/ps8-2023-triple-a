@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Friend List</title>
+  <link rel="stylesheet" href="style.css">
+  <script src = "friendsList.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div id="header">
+    <object type="text/html" data="header.html" style="width:100%; height:100%;"></object>
+  </div>
+  
+  <h1>Friend List</h1>
+  <!-- <div id="saved-games">
+    
+    <h2>Players</h2>
+    
+
+
+    <ul id="players-list"></ul>
+  </div> -->
+  <div class="container">
+    <input class="input" id="searchInput" type="text" placeholder="Search ..."/>
+    <div id="suggestions" class="suggestions"></div>
+    <script>
+
+const localHost1 = 'localhost';
+const url1 = '44.201.141.34';
+let localHostOrUrl1 = url1;
+
+      async function getPlayers2() {
+    console.log('loading players');
+    const token = localStorage.getItem('token').toString();
+
+    const response = await fetch('http://' + localHostOrUrl1 + ':8000/api/game/user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+    });
+
+    if (response.ok) {
+        const players = await response.json();
+        console.log("players : ", players);
+        const playerList = [];
+
+        for (let i = 0; i < players.length; i++) {
+            const player = players[i];
+            playerList.push(player);
+        }
+        console.log("playerList : ", playerList)
+
+        return playerList;
+    } else {
+        console.log('Failed to retrieve players');
+        return [];
+    }
+}
+async function sendInvite(event) {
+    event.preventDefault();
+
+    const playerId = event.target.getAttribute('data-player');
+    const name = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+    console.log("player name : ", name);
+    console.log("this is the player id : ", playerId);
+
+    const response = await fetch('http://' + localHostOrUrl1 + ':8000/api/friend/request/${playerId}/${name}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            _id: playerId,
+            username: name,
+            token: token
+        })
+
+    });
+    if (response.ok) {
+        const data = await response.json();
+        console.log("data : ", data);
+
+
+        event.target.parentElement.remove();
+        if (data.error) {
+            // alert(data.error);
+        } else {
+            // alert("send request successfully");
+        }
+    }
+}
+      async function loadPlayers() {
+          const persons =await getPlayers2();
+
+    const searchInput = document.getElementById('searchInput');
+
+    searchInput.addEventListener('keyup', function() {
+      const input = searchInput.value.toLowerCase();
+
+      const result = persons.filter(item => item.username && item.username.toLowerCase().includes(input));
+      let suggestion = '';
+
+      if(input !== '') {
+        result.forEach(resultItem => {
+          //dont show yourself in the list
+            if(resultItem.username === localStorage.getItem('username')) {
+                return;
+            }
+          //suggestion += `<div class="suggestion">${resultItem.username}</div>`;
+          suggestion +=`<button  data-player="${resultItem._id}" class="game-button">${resultItem.username}</button>`;
+          console.log("suggestion : ", suggestion);
+        });
+      }
+
+      document.getElementById('suggestions').innerHTML = suggestion;
+      document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click',  sendInvite));
+    });
+  }
+  loadPlayers();
+    </script>
+  </div>
+
+  <div id="friend-list">
+    <ul id="friend-ul">
+    </ul>
+  </div>
+    <body>
+      <div id="saved-games2">
+        <h2>friend Requests</h2>
+
+
+        <ul id="requests-list"></ul>
+      </div>
+    </body>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Lookup</title>
+
+
+</body>
+</html>
+
+
+

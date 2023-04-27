@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <title>Connect4 Game</title>
+    <link rel="stylesheet" type="text/css" href="global.css">
+    <style>
+        body {
+            background-image: url("../images/sky-background.jpg");
+            background-color: #62b4e4;
+            font-family: 'Cinzel', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cinzel', serif;
+        }
+
+        h1 {
+            text-align: center;
+            padding-top: 15px;
+            /* change its color to blue and red*/
+            background: linear-gradient(to top, #00ffea, #7700ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem; /* increased font size for mobile */
+            margin-top: 1.5rem; /* added margin top for spacing */
+        }
+
+        .back {
+            width: 300px;
+            height: auto;
+            border: 1px solid;
+            justify-content: center;
+            text-align: center;
+            margin: 1cm;
+            padding: 0.2cm;
+            padding-top: 0cm;
+            border-radius: 10px;
+            background-image: url("../images/sky-background.jpg");
+            /* make the background color transparent 50% */
+            /* background-color: rgba(255, 255, 255, 0.3); */
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.5rem; /* increased font size for mobile */
+            margin-top: 1.5rem; /* added margin top for spacing */
+        }
+
+        .button {
+            background-image: url("../images/Board-image.jpg");
+            background-color: #62b4e4;
+            color: #1751bb;
+        }
+
+        .back h1 {
+            text-decoration: none;
+        }
+
+        /* media query for mobile devices */
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+                margin-top: 1.5rem;
+            }
+
+            .back {
+                width: 80%;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+<div id="logo" style="display: flex; justify-content: center; align-items: center; padding: 1cm;">
+    <img src="../images/Logo.png" alt="logo" style="max-width: 100%; max-height: 100%;">
+</div>
+
+<div id="welcome">
+    <object type="text/html" data="welcome.html" style="width:100%; height: 200px;"></object>
+</div>
+
+<h1>Welcome to Connect4 Game!</h1>
+
+<a href="../authentificationPages/logIn.html">
+    <div class="back">
+        <h1>Access Account</h1>
+    </div>
+</a>
+    
+  </body>
+</html>

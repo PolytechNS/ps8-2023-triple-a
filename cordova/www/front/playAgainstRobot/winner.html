@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <title>winner</title>
+
+
+</head>
+<body>
+    
+    <header class="header" id="header">
+        <style>
+          *{
+                margin: 0;
+                padding: 0;
+            }
+    
+            body{
+                overflow: hidden;
+                /* background-image: "../images/blue-sky.jpg"; */
+                /* opacity: 0.4; */
+                font-family: 'Cinzel', serif;
+            }
+    
+            .header{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 60px;
+                background-image: url("../images/Board-image.jpg");
+                color: antiquewhite;
+                position: absolute;
+                top: 0%;
+                width: 100%;
+            }
+    
+            .left{
+                width: 30%;
+                background: rgb(114, 231, 225);
+                padding: 0px 20px;
+                display: flex;
+                border-top-right-radius: 20px;
+                justify-content: space-around;
+            }
+    
+            .left a{
+                padding: 5px 10px;
+                text-decoration: none;
+                color: rgb(0, 26, 255);
+                font-size: 20px;
+                border-top-right-radius: 20px;
+                font-family: 'Cinzel', serif;
+            }
+    
+            .middle img{
+                width: 167px;
+                height: 167px;
+                z-index: 1;
+            }
+    
+            .right{
+                width: 30%;
+                background: rgb(114, 231, 225);
+                padding: 0px 20px;
+                display: flex;
+                border-top-left-radius: 20px;
+                justify-content: space-around;
+            }
+    
+            .right a{
+                padding: 5px 10px;
+                text-decoration: none;
+                color: rgb(0, 26, 255);
+                font-size: 20px;
+                border-top-left-radius: 20px;
+                font-family: 'Cinzel', serif;
+            }
+    
+            a{
+                transition: 0.2 linear;
+            }
+    
+            a:hover{
+                background-color: #ffffff;
+                color: #1900ff;
+                border: 1px solid #7f52cc;
+            }
+    
+            #line{
+                width: 20px;
+                height: 1px;
+                background-color: #7f52cc;
+                position: absolute;
+                left: 0%;
+                top: 60px;
+                transform: skew(15deg);
+                animation: moveLine 2s linear infinite alternate-reverse;
+            }
+    
+            #line2{
+                width: 20px;
+                height: 1px;
+                background-color: #7f52cc;
+                position: absolute;
+                right: 0%;
+                top: 60px;
+                transform: skew(15deg);
+                animation: moveLine 2s linear infinite alternate-reverse;
+            }
+    
+            @keyframes moveLine{
+                0%{
+                    width: 0%;
+                }
+                100%{
+                    width: 50%;
+                }
+            }
+    
+            #image{
+                background: rgb(114, 231, 225);
+                justify-content: space-around;
+                /* put the div in the center */
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 8cm;
+                height: 1,7cm;
+                transform: translate(-50%, -50%);
+                overflow: hidden;
+                /* put the image in the center */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                /* set the border to solid and make them green */
+                border-top-right-radius: 20px;
+                border-top-left-radius: 20px;
+                border: 1px solid #ffffff;
+            }
+        </style>
+        <section class="left">
+            <div onclick="location.href='../authentificationPages/logIn.html'" style="cursor:pointer;" id="test">
+              <img src="../images/logout.png" style="height: 0.7cm;" alt="">
+            </div>
+            <!-- Uncomment if you want to add third option -->
+            <!-- <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+                <img src="../images/" style="height: 0.7cm;" alt="">
+            </div> -->
+            <div onclick="" style="cursor:pointer;">
+              <img src="../images/night-mode.png" style="height: 0.7cm; display: none;" alt="">
+              <img src="../images/moon.png" style="height: 0.7cm;" alt="">
+            </div>
+        </section>
+        <section class="middle"></section>
+        <!-- Put my image inside an envolop  -->
+        <div id="image">
+            <img src="../images/Logo.png" alt="" width="60%">
+        </div>
+        <section class="right">
+            <div onclick="location.href='../home/home.html'" style="cursor:pointer;" id="test">
+                <img src="../images/home.png" style="height: 0.7cm;" alt="">
+            </div>
+            <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+                <img src="../images/user.png" style="height: 0.7cm;" alt="">
+            </div>
+            <div onclick="location.href=''" style="cursor:pointer;">
+                <img src="../images/not.png" style="height: 0.7cm;" alt="">
+                <img src="../images/active.png" style="height: 1cm; display: none;" alt="">
+            </div>
+        </section>
+        <div id="line"></div>
+        <div id="line2"></div>
+      </header>
+
+    <div class="content">
+        <div class="trophy">
+            <img src="../images/trophy.png" alt="trophy">
+        </div>
+        <div class="text">
+            <h1 id="win">Congratulations</h1>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <a href="../playAgainstRobot/index.html">
+            <button class="button">  Replay  </button>
+        </a>
+    </div>
+
+
+    <style>
+
+button {
+    text-transform: uppercase;
+    font-size: 4rem;
+    font-family: 'Cinzel', serif;
+    padding: 10px 15px;
+    color: white;
+    line-height: 25px;
+    background-color: #0edaf5;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+    transition: all 150ms ease-in;
+    outline: none;
+    /* center the button in the page */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* set the border to solid and make them green */
+    border: 1px solid #ffffff;
+}
+
+.button {
+    height: auto;
+    width: auto;
+    text-align: center;
+    text-transform: lowercase;
+    /* background-image: url("../images/Board-image.jpg"); */
+    background-color: #0501fc;
+    border-color: #1751bb ;
+    color: #fcfcfc;
+    position: fixed;
+    top: 3cm;
+}
+
+button:hover {
+background: rgba(0, 235, 252, 0.877);
+}
+
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800;900&display=swap');
+    
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+        }
+    
+        html {
+            font-size: 62.5%;
+        }
+    
+        body {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("../images/sky-background.jpg");
+        }
+    
+        .content {}
+    
+        .content .trophy img {
+            display: block;
+            margin: auto;
+            max-width: 128px;
+            filter: drop-shadow(0 0 4px #000);
+            transition: 0.5s;
+            animation: animate 2s linear infinite;
+        }
+    
+        @keyframes animate {
+            0% {
+                transform: scale(1);
+            }
+    
+            25% {
+                transform: scale(1.1);
+            }
+    
+            50% {
+                transform: scale(1);
+            }
+    
+            75% {
+                transform: scale(1.2);
+            }
+    
+            100% {
+                transform: scale(1.1);
+            }
+        }
+    
+        .content .text h1 {
+            font-weight: 900;
+            font-size: 4rem;
+            color: #222324;
+            text-shadow: 8px 0px 0px #FABE2C;
+        }
+        #developerPra {
+            position: fixed;
+            bottom: 4rem;
+            right: 4rem;
+            font-size: 4rem;
+            color: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+    
+    <script>
+        var confetti = {
+               maxCount: 150,
+               speed: 2,
+               frameInterval: 15,
+               alpha: 1,
+               gradient: !1,
+               start: null,
+               stop: null,
+               toggle: null,
+               pause: null,
+               resume: null,
+               togglePause: null,
+               remove: null,
+               isPaused: null,
+               isRunning: null
+           };
+           ! function () {
+               confetti.start = s, confetti.stop = w, confetti.toggle = function () {
+                   e ? w() : s()
+               }, confetti.pause = u, confetti.resume = m, confetti.togglePause = function () {
+                   i ? m() : u()
+               }, confetti.isPaused = function () {
+                   return i
+               }, confetti.remove = function () {
+                   stop(), i = !1, a = []
+               }, confetti.isRunning = function () {
+                   return e
+               };
+               var t = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window
+                   .mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame,
+                   n = ["rgba(30,144,255,", "rgba(107,142,35,", "rgba(255,215,0,", "rgba(255,192,203,", "rgba(106,90,205,",
+                       "rgba(173,216,230,", "rgba(238,130,238,", "rgba(152,251,152,", "rgba(70,130,180,",
+                       "rgba(244,164,96,", "rgba(210,105,30,", "rgba(220,20,60,"
+                   ],
+                   e = !1,
+                   i = !1,
+                   o = Date.now(),
+                   a = [],
+                   r = 0,
+                   l = null;
+   
+               function d(t, e, i) {
+                   return t.color = n[Math.random() * n.length | 0] + (confetti.alpha + ")"), t.color2 = n[Math.random() *
+                           n.length | 0] + (confetti.alpha + ")"), t.x = Math.random() * e, t.y = Math.random() * i - i, t
+                       .diameter = 10 * Math.random() + 5, t.tilt = 10 * Math.random() - 10, t.tiltAngleIncrement = .07 *
+                       Math.random() + .05, t.tiltAngle = Math.random() * Math.PI, t
+               }
+   
+               function u() {
+                   i = !0
+               }
+   
+               function m() {
+                   i = !1, c()
+               }
+   
+               function c() {
+                   if (!i)
+                       if (0 === a.length) l.clearRect(0, 0, window.innerWidth, window.innerHeight), null;
+                       else {
+                           var n = Date.now(),
+                               u = n - o;
+                           (!t || u > confetti.frameInterval) && (l.clearRect(0, 0, window.innerWidth, window.innerHeight),
+                               function () {
+                                   var t, n = window.innerWidth,
+                                       i = window.innerHeight;
+                                   r += .01;
+                                   for (var o = 0; o < a.length; o++) t = a[o], !e && t.y < -15 ? t.y = i + 100 : (t
+                                       .tiltAngle += t.tiltAngleIncrement, t.x += Math.sin(r) - .5, t.y += .5 * (Math
+                                           .cos(r) + t.diameter + confetti.speed), t.tilt = 15 * Math.sin(t.tiltAngle)
+                                   ), (t.x > n + 20 || t.x < -20 || t.y > i) && (e && a.length <= confetti
+                                       .maxCount ? d(t, n, i) : (a.splice(o, 1), o--))
+                               }(),
+                               function (t) {
+                                   for (var n, e, i, o, r = 0; r < a.length; r++) {
+                                       if (n = a[r], t.beginPath(), t.lineWidth = n.diameter, i = n.x + n.tilt, e = i + n
+                                           .diameter / 2, o = n.y + n.tilt + n.diameter / 2, confetti.gradient) {
+                                           var l = t.createLinearGradient(e, n.y, i, o);
+                                           l.addColorStop("0", n.color), l.addColorStop("1.0", n.color2), t.strokeStyle = l
+                                       } else t.strokeStyle = n.color;
+                                       t.moveTo(e, n.y), t.lineTo(i, o), t.stroke()
+                                   }
+                               }(l), o = n - u % confetti.frameInterval), requestAnimationFrame(c)
+                       }
+               }
+   
+               function s(t, n, o) {
+                   var r = window.innerWidth,
+                       u = window.innerHeight;
+                   window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame ||
+                       window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window
+                       .msRequestAnimationFrame || function (t) {
+                           return window.setTimeout(t, confetti.frameInterval)
+                       };
+                   var m = document.getElementById("confetti-canvas");
+                   null === m ? ((m = document.createElement("canvas")).setAttribute("id", "confetti-canvas"), m
+                       .setAttribute("style", "display:block;z-index:999999;pointer-events:none;position:fixed;top:0"),
+                       document.body.prepend(m), m.width = r, m.height = u, window.addEventListener("resize",
+                           function () {
+                               m.width = window.innerWidth, m.height = window.innerHeight
+                           }, !0), l = m.getContext("2d")) : null === l && (l = m.getContext("2d"));
+                   var s = confetti.maxCount;
+                   if (n)
+                       if (o)
+                           if (n == o) s = a.length + o;
+                           else {
+                               if (n > o) {
+                                   var f = n;
+                                   n = o, o = f
+                               }
+                               s = a.length + (Math.random() * (o - n) + n | 0)
+                           }
+                   else s = a.length + n;
+                   else o && (s = a.length + o);
+                   for (; a.length < s;) a.push(d({}, r, u));
+                   e = !0, i = !1, c(), t && window.setTimeout(w, t)
+               }
+   
+               let winnerColor = null;
+
+                window.addEventListener('DOMContentLoaded', (event) => {
+                const urlParams = new URLSearchParams(window.location.search);
+                // const triggerFunction = urlParams.get('trigger');
+                const winner = urlParams.get('winnerColor');
+                if ( winner == 'RED' ) {
+                    winnerColor = 'RED';
+                }
+                // else retrive yellow color
+                else {
+                    winnerColor = 'YELLOW';
+                }
+                console.log("winner color :", winnerColor);
+                });
+        
+               function w() {
+                   e = !1
+               }
+           }();
+   // custom js
+    confetti.start();
+   </script>
+</body>
+</html>

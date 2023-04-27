@@ -146,9 +146,9 @@ async function getFriends() {
 
         // event.target.parentElement.remove();
         if (data.error) {
-            alert(data.error);
+            // alert(data.error);
         } else {
-            alert("send request successfully");
+            // alert("send request successfully");
         }
     }
 }
