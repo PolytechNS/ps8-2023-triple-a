@@ -49,6 +49,10 @@ function addCors(response) {
     response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     // Set to true if you need the website to include cookies in the requests sent to the API.
     response.setHeader('Access-Control-Allow-Credentials', true);
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    response.setHeader("Access-Control-Allow-Credentials", "true");
+    response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    response.setHeader("Access-Control-Allow-Headers", "authorization, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 }
 
 exports.manage = manageRequest;
