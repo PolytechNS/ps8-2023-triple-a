@@ -294,16 +294,15 @@ async function displayPlayersRanking() {
 
   const rankingContainer = document.getElementById('ranking-container');
   // iterate over the playerList players
-  for ( let player in playerList ) {
-    if ( playerList[player].innerText.includes(localStorage.getItem('username')) ) {
-      playerList[player].style.color = "blue";
-    }
-    // if the player didn't play a game yet dont display him
-    if ( playerList[player].totalGames === 0 ) {
-      playerList[player].style.display = "none";
-    }
-  }
-
+  // for ( let player in playerList ) {
+  //   if ( playerList[player].innerText.includes(localStorage.getItem('username')) ) {
+  //     playerList[player].style.color = "blue";
+  //   }
+  //   // if the player didn't play a game yet dont display him
+  //   if ( playerList[player].totalGames === 0 ) {
+  //     playerList[player].style.display = "none";
+  //   }
+  // }
   rankingContainer.appendChild(playerList);
 }
 

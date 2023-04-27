@@ -6,8 +6,6 @@ let name = localStorage.getItem('username');
 console.log("score is :", localStorage.getItem('score'));
 
 console.log(localStorage.getItem('username'));
-const zebi = "John";
-document.getElementById("name").textContent = zebi;
 
 async function getUsername(event) {
   event.preventDefault();
