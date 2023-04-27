@@ -138,6 +138,12 @@ li {
   
 }
 
+/* set the back color of element of class current to green */
+li.current {
+  background-color: #0cff3b;
+  color: #000000;
+}
+
 li:first-child {
   background-color: #dddc36;
 }

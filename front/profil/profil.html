@@ -290,7 +290,8 @@ async function displayPlayersRanking() {
       const listItem = document.createElement('li');
       listItem.textContent = `${index + 1}. ${player.username} - ${player.score} points`;
       if ( player.username === localStorage.getItem('username') ) {
-        listItem.style.backgroundColor = "blue";
+        // set its class to current
+        listItem.classList.add("current");
       }
       if ( !player.totalGames ) {
         listItem.style.display = "none";
