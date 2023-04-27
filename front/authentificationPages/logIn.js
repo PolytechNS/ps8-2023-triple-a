@@ -1,2 +1,2 @@
 
-window.location.replace = '../modeGamePage/selectMode.html';
+// window.location.replace = '../modeGamePage/selectMode.html';
