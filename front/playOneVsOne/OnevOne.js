@@ -335,6 +335,8 @@ newGame.addEventListener('click', () => {
       setTimeout(() => {
           countdown.style.display = "none";
           board.style.visibility = "visible";
+          const image1 = document.getElementById('open');
+          image1.style.visibility = "visible";
           let chrono = document.getElementById("chrono");
           chrono.style.visibility = "visible";
           let chatBox = document.getElementById("chat-box");
@@ -445,6 +447,8 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
+            const image1 = document.getElementById('open');
+            image1.style.visibility = "visible";
             let chrono = document.getElementById("chrono");
             chrono.style.visibility = "visible";
 
@@ -499,6 +503,8 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
+            const image1 = document.getElementById('open');
+            image1.style.visibility = "visible";
             let chrono = document.getElementById("chrono");
             chrono.style.visibility = "visible";
 
@@ -769,6 +775,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 photo.style.display = "none";
                 countdown.style.display = "none";
                 board.style.visibility = "visible";
+                const image1 = document.getElementById('open');
+                image1.style.visibility = "visible";
                 let chrono = document.getElementById("chrono");
                 chrono.style.visibility = "visible";
                 let chatBox = document.getElementById("chat-box");
@@ -827,6 +835,8 @@ acceptBtn.addEventListener("click", function() {
   setTimeout(() => {
     countdown.style.display = "none";
     board.style.visibility = "visible";
+    const image1 = document.getElementById('open');
+    image1.style.visibility = "visible";
     let chrono = document.getElementById("chrono");
     chrono.style.visibility = "visible";
     let chatBox = document.getElementById("chat-box");
