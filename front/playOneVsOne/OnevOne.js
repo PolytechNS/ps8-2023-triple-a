@@ -315,8 +315,6 @@ newGame.addEventListener('click', () => {
   ws.send(JSON.stringify(payLoad));
   
   waiting.style.display = "block";
-  const contentt = document.getElementById('content');
-  contentt.style.display = "none";
   newGame.style.display = "none";
   opp.style.display = "none";
   let photo = document.getElementById('too');
@@ -329,8 +327,6 @@ newGame.addEventListener('click', () => {
       let board = document.getElementById('board');
 
       waiting.style.display = "none";
-      const contentt = document.getElementById('content');
-      contentt.style.display = "block";
 
       // The oponent is found, we can start the game
       countdown.style.display = "block";
@@ -757,8 +753,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         ws.send(JSON.stringify(payLoad));
   
         waiting.style.display = "block";
-        const contentt = document.getElementById('content');
-        contentt.style.display = "none";
         newGame.style.display = "none";
 
         // listen for opponent variable changes
@@ -771,8 +765,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let board = document.getElementById('board');
 
             waiting.style.display = "none";
-            const contentt = document.getElementById('content');
-            contentt.style.display = "block";
 
             // The oponent is found, we can start the game
             countdown.style.display = "block";

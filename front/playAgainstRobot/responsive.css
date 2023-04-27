@@ -1,4 +1,3 @@
-
 @media screen and (max-width: 375px) {
   #board {
     width: 100%;
@@ -16,28 +15,62 @@
   }
 
   .back {
-   width: 100%;
+    width: 100%;
   }
 
   button {
     font-size: 1.2rem;
     margin-top: 1.5rem;
     padding: 6px 0px;
- 
   }
-  .btns{
+  .btns {
     display: flex;
   }
   .btns button {
-
     border-radius: 0.8rem;
     font-size: 1rem !important;
     margin-left: 12px;
   }
-  
+
+
+
+  /*friend list*/
   h1 {
+    width: 80% !important;
     font-size: 2rem;
-  
+  }
+
+  #searchInput {
+    width: 100% !important;
+  }
+  #friend-list {
+    width: 100% !important;
+    margin-top: 10px !important;
+    display: block !important;
+  }
+
+  .list-plrs {
+    width: 90% !important;
+  }
+
+  .card {
+    width: 100% !important;
+  }
+  .card button{
+    margin: 2px;
+    padding: 10px;
+    max-width: 300px;
+    min-width: 150px;
+    min-height: 20px;
+    font-size: 0.8rem !important;
+  }
+
+  #saved-games2 .close{
+    display:  block !important;
+  }
+
+  #open_list{
+    display: block !important;
   }
 }
 
@@ -58,32 +91,65 @@
     height: 45px !important;
   }
 
-  .btns{
+  .btns {
     display: flex;
   }
   .btns button {
-
     border-radius: 0.8rem;
     font-size: 1rem !important;
     margin-left: 12px;
   }
-    /*mode game page*/
-    .back {
-      width: 100%;
-     }
-   
-     button {
-       font-size: 1.2rem;
-       margin-top: 1.5rem;
-       padding: 6px 0px;
-    
-     }
+  /*mode game page*/
+  .back {
+    width: 100%;
+  }
 
-     
-    h1 {
-      font-size: 2rem;
-    
-    }
+  button {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    padding: 6px 0px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+   /*friend list*/
+   h1 {
+    width: 100% !important;
+    font-size: 2rem;
+  }
+
+  #searchInput {
+    width: 100% !important;
+  }
+  #friend-list {
+    width: 100% !important;
+    margin-top: 10px !important;
+    display: block !important;
+  }
+
+  .list-plrs {
+    width: 95% !important;
+  }
+  .card {
+    width: 100% !important;
+  }
+  .card button{
+    margin: 2px;
+    padding: 10px;
+    max-width: 300px;
+    min-width: 150px;
+    min-height: 20px;
+    font-size: 0.8rem !important;
+  }
+  #saved-games2 .close{
+    display:  block !important;
+  }
+
+   #open_list{
+    display: block !important;
+  }
 }
 
 @media screen and (min-width: 520px) {
@@ -95,7 +161,7 @@
   }
 
   .tile {
-    height:45px;
+    height: 45px;
     width: 45px;
   }
 
@@ -106,32 +172,68 @@
   /*mode game page*/
   .back {
     width: 80%;
-   }
- 
-   button {
-     font-size: 1.2rem;
-     margin-top: 1.5rem;
-     padding: 6px 0px;
-  
-   }
-   
-   h1 {
+  }
+
+  button {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    padding: 6px 0px;
+  }
+
+  h1 {
     font-size: 2rem;
-  
   }
 
   .btns button {
-    width: 220px !important; 
-        border-radius: 0.8rem;
-        font-size: 1.2rem !important;
-        margin-left: 12px;
-      }
+    width: 220px !important;
+    border-radius: 0.8rem;
+    font-size: 1.2rem !important;
+    margin-left: 12px;
+  }
+
+
+   /*friend list*/
+  h1 {
+    width: 100% !important;
+    font-size: 2rem;
+  }
+
+  #searchInput {
+    width: 85% !important;
+  }
+  #friend-list {
+    width: 90% !important;
+    margin-top: 10px !important;
+    display: grid !important;
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+
+  .list-plrs {
+    width: 62% !important;
+  }
+
+  .card {
+    width: 90% !important;
+  }
+  .card button{
+    margin: 2px;
+    padding: 10px;
+    max-width: 300px;
+    min-width: 150px;
+    min-height: 20px;
+    font-size: 0.8rem !important;
+  }
+
+  #saved-games2 .close{
+    display:  block !important;
+  }
+   #open_list{
+    display: block !important;
+  }
 }
 
 @media screen and (min-width: 768px) {
-    
   #board {
-
     width: 95%;
     margin: 0;
     transform: translate(5px);
@@ -147,32 +249,70 @@
     height: 62px !important;
   }
 
-    /*mode game page*/
+  /*mode game page*/
 
-    h1 {
+  h1 {
+    font-size: 2rem;
+  }
+  .back {
+    width: 70%;
+  }
+
+  button {
+    font-size: 1rem !important;
+    margin-top: 1.8rem !important;
+    padding: 4px 0px;
+  }
+
+  .btns {
+    display: flex;
+  }
+  .btns button {
+    width: 300px !important;
+    border-radius: 0.8rem;
+    font-size: 1.5rem !important;
+    margin-left: 12px;
+  }
+
+     /*friend list*/
+     h1 {
+      width: 100% !important;
       font-size: 2rem;
-    
     }
-    .back {
-      width: 70%;
-     }
-   
-     button {
-       font-size: 1rem !important;
-       margin-top: 1.8rem !important;
-       padding: 4px 0px;
-    
-     }
+  
+    #searchInput {
+      width: 100% !important;
+    }
+    #friend-list {
+      width: 100% !important;
+      margin-top: 10px !important;
+      display: grid !important;
+      grid-template-columns: repeat(3,1fr) !important;
+    }
+  
+    .list-plrs {
+      width: 80% !important;
+    }
+  
+    .card {
+      width: 85% !important;
+    }
 
-     .btns{
-      display: flex;
+    .card button{
+      margin: 2px;
+      padding: 10px;
+      max-width: 300px;
+      min-width: 150px;
+      min-height: 20px;
+      font-size: 0.7rem !important;
     }
-    .btns button {
-  width: 300px !important; 
-      border-radius: 0.8rem;
-      font-size: 1.5rem !important;
-      margin-left: 12px;
+
+    #saved-games2 .close{
+      display:  block !important;
     }
+     #open_list{
+    display: block !important;
+  }
 }
 @media screen and (min-width: 912px) {
   #board {
@@ -197,28 +337,70 @@
     margin-left: 12px;
   }
 
-    /*mode game page*/
-    .back {
-      width: 80%;
-     }
+  /*mode game page*/
+  .back {
+    width: 80%;
+  }
 
-     h1 {
-      font-size: 3rem;
-   
-    }
-   
-     button {
-      
-       font-size: 2.5rem !important;
-       margin-top: 1.8rem !important;
-       padding: 4px 0px;
-    
-     }
+  h1 {
+    font-size: 3rem;
+  }
+
+  button {
+    font-size: 2.5rem !important;
+    margin-top: 1.8rem !important;
+    padding: 4px 0px;
+  }
+
+   /*friend list*/
+  h1 {
+    width: 100% !important;
+    font-size: 2rem;
+  }
+
+  #searchInput {
+    width: 100% !important;
+  }
+  #friend-list {
+    width: 100% !important;
+    margin-top: 10px !important;
+    display: grid !important;
+
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+
+  .list-plrs {
+    width: 90% !important;
+  }
+
+  .card {
+    width: 80% !important;
+  }
+  .card button{
+    margin: 8px;
+    padding: 10px;
+    max-width: 300px;
+    min-width: 150px;
+    min-height: 20px;
+    font-size: 1rem;
+  }
+
+  .card button{
+    margin: 2px;
+    padding: 10px;
+    max-width: 300px !important;
+    min-width: 150px !important;
+    min-height: 20px;
+    font-size: 0.8rem !important;
+  }
+
+  
+  #open_list{
+    display: block !important;
+  }
 }
 
-
 @media screen and (min-width: 1024px) and (orientation: landscape) {
-
   #board {
     width: 500px;
     margin: auto;
@@ -241,22 +423,55 @@
     height: 46px !important;
   }
 
-    /*mode game page*/
-    .back {
-      width: 40%;
-     }
+  /*mode game page*/
+  .back {
+    width: 40%;
+  }
 
+  h1 {
+    font-size: 2rem;
+  }
+
+  button {
+    font-size: 1.2rem !important;
+    margin-top: 1.5rem;
+    padding: 6px 0px;
+  }
+     /*friend list*/
      h1 {
+      width: 100% !important;
       font-size: 2rem;
-   
     }
-   
-     button {
-       font-size: 1.2rem !important; 
-       margin-top: 1.5rem;
-       padding: 6px 0px;
+  
+    #searchInput {
+      width: 100% !important;
     
-     }
+    }
+    #friend-list {
+      width: 100% !important;
+    
+      margin-top: 10px !important;
+      display: grid !important;
+      grid-template-columns: repeat(3,1fr) !important;
+    }
+  
+    .list-plrs {
+      width: 80% !important;
+    }
+    #saved-games2 .close{
+      display: block !important;
+    }
+
+ 
+  
+    .card {
+      margin: 8px !important;
+      width: 80% !important;
+     
+    }
+     #open_list{
+    display: block !important;
+  }
 }
 
 @media screen and (min-width: 1200px) {
@@ -267,21 +482,65 @@
   }
 
   .tile {
+
+    
     height: 70px;
     width: 70px;
   }
 
-    /*mode game page*/
-    .back {
-      width: 60%;
-     }
-   
-     button {
-       font-size: 1.2rem;
-       margin-top: 1.5rem;
-       padding: 6px 0px;
-    
-     }
+  /*mode game page*/
+  .back {
+    width: 60%;
+  }
+
+  button {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    padding: 6px 0px;
+  }
+
+   /*friend list*/
+  h1 {
+    width: 100% !important;
+    font-size: 2rem;
+  }
+
+  #searchInput {
+    width: 60% !important;
+  }
+  #friend-list {
+    width: 70% !important;
+    margin-top: 10px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3,1fr) !important;
+  }
+
+  .list-plrs {
+    width: 50% !important;
+  }
+
+  .card {
+    width: 100% !important;
+  }
+
+  .card button{
+    margin: 2px;
+    padding: 10px;
+    max-width: 300px;
+    min-width: 150px;
+    min-height: 20px;
+    font-size: 0.8rem !important;
+  }
+
+
+  #saved-games2 .close{
+    display: none !important;
+  }
+
+  
+   #open_list{
+    display: block !important;
+  }
 }
 
 @media screen and (min-width: 1201px) {
@@ -302,17 +561,61 @@
     margin-left: 12px;
   }
 
-    /*mode game page*/
-    .back {
-      width: 60%;
-     }
-   
-     button {
-       font-size: 2rem !important;
-       margin-top: 1.5rem;
-       padding: 6px 0px;
-    
-     }
+  /*mode game page*/
+  .back {
+    width: 60%;
+  }
+
+  button {
+    font-size: 2rem !important;
+    margin-top: 1.5rem;
+    padding: 6px 0px;
+  }
+
+   /*friend list*/
+  h1 {
+    width: 70% !important;
+    font-size: 2rem;
+  }
+
+  #searchInput {
+    width: 60% !important;
+  }
+  #friend-list {
+    width: 60% !important;
+    margin-top: 10px !important;
+    display: grid !important;
+    grid-template-columns: repeat(2,1fr);
+  }
+
+  .list-plrs {
+    width: 48% !important;
+  }
+
+  .card {
+    width: 90% !important;
+  }
+
+  .card button{
+    margin: 2px;
+    padding: 10px;
+    max-width: 300px;
+    min-width: 150px;
+    min-height: 20px;
+    font-size: 0.8rem;
+  }
+
+  #saved-games2 .close{
+    display: none !important;
+  }
+
+  #saved-games2{
+    width: 400px !important;
+    right: 0px !important;
+  }
+   #open_list{
+    display: none !important;
+  }
 }
 
 @media screen and (min-width: 1400px) {
@@ -333,15 +636,59 @@
     margin-left: 12px;
   }
 
-    /*mode game page*/
-    .back {
-      width: 100%;
-     }
-   
-     button {
-       font-size: 1.2rem;
-       margin-top: 1.5rem;
-       padding: 6px 0px;
-    
-     }
+  /*mode game page*/
+  .back {
+    width: 100%;
+  }
+
+  button {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    padding: 6px 0px;
+  }
+
+   /*friend list*/
+  h1 {
+    width: 70% !important;
+    font-size: 2rem;
+  }
+
+  #searchInput {
+    width: 60% !important;
+  }
+  #friend-list {
+    width: 70% !important;
+    margin-top: 10px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3,1fr) !important;
+  }
+
+  .list-plrs {
+    width: 40% !important;
+  }
+
+  .card {
+    width: 100% !important;
+    margin: 10px !important;
+  }
+  .card button{
+    margin: 2px;
+    padding: 10px;
+    max-width: 300px !important;
+    min-width: 150px !important;
+    min-height: 20px;
+    font-size: 0.8rem !important;
+  }
+
+  #saved-games2 .close{
+    display: none !important;
+  }
+
+  #saved-games2{
+    width: 400px !important;
+    right: 0px !important;
+  }
+   #open_list{
+    display: none !important;
+  }
 }

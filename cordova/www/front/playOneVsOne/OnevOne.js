@@ -315,8 +315,6 @@ newGame.addEventListener('click', () => {
   ws.send(JSON.stringify(payLoad));
   
   waiting.style.display = "block";
-  const contentt = document.getElementById('content');
-  contentt.style.display = "none";
   newGame.style.display = "none";
   opp.style.display = "none";
   let photo = document.getElementById('too');
@@ -329,8 +327,6 @@ newGame.addEventListener('click', () => {
       let board = document.getElementById('board');
 
       waiting.style.display = "none";
-      const contentt = document.getElementById('content');
-      contentt.style.display = "block";
 
       // The oponent is found, we can start the game
       countdown.style.display = "block";
@@ -339,8 +335,6 @@ newGame.addEventListener('click', () => {
       setTimeout(() => {
           countdown.style.display = "none";
           board.style.visibility = "visible";
-          const image1 = document.getElementById('open');
-          image1.style.visibility = "visible";
           let chrono = document.getElementById("chrono");
           chrono.style.visibility = "visible";
           let chatBox = document.getElementById("chat-box");
@@ -451,8 +445,6 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
-            const image1 = document.getElementById('open');
-            image1.style.visibility = "visible";
             let chrono = document.getElementById("chrono");
             chrono.style.visibility = "visible";
 
@@ -507,8 +499,6 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
-            const image1 = document.getElementById('open');
-            image1.style.visibility = "visible";
             let chrono = document.getElementById("chrono");
             chrono.style.visibility = "visible";
 
@@ -757,8 +747,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         ws.send(JSON.stringify(payLoad));
   
         waiting.style.display = "block";
-        const contentt = document.getElementById('content');
-        contentt.style.display = "none";
         newGame.style.display = "none";
 
         // listen for opponent variable changes
@@ -771,8 +759,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             let board = document.getElementById('board');
 
             waiting.style.display = "none";
-            const contentt = document.getElementById('content');
-            contentt.style.display = "block";
 
             // The oponent is found, we can start the game
             countdown.style.display = "block";
@@ -783,8 +769,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 photo.style.display = "none";
                 countdown.style.display = "none";
                 board.style.visibility = "visible";
-                const image1 = document.getElementById('open');
-                image1.style.visibility = "visible";
                 let chrono = document.getElementById("chrono");
                 chrono.style.visibility = "visible";
                 let chatBox = document.getElementById("chat-box");
@@ -843,8 +827,6 @@ acceptBtn.addEventListener("click", function() {
   setTimeout(() => {
     countdown.style.display = "none";
     board.style.visibility = "visible";
-    const image1 = document.getElementById('open');
-    image1.style.visibility = "visible";
     let chrono = document.getElementById("chrono");
     chrono.style.visibility = "visible";
     let chatBox = document.getElementById("chat-box");

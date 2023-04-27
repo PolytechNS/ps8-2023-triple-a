@@ -54,6 +54,7 @@ function setBoard() {
             document.getElementById("board").append(tile);
 
         }
+
     }
     return boardGame;
 }
@@ -209,7 +210,7 @@ function boardMatrixCopy(){
     return copy;
 }
 
-// ############ SAVE GAME ############
+// document.getElementById("saveButton").addEventListener("click",function(){saveGame("local")});
 
 async function saveGame(event, gameType) {
     event.preventDefault();
@@ -293,7 +294,6 @@ async function getSavedGames() {
         console.log('Failed to retrieve saved games');
     }
 }
-
 async function restoreSavedGame(event) {
     event.preventDefault();
     const gameId = event.target.dataset.game;
@@ -369,9 +369,10 @@ async function deleteSavedGame(event) {
     }
 }
 
+// Call getSavedGames when the page loads
 getSavedGames();
 
-// ############ SAVE GAME ############
+//////// decrement timer ////////
 
 const redTimer = document.querySelector('.red .timer');
 const yellowTimer = document.querySelector('.yellow .timer');
