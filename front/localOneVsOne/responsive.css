@@ -6,8 +6,8 @@
   }
 
   .tile {
-    height: 45px !important;
-    width: 45px !important;
+    height: 31px !important;
+    width: 31px !important;
   }
 
   .player {
@@ -24,8 +24,8 @@
   }
 
   .tile {
-    height: 55px;
-    width: 55px;
+    height: 45px;
+    width: 45px;
   }
 
   .player {
@@ -37,8 +37,8 @@
 @media screen and (min-width: 520px) {
   #board {
     margin: auto;
-    width: 500px;
-    transform: translate(15px);
+    width: 480px;
+    /* transform: translate(15px); */
     height: auto;
   }
 
@@ -57,7 +57,7 @@
     
   #board {
 
-    width: 500px;
+    width: 580px;
     margin: auto;
     height: auto;
   }
@@ -73,7 +73,7 @@
 }
 @media screen and (min-width: 912px) {
   #board {
-    width: 700px;
+    width: 610px;
     margin: auto;
     height: auto;
   }
