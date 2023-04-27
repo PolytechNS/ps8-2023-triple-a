@@ -163,7 +163,6 @@ async function getFriends() {
 //     document.getElementById("suggestions").innerHTML = suggestion;
 // })
 
-
 async function getPlayers2() {
     console.log('loading players');
     const token = localStorage.getItem('token').toString();

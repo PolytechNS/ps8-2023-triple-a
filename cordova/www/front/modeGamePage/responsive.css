@@ -6,13 +6,30 @@
   }
 
   .tile {
-    height: 31px !important;
-    width: 31px !important;
+    height: 45px !important;
+    width: 45px !important;
   }
 
   .player {
     width: 110px !important;
     height: 32px !important;
+  }
+
+  .back {
+   width: 100%;
+  }
+
+  button {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    padding: 6px 0px;
+ 
+  }
+
+  
+  h1 {
+    font-size: 2rem;
+  
   }
 }
 
@@ -24,21 +41,38 @@
   }
 
   .tile {
-    height: 45px;
-    width: 45px;
+    height: 55px;
+    width: 55px;
   }
- 
+
   .player {
     width: 130px !important;
     height: 45px !important;
   }
+    /*mode game page*/
+    .back {
+      width: 100%;
+     }
+   
+     button {
+       font-size: 1.2rem;
+       margin-top: 1.5rem;
+       padding: 6px 0px;
+    
+     }
+
+     
+    h1 {
+      font-size: 2rem;
+    
+    }
 }
 
 @media screen and (min-width: 520px) {
   #board {
     margin: auto;
-    width: 480px;
-    /* transform: translate(15px); */
+    width: 500px;
+    transform: translate(15px);
     height: auto;
   }
 
@@ -51,13 +85,29 @@
     width: 200px !important;
     height: 40px !important;
   }
+  /*mode game page*/
+  .back {
+    width: 80%;
+   }
+ 
+   button {
+     font-size: 1.2rem;
+     margin-top: 1.5rem;
+     padding: 6px 0px;
+  
+   }
+   
+   h1 {
+    font-size: 2rem;
+  
+  }
 }
 
 @media screen and (min-width: 768px) {
     
   #board {
 
-    width: 580px;
+    width: 500px;
     margin: auto;
     height: auto;
   }
@@ -70,10 +120,27 @@
     width: 220px !important;
     height: 62px !important;
   }
+
+    /*mode game page*/
+
+    h1 {
+      font-size: 2rem;
+    
+    }
+    .back {
+      width: 70%;
+     }
+   
+     button {
+       font-size: 1.rem !important;
+       margin-top: 1.8rem !important;
+       padding: 4px 0px;
+    
+     }
 }
 @media screen and (min-width: 912px) {
   #board {
-    width: 610px;
+    width: 700px;
     margin: auto;
     height: auto;
   }
@@ -93,6 +160,24 @@
     font-size: 1.8rem !important;
     margin-left: 12px;
   }
+
+    /*mode game page*/
+    .back {
+      width: 80%;
+     }
+
+     h1 {
+      font-size: 3rem;
+   
+    }
+   
+     button {
+      
+       font-size: 2.5rem !important;
+       margin-top: 1.8rem !important;
+       padding: 4px 0px;
+    
+     }
 }
 
 
@@ -119,6 +204,23 @@
     width: 207px !important;
     height: 46px !important;
   }
+
+    /*mode game page*/
+    .back {
+      width: 40%;
+     }
+
+     h1 {
+      font-size: 2rem;
+   
+    }
+   
+     button {
+       font-size: 1.2rem !important; 
+       margin-top: 1.5rem;
+       padding: 6px 0px;
+    
+     }
 }
 
 @media screen and (min-width: 1200px) {
@@ -132,6 +234,18 @@
     height: 70px;
     width: 70px;
   }
+
+    /*mode game page*/
+    .back {
+      width: 60%;
+     }
+   
+     button {
+       font-size: 1.2rem;
+       margin-top: 1.5rem;
+       padding: 6px 0px;
+    
+     }
 }
 
 @media screen and (min-width: 1201px) {
@@ -151,6 +265,18 @@
     font-size: 1.1rem !important;
     margin-left: 12px;
   }
+
+    /*mode game page*/
+    .back {
+      width: 60%;
+     }
+   
+     button {
+       font-size: 2rem !important;
+       margin-top: 1.5rem;
+       padding: 6px 0px;
+    
+     }
 }
 
 @media screen and (min-width: 1400px) {
@@ -170,4 +296,16 @@
     font-size: 1.1rem !important;
     margin-left: 12px;
   }
+
+    /*mode game page*/
+    .back {
+      width: 100%;
+     }
+   
+     button {
+       font-size: 1.2rem;
+       margin-top: 1.5rem;
+       padding: 6px 0px;
+    
+     }
 }

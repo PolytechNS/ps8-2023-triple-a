@@ -4,8 +4,10 @@
   <head>
     
     <title>My Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
@@ -267,7 +269,7 @@
       <object type="text/html" data="countdown.html" style="width:100%; height:700px;"></object>
     </div>
 
-    <div id="content">
+    <div id="content" style="display: none;">
 
       <div id="board" style="visibility: hidden;"></div>
 
@@ -276,7 +278,7 @@
         <button id="accept-btn">Accept Challenge</button>
       </div>
       
-      <img src="../images/chat.png" id="open" style="height: 1.5cm; display: inline-block; margin-right: 10px; position: absolute; bottom: 20px; right : 3px;" alt="" onclick="openChat()">
+      <img src="../images/chat.png" id="open" style="height: 1.5cm; display: inline-block; margin-right: 10px; position: absolute; bottom: 20px; right : 3px; visibility: hidden;" alt="" onclick="openChat()">
       <div class="chat-box" style="display : none">
 
         <div style="height: 0.5cm;">
@@ -304,7 +306,8 @@
           position: fixed;
           bottom : 32px;
           right: 40px;
-          width: 300px;
+          width: 500px;
+          height: 600px;
           background-color: #ffffff;
           border-radius: 10px;
           background-image: url("../images/sky-clouds.gif");
@@ -313,6 +316,7 @@
 
           .chat-messages {
           height: 200px;
+          height: 50%;
           overflow-y: scroll;
           padding: 10px;
           top: 1cm;
@@ -325,7 +329,10 @@
           }
 
           .chat-message {
+            margin-top: 10px;
           display: flex;
+          border-radius: 18px 18px 18px 0px;
+          background-color: rgba(82, 122, 177, 0.614);
           }
 
           .chat-message .user {
@@ -335,15 +342,21 @@
 
           .chat-message .message {
           flex: 1;
+       
           }
 
           .chat-input {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
           display: flex;
+          justify-content: center !important;
+          align-items: center !important;
           padding: 10px;
           }
 
           .chat-input input[type="text"] {
-          flex: 1;
+            height: 40px;
           padding: 5px;
           border-radius: 5px;
           border: none;
@@ -354,10 +367,17 @@
           background-color: #008CBA;
           color: #fff;
           border: none;
+     
           border-radius: 5px;
           padding: 5px 10px;
           cursor: pointer;
           font-size: 70%;
+          }
+
+          #sendButton{
+            width: 100px !important;
+            margin-top: 0 !important;
+            font-size: 1rem !important;
           }
 
 

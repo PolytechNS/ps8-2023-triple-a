@@ -102,3 +102,41 @@ button {
   border: 1px solid rgb(3, 3, 128);
   background-image: url("../images/Board-image.jpg");
 }
+
+@media screen and (min-width: 768px) {
+  /* apply styles only for screens wider than 768px */
+  .wrapper {
+    width: 80%;
+    max-width: 500px;
+  }
+
+  .button {
+    /* adjust font size and padding for larger screens */
+    font-size: 1.2rem;
+    padding: 12px 20px;
+  }
+
+  .body {
+    background-color: #dfe9f5;
+    max-width: 100px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  /* apply styles only for screens wider than 1024px */
+  .wrapper {
+    width: 60%;
+    max-width: 800px;
+  }
+
+  .button {
+    /* further adjust font size and padding for even larger screens */
+    font-size: 1.5rem;
+    padding: 14px 24px;
+  }
+
+  .body {
+    background-color: #dfe9f5;
+    max-width: 500px;
+  }
+}
