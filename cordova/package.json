@@ -30,12 +30,12 @@
       "cordova-plugin-camera": {
         "ANDROIDX_CORE_VERSION": "1.6.+"
       },
-      "cordova-plugin-geolocation": {
-        "GPS_REQUIRED": "true"
-      },
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-advanced-http": {
         "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1"
+      },
+      "cordova-plugin-geolocation": {
+        "GPS_REQUIRED": "true"
       }
     }
   },

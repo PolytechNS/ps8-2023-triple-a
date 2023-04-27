@@ -287,11 +287,16 @@ async function displayPlayersRanking() {
   players.map((player, index) => {
       const listItem = document.createElement('li');
       listItem.textContent = `${index + 1}. ${player.username} - ${player.score} points`;
-      playerList.appendChild(listItem);
+      if ( player.username === localStorage.getItem('username') ) {
+        listItem.style.backgroundColor = "blue";
+      }
+      if ( !player.totalGames ) {
+        listItem.style.display = "none";
+      }
   });
 
-  const rankingContainer = document.getElementById('ranking-container'); 
-  rankingContainer.appendChild(playerList);
+  // set the color of the li of currebt user to yellow
+
 }
 
 //displayPlayersRanking();
