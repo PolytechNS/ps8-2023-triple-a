@@ -1,8 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Profil de l'utilisateur</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
 
     <link rel="stylesheet" href="style.css" />
@@ -177,8 +181,7 @@
         <button class="button" onclick="window.location.href='/friendsList/friendsList.html'">
           See my friends
         </button>
-        <br/>
-        <br/>
+        <br>
         <h2 class="rank">Rank :</h2>
         <span id="rank"></span>
         <div id="recompense"></div>
@@ -217,12 +220,10 @@ let localHostOrUrl = url;
       document.getElementById("score").innerText = data.data.score;
       document.getElementById("wins").innerText = data.data.wins;
       document.getElementById("losses").innerText = data.data.totalGames - data.data.wins;
-      const aa = data.data.totalGames;
-      if ( !aa ) {
-        document.getElementById("winrate").innerText = "0%";
-      } else {
-        document.getElementById("winrate").innerText = `${( (data.data.wins / data.data.totalGames) * 100 ).toFixed(2)}%`;
-      }
+      document.getElementById("winrate").innerText = `${(
+        (data.data.wins / data.data.totalGames) *
+        100
+      ).toFixed(2)}%`;
 
       const recompense = document.getElementById("recompense");
       const scoreText = document.getElementById("score").innerText;
@@ -289,15 +290,11 @@ async function displayPlayersRanking() {
   players.map((player, index) => {
       const listItem = document.createElement('li');
       listItem.textContent = `${index + 1}. ${player.username} - ${player.score} points`;
-      if ( player.username === localStorage.getItem('username') ) {
-        // set its class to current
-        listItem.classList.add("current");
-      }
-      if ( !player.totalGames ) {
-        listItem.style.display = "none";
-      }
+      playerList.appendChild(listItem);
   });
 
+  const rankingContainer = document.getElementById('ranking-container'); 
+  rankingContainer.appendChild(playerList);
 }
 
 //displayPlayersRanking();

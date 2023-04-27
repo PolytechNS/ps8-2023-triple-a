@@ -13,7 +13,7 @@ body {
 
 .back {
   flex: 1;
-  width: 600px;
+  width: 60%;
   text-align: center;
   height: auto;
   border: 2px solid;
@@ -138,14 +138,8 @@ li {
   
 }
 
-/* set the back color of element of class current to green */
-li.current {
-  background-color: #0cff3b;
-  color: #000000;
-}
-
 li:first-child {
-  background-color: #dddc36;
+  background-color: #4ab2d2;
 }
 
 .player-name {
