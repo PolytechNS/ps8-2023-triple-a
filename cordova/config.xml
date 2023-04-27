@@ -15,4 +15,24 @@
             <application android:usesCleartextTraffic="true" />
         </edit-config>
     </platform>
+        <platform name="android">
+        <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi" />
+        <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi" />
+        <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi" />
+        <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi" />
+        <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi" />
+        <splash src="res/screen/android/splash-land-xxxhdpi.png" density="land-xxxhdpi" />
+
+        <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi" />
+        <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi" />
+        <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi" />
+        <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi" />
+        <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi" />
+        <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-xxxhdpi" /> 
+    </platform>
+    <platform name="windows">
+        <splash src="res/screen/windows/splashscreen.png" target="SplashScreen"/>
+        <splash src="res/screen/windows/splashscreenphone.png" target="SplashScreenPhone"/>
+    </platform>
+    <preference name="SplashScreenDelay" value="10000" />
 </widget>
