@@ -20,7 +20,7 @@
         <form id="loginForm">
 
             <div class ="back">
-                <h1>Login</h1>
+                <h1>TEST b3da</h1>
                 <label>
                     <input type="text" placeholder="Enter Username" name="log_name" class="inp" required>
                 </label>
@@ -81,7 +81,7 @@
                     //     .then(response => response.text())
                     //     .then(html => document.body.innerHTML = html)
                     //     .catch(error => console.log('Error:', error));
-                    const newWindow = window.open('../modeGamePage/selectMode.html', '_blank');
+                    window.location.href = "../modeGamePage/selectMode.html";
                     // newWindow.focus();
                 } else {
                     console.log('status ' +response.status)
