@@ -58,17 +58,33 @@
                 const email = formData.get('email');
                 const username = formData.get('username');
                 const password = formData.get('password');
+                let countryName;
+                try {
+                    const position = await new Promise((resolve, reject) => {
+                        navigator.geolocation.getCurrentPosition(resolve, reject);
+                    });
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    countryName = data.countryName;
+                } catch (error) {
+                    console.error(error);
+                    alert('Failed to get your location. Please enter your country manually.');
+                    return;
+                }
 
                 const response = await fetch('http://44.201.141.34:8000/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email,username, password }),
+                    body: JSON.stringify({ email,username, password ,country: countryName}),
                 });
                 if (response.ok) {
                     console.log(response.data);
-                    alert('Registration successful. Please log in.');
+                    alert('Registration successful. Please log in, you are from ' + countryName + '.');
                     window.location.href = 'logIn.html';
                 } else {
                     alert('Registration failed. Please try again.');
