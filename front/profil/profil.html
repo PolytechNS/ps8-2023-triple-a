@@ -178,7 +178,8 @@
         <button class="button" onclick="window.location.href='/friendsList/friendsList.html'">
           See my friends
         </button>
-        <br>
+        <br/>
+        <br/>
         <h2 class="rank">Rank :</h2>
         <span id="rank"></span>
         <div id="recompense"></div>
@@ -289,6 +290,9 @@ async function displayPlayersRanking() {
   players.map((player, index) => {
       const listItem = document.createElement('li');
       listItem.textContent = `${index + 1}. ${player.username} - ${player.score} points`;
+      if ( !player.totalGames ) {
+        listItem.style.display = "none";
+      }
       playerList.appendChild(listItem);
   });
 
@@ -303,7 +307,7 @@ async function displayPlayersRanking() {
   //     playerList[player].style.display = "none";
   //   }
   // }
-  rankingContainer.appendChild(playerList);
+  // rankingContainer.appendChild(playerList);
 }
 
 //displayPlayersRanking();
