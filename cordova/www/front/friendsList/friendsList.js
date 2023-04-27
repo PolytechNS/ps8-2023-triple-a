@@ -149,11 +149,6 @@ async function getFriends() {
     }
 }
 
-
-
-
-
-
 const searchinput = document.getElementById('searchinput');
 searchinput.addEventListener('click', function(){
     const input = searchinput.value;
