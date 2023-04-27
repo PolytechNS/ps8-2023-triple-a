@@ -48,6 +48,7 @@ async function getPlayers() {
         console.log('Failed to retrieve players');
     }
 }
+
 async function getFriends() {
     console.log('loading friends');
     const token = localStorage.getItem('token').toString();
@@ -77,14 +78,14 @@ async function getFriends() {
 
                 // Create the delete button
                 const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Supprimer';
+                deleteButton.textContent = 'Delete';
                 deleteButton.setAttribute('data-player', friend.token);
                 deleteButton.addEventListener('click', deleteFriend);
                 friendItem.appendChild(deleteButton);
 
                 // Create the challenge button
                 const challengeButton = document.createElement('button');
-                challengeButton.textContent = 'Nouveau défi';
+                challengeButton.textContent = 'Challenge';
                 
                 challengeButton.addEventListener('click', () => {
                     // get the header and chenge its icon
@@ -113,11 +114,6 @@ async function getFriends() {
         console.log('Failed to retrieve friends');
     }
 }
-
-
-
-
-
 
     async function sendInvite(event) {
     event.preventDefault();
@@ -158,19 +154,19 @@ async function getFriends() {
 
 
 
-// const searchinput = document.getElementById('searchinput');
-// searchinput.addEventListener('click', function(){
-//     const input = searchinput.value;
-//     const result = persons.filter(item=>item.name.toLocaleLowerCase().includes(input.toLocaleLowerCase()));
-//     let suggestion = '';
-//     if(input!==''){
-//         result.forEach(resultItem =>
-//             suggestion +='<div class = "suggestion">'+resultItem.name+'</div>'
-//                 // <div class ="suggestion">${resultItem.name}</div>
-//         )
-//     }
-//     document.getElementById("suggestions").innerHTML = suggestion;
-// })
+const searchinput = document.getElementById('searchinput');
+searchinput.addEventListener('click', function(){
+    const input = searchinput.value;
+    const result = persons.filter(item=>item.name.toLocaleLowerCase().includes(input.toLocaleLowerCase()));
+    let suggestion = '';
+    if(input!==''){
+        result.forEach(resultItem =>
+            suggestion +='<div class = "suggestion">'+resultItem.name+'</div>'
+                // <div class ="suggestion">${resultItem.name}</div>
+        )
+    }
+    document.getElementById("suggestions").innerHTML = suggestion;
+})
 
 
 async function getPlayers2() {
@@ -261,7 +257,7 @@ async function getFriendRequests() {
                 console.log("storage token :",localStorage.getItem('token'));
 
 
-                // gameItem.innerHTML = `<button data-player="${player._id}" class="player-button">local - ${player.date}</button>`;
+                gameItem.innerHTML = `<button data-player="${player._id}" class="player-button">local - ${player.date}</button>`;
                 playerItem.innerHTML = `
                                         <div class="game-container">
                                             <button data-player="${player.token}" class="game-button">${player.name}</button>
@@ -274,6 +270,11 @@ async function getFriendRequests() {
             }
             document.querySelectorAll('.game-button').forEach(button => button.addEventListener('click',  acceptRequest));
 
+            const AAAA = document.getElementsByClassName('game-button');
+            AAAA.addEventListener('mouseover', () => {
+                button.textContent = '777777777';
+              });
+            
             for (const icon of document.querySelectorAll('.gg-trash')) {
                 icon.addEventListener('click', await rejectRequest);
             }

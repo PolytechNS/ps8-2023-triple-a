@@ -58,7 +58,8 @@
                 const email = formData.get('email');
                 const username = formData.get('username');
                 const password = formData.get('password');
-                const response = await fetch('/api/register', {
+
+                const response = await fetch('http://44.201.141.34:8000/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
