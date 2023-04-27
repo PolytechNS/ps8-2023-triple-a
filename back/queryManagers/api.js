@@ -10,6 +10,7 @@ function manageRequest(request, response) {
     let filePath = request.url.split("/").filter(function(elem) {
         return elem !== "..";
     });
+    addCors(response);
     if (filePath[2] === "login") {
         apiLogin.manage(request, response);
         // If it doesn't start by /api, then it's a request for a file.
