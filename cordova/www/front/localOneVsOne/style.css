@@ -28,18 +28,15 @@ image {
 
 #board {
     height: auto;
-
     width: 500px;
     background-color: rgb(129, 196, 235);
     border: 5px solid navy;
     border-radius: 5%;
     display: grid;
-    grid-template-columns: repeat(6,1fr);
-  margin: auto;
-  padding: 0px;
+    grid-template-columns: repeat(7,1fr);
+    margin: auto;
+    padding: 0px;
 }
-
-
 
 .tile {
     height: 70px;
