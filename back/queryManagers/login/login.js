@@ -17,6 +17,12 @@ function manageRequest(request, response) {
             mongoDBConnection.findInDataBase(response, userInfo, "log");
         });
     }
+    else if (request.method === 'OPTIONS') {
+        response.statusCode = 200;
+        request.end();
+
+
+    }
 
     
     else {

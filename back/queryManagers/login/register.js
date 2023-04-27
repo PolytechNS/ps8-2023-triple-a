@@ -45,6 +45,11 @@ function manageRequest(request, response) {
             mongoDBConnection.createInDataBase(response,valueToInsert,"log",valueToCheck);
         });
     }
+    else if (request.method === 'OPTIONS') {
+        response.statusCode = 200;
+        request.end();
+
+    }
     else {
         response.statusCode = 400;
         response.end("Something in your request (${request.url}) is strange...");

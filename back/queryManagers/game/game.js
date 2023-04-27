@@ -175,6 +175,10 @@ const {MongoClient, ObjectId} = require("mongodb");
              });
          }
      }
+     else if (request.method === 'OPTIONS') {
+         response.statusCode = 200;
+
+     }
 
 }
 
