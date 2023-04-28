@@ -88,5 +88,11 @@ document.addEventListener("deviceready", function() {
 // // Planifier l'exécution de la notification en utilisant setTimeout()
 // setTimeout(notificationCallback, delay);
 
+document.addEventListener("deviceready", onDeviceReady, false);
 
-
+function onDeviceReady() {
+    navigator.splashscreen.show();
+    setTimeout(function() {
+        navigator.splashscreen.hide();
+    }, 10000);
+}

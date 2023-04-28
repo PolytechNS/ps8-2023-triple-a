@@ -1,5 +1,3 @@
-
-
 body {
   background-color: #dfe9f5;
 }
@@ -138,8 +136,14 @@ li {
   
 }
 
+/* set the back color of element of class current to green */
+li.current {
+  background-color: #0cff3b;
+  color: #000000;
+}
+
 li:first-child {
-  background-color: #4ab2d2;
+  background-color: #dddc36;
 }
 
 .player-name {
