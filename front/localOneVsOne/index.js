@@ -228,7 +228,7 @@ async function saveGame(event, gameType) {
     console.log(tab)
 
     try {
-        const response = await fetch('http://localhost:8000/api/game', {
+        const response = await fetch('http://' + localHostOrUrl + ':8000/api/game', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
