@@ -6,8 +6,8 @@
   }
 
   .tile {
-    height: 45px !important;
-    width: 45px !important;
+    height: 42px !important;
+    width: 42px !important;
   }
 
   .player {
@@ -28,8 +28,8 @@
   }
 
   .tile {
-    height: 55px;
-    width: 55px;
+    height: 48px;
+    width: 48px;
   }
 
   .player {
@@ -60,8 +60,7 @@
 @media screen and (min-width: 768px) {
     
   #board {
-
-    width: 500px;
+    width: 580px;
     margin: auto;
     height: auto;
   }
@@ -77,7 +76,7 @@
 }
 @media screen and (min-width: 912px) {
   #board {
-    width: 700px;
+    width: 620px;
     margin: auto;
     height: auto;
   }
