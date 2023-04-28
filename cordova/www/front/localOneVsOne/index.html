@@ -243,34 +243,37 @@ header {
     </style>
 </header>
 
-<div id="board">
-
-
-    </div>
-    <a class="btns">
-        <button class="button" id="saveButton">Save game and exit</button>
+<div id="board-buttons">
+    <div id="board"></div>
+    <div id="button-container " class="btns">
+        <button class="button" id="saveButton2">Save game and exit</button>
         <button class="button" id="toggle-btn">Show saved games</button>
-    </a>
+    </div>
+</div>
         
-    <!--  <div id="games-container" onclick="toggleList()">
-            <h2>Saved Games</h2>
-            <ul id="games-list">
-            <li>No saved games found.</li>
-            </ul>
-        </div> 
-    -->
+<div id="games-container">
+
+    <h2>Saved Games</h2>
+    <ul id="games-list">
+        <li>No saved games found.</li>
+    </ul>
+</div>
 
     <script>
-        const toggleBtn = document.getElementById('toggle-btn');
-        const gamesContainer = document.getElementById('games-container');
+    const toggleBtn = document.getElementById('toggle-btn');
+    const gamesContainer = document.getElementById('games-container');
 
-        toggleBtn.addEventListener('click', function() {
-            if (gamesContainer.style.display === 'none') {
-                gamesContainer.style.display = 'block';
-            } else {
-                gamesContainer.style.display = 'none';
-            }
-        });
+    toggleBtn.addEventListener('click', function() {
+        if (gamesContainer.style.display === 'none') {
+            gamesContainer.style.display = 'block';
+            const board = document.getElementById('board');
+            board.style.visibility = 'hidden'
+        } else {
+            gamesContainer.style.display = 'none';
+            const board = document.getElementById('board');
+            board.style.visibility = 'visible';
+        }
+    });
     </script>
 
     <div id="popup-message" class="hidden">

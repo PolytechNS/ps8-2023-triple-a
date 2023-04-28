@@ -31,6 +31,7 @@
     </div>
     
     <h1>Friend List  <span id="open_list">+</span></h1>
+    
     <!-- <div id="saved-games">
     
     <h2>Players</h2>
@@ -152,7 +153,7 @@
                   return;
                 }
                 //suggestion += `<div class="suggestion">${resultItem.username}</div>`;
-                suggestion += `<button  data-player="${resultItem._id}" class="game-button">${resultItem.username}</button>`;
+                suggestion += `<button  data-player="${resultItem._id}" class="game-button button2">${resultItem.username}</button>`;
                 console.log("suggestion : ", suggestion);
               });
             }
@@ -165,7 +166,7 @@
               );
           });
         }
-        // loadPlayers();
+        loadPlayers();
       </script>
     </div>
 
@@ -175,10 +176,8 @@
 
       <div id="saved-games2">
         <div class="close" id="closefriend">X</div>
-        <h1>Select Game Mode</h1>
-        <h2>new page</h2>
- 
-
+        <h1>Friend Requests</h1>
+        
         <ul id="requests-list"></ul>
       </div>
     </main>

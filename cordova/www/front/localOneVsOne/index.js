@@ -228,7 +228,7 @@ async function saveGame(event, gameType) {
     console.log(tab)
 
     try {
-        const response = await fetch('http://localhost:8000/api/game', {
+        const response = await fetch('http://' + localHostOrUrl + ':8000/api/game', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -249,7 +249,8 @@ async function saveGame(event, gameType) {
         console.log(err);
     }
 }
-document.getElementById("saveButton").addEventListener("click",function(){saveGame(event, "local")});
+
+document.getElementById("saveButton2").addEventListener("click",function(){saveGame(event, "local")});
 
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");
@@ -343,6 +344,16 @@ async function restoreSavedGame(event) {
     } else {
         console.log('Failed to retrieve game data');
     }
+    const board = document.getElementById('board');
+    if ( board.style.visibility === "hidden" ) {
+        board.style.visibility = "visible";
+    }
+
+    const gamee = document.getElementById('games-container') 
+    gamee.style.visibility = "hidden";
+
+    const conatiner = document.getElementById('games-container');
+    conatiner.style.display = "none";
 }
 
 async function deleteSavedGame(event) {

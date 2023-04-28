@@ -25,8 +25,17 @@ main{
 
 }
 
+.icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-image: url("../images/AddFriend.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .list-plrs{
-  display: block;
+  display: none;
   width: 40%;
   padding: 12px;
   background: white;
@@ -323,7 +332,11 @@ ul {
 li {
   padding: 10px 10px 10px 10px;
   border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   font-family: 'Cinzel', serif;
+  background-color: #ffffff;
 }
 
 canvas {
