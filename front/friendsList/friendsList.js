@@ -149,19 +149,19 @@ async function getFriends() {
     }
 }
 
-// const searchinput = document.getElementById('searchinput');
-// searchinput.addEventListener('click', function(){
-//     const input = searchinput.value;
-//     const result = persons.filter(item=>item.name.toLocaleLowerCase().includes(input.toLocaleLowerCase()));
-//     let suggestion = '';
-//     if(input!==''){
-//         result.forEach(resultItem =>
-//             suggestion +='<div class = "suggestion">'+resultItem.name+'</div>'
-//                 // <div class ="suggestion">${resultItem.name}</div>
-//         )
-//     }
-//     document.getElementById("suggestions").innerHTML = suggestion;
-// })
+const searchinput = document.getElementById('searchinput');
+searchinput.addEventListener('click', function(){
+    const input = searchinput.value;
+    const result = persons.filter(item=>item.name.toLocaleLowerCase().includes(input.toLocaleLowerCase()));
+    let suggestion = '';
+    if(input!==''){
+        result.forEach(resultItem =>
+            suggestion +='<div class = "suggestion">'+resultItem.name+'</div>'
+                // <div class ="suggestion">${resultItem.name}</div>
+        )
+    }
+    document.getElementById("suggestions").innerHTML = suggestion;
+})
 
 async function getPlayers2() {
     console.log('loading players');
