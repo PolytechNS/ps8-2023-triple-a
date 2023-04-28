@@ -240,7 +240,7 @@ async function saveGame(event, gameType) {
             console.log("im in" , response.data);
             console.log("tab ", response.tab);
             console.log("tab ", tab);
-            window.location.href = '../../modeGamePage/selectMode.html'
+            window.location.href = '../modeGamePage/selectMode.html'
         }
         else{
             console.log("error");

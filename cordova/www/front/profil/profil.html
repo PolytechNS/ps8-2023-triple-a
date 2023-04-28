@@ -175,7 +175,7 @@
       See my friends
     </button>
     <button onclick="shareFb()"> Share on facebook</button>
-    <button class = "button" id="share-button" >Share your score on facebook</button>
+    <button class = "button" id="share-button">Share your score on facebook</button>
     <br/>
     <br/>
     <h2 class="rank">Rank :</h2>
@@ -207,6 +207,7 @@
             function(errormsg){ console.log("Sharing failed: " + errormsg)}
     );
   });
+
   function console(){
     // Social sharing plugin is now ready to use
     window.plugins.socialsharing.available(function(isAvailable) {
@@ -216,7 +217,9 @@
         console.log('Social sharing plugin is not available');
       }
     });
-  }, false);
+    false;
+  }
+  
   function shareFb(){
     window.plugins.socialsharing.shareViaFacebook(
             "come on and check the game of connect4 !, here is the link : http://44.201.141.34:8000 ",
