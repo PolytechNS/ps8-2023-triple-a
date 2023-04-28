@@ -163,6 +163,9 @@
     <div id="image">
         <img src="../images/Logo.png" alt="" width="60%">
     </div>
+    <button id="share-button" onclick="shareOnFB()">Share On Facebook your win!!</button>
+    <button id="share-button2" >Share On Facebook your win!22!</button>
+
     <section class="right">
         <div onclick="location.href='../home/home.html'" style="cursor:pointer;" id="test">
             <img src="../images/home.png" style="height: 0.7cm;" alt="">
@@ -448,6 +451,31 @@
     }();
     // custom js
     confetti.start();
+    var shareButton = document.getElementById("share-button2");
+
+    shareButton.addEventListener("click", function() {
+        // Run the social sharing code when the button is clicked
+        window.plugins.socialsharing.shareViaTwitter(
+            "I just won a game of Connect4! #Connect4 #GameOn",
+            null,
+            null,
+            function() { console.log("Sharing success"); },
+            function(errormsg){ console.log("Sharing failed: " + errormsg)}
+        );
+    });
+    function shareOnFB() {
+        window.plugins.socialsharing.shareViaFacebook(
+            "I just won a game of Connect4! #Connect4 #GameOn",
+            null,
+            null,
+            function () {
+                console.log("Sharing success");
+            },
+            function (errormsg) {
+                console.log("Sharing failed: " + errormsg)
+            }
+        );
+    }
 </script>
 </body>
 </html>

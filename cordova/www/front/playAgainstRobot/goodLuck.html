@@ -10,6 +10,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
     <title>winner</title>
+    <script>
+        var shareButton = document.getElementById("share-button2");
+
+        shareButton.addEventListener("click", function() {
+            // Run the social sharing code when the button is clicked
+            window.plugins.socialsharing.shareViaTwitter(
+                "I just won a game of Connect4! #Connect4 #GameOn",
+                null,
+                null,
+                function() { console.log("Sharing success"); },
+                function(errormsg){ console.log("Sharing failed: " + errormsg)}
+            );
+        });
+        function shareOnFB2() {
+            window.plugins.socialsharing.shareViaFacebook(
+                "I just won a game of Connect4! #Connect4 #GameOn",
+                null,
+                null,
+                function () {
+                    console.log("Sharing success");
+                },
+                function (errormsg) {
+                    console.log("Sharing failed: " + errormsg)
+                }
+            );
+        }
+    </script>
 
 
 </head>
@@ -171,9 +198,12 @@
         <div onclick="location.href='../home/home.html'" style="cursor:pointer;" id="test">
             <img src="../images/home.png" style="height: 0.7cm;" alt="">
         </div>
+        <button id="share-button" onclick="shareOnFB2()">Share On Facebook your win!!</button>
+        <button id="share-button2" >Share On Facebook your win!22!</button>
         <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
             <img src="../images/user.png" style="height: 0.7cm;" alt="">
         </div>
+
         <div onclick="location.href=''" style="cursor:pointer;">
             <img src="../images/not.png" style="height: 0.7cm;" alt="">
             <img src="../images/active.png" style="height: 1cm; display: none;" alt="">
@@ -264,3 +294,4 @@
         color: rgba(0, 0, 0, 0.7);
     }
 </style>
+
