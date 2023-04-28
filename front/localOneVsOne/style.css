@@ -177,6 +177,11 @@ h1 {
     justify-content: space-around;
 }
 
+.right img{
+    margin: 5px;
+    
+}
+
 .right a{
     padding: 5px 10px;
     text-decoration: none;
@@ -234,7 +239,7 @@ a:hover{
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 8cm;
+    width: 20rem;
     height: 1,7cm;
     transform: translate(-50%, -50%);
     overflow: hidden;

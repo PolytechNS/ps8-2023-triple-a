@@ -558,6 +558,7 @@ async function getSavedGames() {
         console.log('Failed to retrieve saved games');
     }
 }
+
 async function restoreSavedGame(event) {
     event.preventDefault();
     const gameId = event.target.dataset.game;

@@ -78,8 +78,12 @@
     toggleBtn.addEventListener('click', function() {
         if (gamesContainer.style.display === 'none') {
             gamesContainer.style.display = 'block';
+            const board = document.getElementById('board');
+            board.style.visibility = 'hidden'
         } else {
             gamesContainer.style.display = 'none';
+            const board = document.getElementById('board');
+            board.style.visibility = 'visible'
         }
     });
 </script>
