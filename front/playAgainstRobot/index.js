@@ -615,7 +615,10 @@ async function restoreSavedGame(event) {
 
     const gamee = document.getElementById('games-container') 
     gamee.style.visibility = "hidden";
-    
+
+    const conatiner = document.getElementById('games-container');
+    conatiner.style.display = "none";
+
 }
 
 async function deleteSavedGame(event) {
