@@ -875,7 +875,7 @@ function decrementYellow() {
     timer2.style.display = "none";
 
     let im1 = document.getElementById("right");
-    im1.style.display = "block";
+    im1.style.display = "none";
 
     let im = document.getElementById("left");
     im.style.display = "none";
@@ -897,7 +897,7 @@ function decrementRed() {
     timer2.style.display = "none";
 
     let im1 = document.getElementById("left");
-    im1.style.display = "block";
+    im1.style.display = "none";
 
     let im = document.getElementById("right");
     im.style.display = "none";
