@@ -249,6 +249,7 @@ async function saveGame(event, gameType) {
         console.log(err);
     }
 }
+
 document.getElementById("saveButton").addEventListener("click",function(){saveGame(event, "local")});
 
 async function resumeGame() {
