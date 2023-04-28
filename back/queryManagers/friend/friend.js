@@ -213,6 +213,10 @@ async function manageRequest(request, response) {
 
             }
 }
+    else if (request.method ==="OPTIONS"){
+        response.writeHead(200);
+        response.end();
+    }
 }
 async function findOneInDataBase(data, collection) {
     try {
