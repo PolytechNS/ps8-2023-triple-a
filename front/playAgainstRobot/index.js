@@ -518,7 +518,7 @@ document.getElementById("saveButton2").addEventListener("click",function(){saveG
 
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");
-    redirect.href ="../playOneVsOne/index.html" ;
+    redirect.href ="../playAgainstRobot/index.html" ;
 }
 
 async function getSavedGames() {
