@@ -251,7 +251,7 @@ async function getFriendRequests() {
                 console.log("storage token :",localStorage.getItem('token'));
 
 
-                gameItem.innerHTML = `<button data-player="${player._id}" class="player-button">local - ${player.date}</button>`;
+                // gameItem.innerHTML = `<button data-player="${player._id}" class="player-button">local - ${player.date}</button>`;
                 playerItem.innerHTML = `
                                         <div class="game-container">
                                             <button data-player="${player.token}" class="game-button">${player.name}</button>

@@ -558,6 +558,7 @@ async function getSavedGames() {
         console.log('Failed to retrieve saved games');
     }
 }
+
 async function restoreSavedGame(event) {
     event.preventDefault();
     const gameId = event.target.dataset.game;
@@ -607,6 +608,17 @@ async function restoreSavedGame(event) {
     } else {
         console.log('Failed to retrieve game data');
     }
+    const board = document.getElementById('board');
+    if ( board.style.visibility === "hidden" ) {
+        board.style.visibility = "visible";
+    }
+
+    const gamee = document.getElementById('games-container') 
+    gamee.style.visibility = "hidden";
+
+    const conatiner = document.getElementById('games-container');
+    conatiner.style.display = "none";
+
 }
 
 async function deleteSavedGame(event) {

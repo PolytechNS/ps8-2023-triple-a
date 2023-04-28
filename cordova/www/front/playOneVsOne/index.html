@@ -17,160 +17,155 @@
   <body>
     
     <header class="header" id="header">
-        <style>
-          *{
-                margin: 0;
-                padding: 0;
-            }
-    
-            .header{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                height: 60px;
-                background-image: url("../images/Board-image.jpg");
-                color: antiquewhite;
-                position: absolute;
-                top: 0%;
-                width: 100%;
-            }
-    
-            .left{
-                width: 30%;
-                background: rgb(114, 231, 225);
-                padding: 0px 20px;
-                display: flex;
-                border-top-right-radius: 20px;
-                justify-content: space-around;
-            }
-    
-            .left a{
-                padding: 5px 10px;
-                text-decoration: none;
-                color: rgb(0, 26, 255);
-                font-size: 20px;
-                border-top-right-radius: 20px;
-                font-family: 'Cinzel', serif;
-            }
-    
-            .middle img{
-                width: 167px;
-                height: 167px;
-                z-index: 1;
-            }
-    
-            .right{
-                width: 30%;
-                background: rgb(114, 231, 225);
-                padding: 0px 20px;
-                display: flex;
-                border-top-left-radius: 20px;
-                justify-content: space-around;
-            }
-    
-            .right a{
-                padding: 5px 10px;
-                text-decoration: none;
-                color: rgb(0, 26, 255);
-                font-size: 20px;
-                border-top-left-radius: 20px;
-                font-family: 'Cinzel', serif;
-            }
-    
-            a{
-                transition: 0.2 linear;
-            }
-    
-            a:hover{
-                background-color: #ffffff;
-                color: #1900ff;
-                border: 1px solid #7f52cc;
-            }
-    
-            #line{
-                width: 20px;
-                height: 1px;
-                background-color: #7f52cc;
-                position: absolute;
-                left: 0%;
-                top: 60px;
-                transform: skew(15deg);
-                animation: moveLine 2s linear infinite alternate-reverse;
-            }
-    
-            #line2{
-                width: 20px;
-                height: 1px;
-                background-color: #7f52cc;
-                position: absolute;
-                right: 0%;
-                top: 60px;
-                transform: skew(15deg);
-                animation: moveLine 2s linear infinite alternate-reverse;
-            }
-    
-            @keyframes moveLine{
-                0%{
-                    width: 0%;
-                }
-                100%{
-                    width: 50%;
-                }
-            }
-    
-            #image{
-                background: rgb(114, 231, 225);
-                justify-content: space-around;
-                /* put the div in the center */
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                width: 8cm;
-                height: 1,7cm;
-                transform: translate(-50%, -50%);
-                overflow: hidden;
-                /* put the image in the center */
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                /* set the border to solid and make them green */
-                border-top-right-radius: 20px;
-                border-top-left-radius: 20px;
-                border: 1px solid #ffffff;
-            }
-        </style>
-        <section class="left">
-            <div onclick="location.href='../authentificationPages/logIn.html'" style="cursor:pointer;" id="test">
-              <img src="../images/logout.png" style="height: 0.7cm;" alt="">
-            </div>
-            <!-- Uncomment if you want to add third option -->
-            <!-- <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
-                <img src="../images/" style="height: 0.7cm;" alt="">
-            </div> -->
-            <div onclick="" style="cursor:pointer;">
-              <img src="../images/night-mode.png" style="height: 0.7cm; display: none;" alt="">
-              <img src="../images/moon.png" style="height: 0.7cm;" alt="">
-            </div>
-        </section>
-        <section class="middle"></section>
-        <!-- Put my image inside an envolop  -->
-        <div id="image">
-            <img src="../images/Logo.png" alt="" width="60%">
-        </div>
-        <section class="right">
-            <div onclick="location.href='../modeGamePage/selectMode.html'" style="cursor:pointer;" id="test">
-                <img src="../images/home.png" style="height: 0.7cm;" alt="">
-            </div>
-            <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
-                <img src="../images/user.png" style="height: 0.7cm;" alt="">
-            </div>
-            <div onclick="location.href=''" style="cursor:pointer;">
-                <img src="../images/not.png" style="height: 0.7cm;" alt="">
-                <img src="../images/active.png" style="height: 1cm; display: none;" alt="">
-            </div>
-        </section>
-        <div id="line"></div>
-        <div id="line2"></div>
+      <style>
+        *{
+              margin: 0;
+              padding: 0;
+          }
+  
+          .header{
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              height: 60px;
+              background-image: url("../images/Board-image.jpg");
+              color: antiquewhite;
+              position: absolute;
+              top: 0%;
+              width: 100%;
+          }
+  
+          .left{
+              width: 30%;
+              background: rgb(114, 231, 225);
+              padding: 0px 20px;
+              display: flex;
+              border-top-right-radius: 20px;
+              justify-content: space-around;
+          }
+  
+          .left a{
+              padding: 5px 10px;
+              text-decoration: none;
+              color: rgb(0, 26, 255);
+              font-size: 20px;
+              border-top-right-radius: 20px;
+              font-family: 'Cinzel', serif;
+          }
+  
+          .middle img{
+              width: 167px;
+              height: 167px;
+              z-index: 1;
+          }
+  
+          .right{
+              width: 30%;
+              background: rgb(114, 231, 225);
+              padding: 0px 20px;
+              display: flex;
+              border-top-left-radius: 20px;
+              justify-content: space-around;
+          }
+  
+          .right a{
+              padding: 5px 10px;
+              text-decoration: none;
+              color: rgb(0, 26, 255);
+              font-size: 20px;
+              border-top-left-radius: 20px;
+              font-family: 'Cinzel', serif;
+          }
+  
+          a{
+              transition: 0.2 linear;
+          }
+  
+          a:hover{
+              background-color: #ffffff;
+              color: #1900ff;
+              border: 1px solid #7f52cc;
+          }
+  
+          #line{
+              width: 20px;
+              height: 1px;
+              background-color: #7f52cc;
+              position: absolute;
+              left: 0%;
+              top: 60px;
+              transform: skew(15deg);
+              animation: moveLine 2s linear infinite alternate-reverse;
+          }
+  
+          #line2{
+              width: 20px;
+              height: 1px;
+              background-color: #7f52cc;
+              position: absolute;
+              right: 0%;
+              top: 60px;
+              transform: skew(15deg);
+              animation: moveLine 2s linear infinite alternate-reverse;
+          }
+  
+          @keyframes moveLine{
+              0%{
+                  width: 0%;
+              }
+              100%{
+                  width: 50%;
+              }
+          }
+  
+          #image{
+              background: rgb(114, 231, 225);
+              justify-content: space-around;
+              /* put the div in the center */
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              width: 8cm;
+              height: 1,7cm;
+              transform: translate(-50%, -50%);
+              overflow: hidden;
+              /* put the image in the center */
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              /* set the border to solid and make them green */
+              border-top-right-radius: 20px;
+              border-top-left-radius: 20px;
+              border: 1px solid #ffffff;
+          }
+      </style>
+      <section class="left">
+          <div onclick="location.href='../authentificationPages/logIn.html'" style="cursor:pointer;" id="test">
+            <img src="../images/logout.png" style="height: 0.7cm;" alt="">
+          </div>
+          <!-- Uncomment if you want to add third option -->
+          <!-- <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+              <img src="../images/" style="height: 0.7cm;" alt="">
+          </div> -->
+          <div onclick="location.href='../modeGamePage/selectMode.html'" style="cursor:pointer;" id="test">
+            <img src="../images/home.png" style="height: 0.7cm;" alt="">
+          </div>
+      </section>
+      <!-- Put my image inside an envolop
+      <div id="image" class="aaa">
+          <img src="../images/Logo.png" alt="" width="60%">
+      </div> -->
+      <section class="right">
+          <div onclick="location.href='../friendsList/friendsList.html'" style="cursor:pointer;">
+            <img src="../images/ami.png" style="height: 0.7cm" alt="">
+            <!-- <img src="../images/moon.png" style="height: 0.7cm;" alt=""> -->
+          </div>
+          <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+              <img src="../images/user.png" style="height: 0.7cm;" alt="">
+          </div>
+      </section>
+      <div id="line"></div>
+      <div id="line2"></div>
     </header>
 
     <header id="chrono" style="visibility : hidden;">
@@ -249,7 +244,7 @@
   
   
       </style>
-  </header>
+    </header>
 
     <div style=" display: flex; justify-content: center; align-items: center;">
       <button class="button" id = 'newGame'>Look for Oponnent</button>
@@ -279,7 +274,7 @@
       </div>
       
       <img src="../images/chat.png" id="open" style="height: 1.5cm; display: inline-block; margin-right: 10px; position: absolute; bottom: 20px; right : 3px; visibility: hidden;" alt="" onclick="openChat()">
-      <div class="chat-box" style="display : block">
+      <div class="chat-box" style="display : none">
 
         <div style="height: 0.5cm;">
           <img src="../images/close.png" style="height: 0.5cm; display: inline-block; margin-right: 10px; position: absolute; top: 3px; left : 3px" alt="" onclick="closeChat()">

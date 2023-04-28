@@ -248,6 +248,7 @@ a:hover {
     border-top-left-radius: 20px;
     border: 1px solid #ffffff;
 }
+
 #games-container {
     position: fixed;
     top: 80px;
@@ -259,7 +260,12 @@ a:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     padding: 20px;
-    width: 22%;
+    width: 60%;
+    /* make it in the center of the page */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
 }
 
 #games-container h2 {

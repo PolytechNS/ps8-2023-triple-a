@@ -335,6 +335,8 @@ newGame.addEventListener('click', () => {
       setTimeout(() => {
           countdown.style.display = "none";
           board.style.visibility = "visible";
+          const startChat = document.getElementById("open");
+          startChat.style.visibility = "visible";
           const image1 = document.getElementById('open');
           image1.style.visibility = "visible";
           let chrono = document.getElementById("chrono");
@@ -447,6 +449,8 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
+            const startChat = document.getElementById("open");
+            startChat.style.visibility = "visible";
             const image1 = document.getElementById('open');
             image1.style.visibility = "visible";
             let chrono = document.getElementById("chrono");
@@ -503,6 +507,8 @@ ws.onmessage = message => {
 
             let board = document.getElementById('board');
             board.style.visibility = "visible";
+            const startChat = document.getElementById("open");
+            startChat.style.visibility = "visible";
             const image1 = document.getElementById('open');
             image1.style.visibility = "visible";
             let chrono = document.getElementById("chrono");
@@ -775,6 +781,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
                 photo.style.display = "none";
                 countdown.style.display = "none";
                 board.style.visibility = "visible";
+                const startChat = document.getElementById("open");
+                startChat.style.visibility = "visible";
                 const image1 = document.getElementById('open');
                 image1.style.visibility = "visible";
                 let chrono = document.getElementById("chrono");
@@ -835,6 +843,8 @@ acceptBtn.addEventListener("click", function() {
   setTimeout(() => {
     countdown.style.display = "none";
     board.style.visibility = "visible";
+    const startChat = document.getElementById("open");
+    startChat.style.visibility = "visible";
     const image1 = document.getElementById('open');
     image1.style.visibility = "visible";
     let chrono = document.getElementById("chrono");

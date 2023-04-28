@@ -78,15 +78,19 @@
     toggleBtn.addEventListener('click', function() {
         if (gamesContainer.style.display === 'none') {
             gamesContainer.style.display = 'block';
+            const board = document.getElementById('board');
+            board.style.visibility = 'hidden'
         } else {
             gamesContainer.style.display = 'none';
+            const board = document.getElementById('board');
+            board.style.visibility = 'visible';
         }
     });
 </script>
 
 <div id="popup-message" class="hidden">
     <p id="winner-message"></p>
-    <p>Click home to return to the homepage.</p>
+    <p>Click home to return to the homepage</p>
     <button id="popup-home-button">Home</button>
 </div>
 

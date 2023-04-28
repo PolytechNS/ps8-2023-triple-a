@@ -25,6 +25,15 @@ main{
 
 }
 
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url("../images/AddFriend.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .list-plrs{
   display: block;
   width: 40%;
