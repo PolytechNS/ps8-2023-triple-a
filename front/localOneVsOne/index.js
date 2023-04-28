@@ -437,3 +437,4 @@ function decrementRed() {
         redTimer.textContent = 'Time\'s up!';
     }
 }
+
