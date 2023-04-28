@@ -87,6 +87,7 @@ main{
   margin-bottom: 20px;
 }
 #saved-games {
+  margin-top: 60px;
   top: 0;
   left: 0;
   width: 250px;
@@ -97,6 +98,8 @@ main{
 }
 
 #open_list{
+  margin-top: 60px;
+
 width: 60px;
 position: absolute;
 text-align: center;
@@ -109,7 +112,7 @@ right:40px;
   margin-left: 50px;
 }
 #saved-games2 {
- 
+  margin-top: 60px;
   position: absolute;
   top: 0;
   right: -500px;
@@ -122,6 +125,7 @@ right:40px;
 }
 
 #saved-games2 .close{
+  margin-top: 60px;
   display: none;
   width: 50px;
   height: 50px;
@@ -292,10 +296,12 @@ right:40px;
     border-top-right-radius: 20px;
     font-family: 'Cinzel', serif;
   }
+
 body {
   font-family: "Helvetica Neue", sans-serif;
   margin: 0;
   padding: 0;
+  margin-top: 2cm;
 }
 
 input {
