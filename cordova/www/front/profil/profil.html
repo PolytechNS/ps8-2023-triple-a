@@ -177,6 +177,7 @@
         <button onclick="window.plugins.socialsharing.shareViaFacebook('Come and play with me on the game of connect4 ! : http://44.201.141.34:8000/',
         null /* img /, null / url */,
          function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">Share your score on FB</button>
+        <button class = "button" id="share-button" >Share your score on facebook</button>
         <br/>
         <br/>
         <h2 class="rank">Rank :</h2>
@@ -197,7 +198,27 @@
 const localHost = 'localhost';
 const url = '44.201.141.34';
 let localHostOrUrl = url;
-
+const shareButton = document.getElementById("share-button");
+shareButton.addEventListener("click", function() {
+  // Run the social sharing code when the button is clicked
+  window.plugins.socialsharing.shareViaFacebook(
+          "come on and check the game of connect4 !, here is the link : http://44.201.141.34:8000 ",
+          null,
+          null,
+          function() { console.log("Sharing success"); },
+          function(errormsg){ console.log("Sharing failed: " + errormsg)}
+  );
+});
+document.addEventListener('deviceready', function() {
+  // Social sharing plugin is now ready to use
+  window.plugins.socialsharing.available(function(isAvailable) {
+    if (isAvailable) {
+      console.log('Social sharing plugin is available');
+    } else {
+      console.log('Social sharing plugin is not available');
+    }
+  });
+}, false);
   async function getData(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
