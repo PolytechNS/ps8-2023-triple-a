@@ -1,224 +1,231 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil de l'utilisateur</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil de l'utilisateur</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
 
-    <link rel="stylesheet" href="style.css" />
-    <script src="profil.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
-  </head>
+  <link rel="stylesheet" href="style.css" />
+  <script src="profil.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+</head>
 
 
-  <body>
-    <header class="header" id="header">
-      <style>
-        *{
-              margin: 0;
-              padding: 0;
-          }
-  
-          .header{
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              height: 60px;
-              background-image: url("../images/Board-image.jpg");
-              color: antiquewhite;
-              position: absolute;
-              top: 0%;
-              width: 100%;
-          }
-  
-          .left{
-              width: 30%;
-              background: rgb(114, 231, 225);
-              padding: 0px 20px;
-              display: flex;
-              border-top-right-radius: 20px;
-              justify-content: space-around;
-          }
-  
-          .left a{
-              padding: 5px 10px;
-              text-decoration: none;
-              color: rgb(0, 26, 255);
-              font-size: 20px;
-              border-top-right-radius: 20px;
-              font-family: 'Cinzel', serif;
-          }
-  
-          .middle img{
-              width: 167px;
-              height: 167px;
-              z-index: 1;
-          }
-  
-          .right{
-              width: 30%;
-              background: rgb(114, 231, 225);
-              padding: 0px 20px;
-              display: flex;
-              border-top-left-radius: 20px;
-              justify-content: space-around;
-          }
-  
-          .right a{
-              padding: 5px 10px;
-              text-decoration: none;
-              color: rgb(0, 26, 255);
-              font-size: 20px;
-              border-top-left-radius: 20px;
-              font-family: 'Cinzel', serif;
-          }
-  
-          a{
-              transition: 0.2 linear;
-          }
-  
-          a:hover{
-              background-color: #ffffff;
-              color: #1900ff;
-              border: 1px solid #7f52cc;
-          }
-  
-          #line{
-              width: 20px;
-              height: 1px;
-              background-color: #7f52cc;
-              position: absolute;
-              left: 0%;
-              top: 60px;
-              transform: skew(15deg);
-              animation: moveLine 2s linear infinite alternate-reverse;
-          }
-  
-          #line2{
-              width: 20px;
-              height: 1px;
-              background-color: #7f52cc;
-              position: absolute;
-              right: 0%;
-              top: 60px;
-              transform: skew(15deg);
-              animation: moveLine 2s linear infinite alternate-reverse;
-          }
-  
-          @keyframes moveLine{
-              0%{
-                  width: 0%;
-              }
-              100%{
-                  width: 50%;
-              }
-          }
-  
-          #image{
-              background: rgb(114, 231, 225);
-              justify-content: space-around;
-              /* put the div in the center */
-              position: absolute;
-              left: 50%;
-              top: 50%;
-              width: 8cm;
-              height: 1,7cm;
-              transform: translate(-50%, -50%);
-              overflow: hidden;
-              /* put the image in the center */
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              /* set the border to solid and make them green */
-              border-top-right-radius: 20px;
-              border-top-left-radius: 20px;
-              border: 1px solid #ffffff;
-          }
-      </style>
-      <section class="left">
-          <div onclick="location.href='../authentificationPages/logIn.html'" style="cursor:pointer;" id="test">
-            <img src="../images/logout.png" style="height: 0.7cm;" alt="">
-          </div>
-          <!-- Uncomment if you want to add third option -->
-          <!-- <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
-              <img src="../images/" style="height: 0.7cm;" alt="">
-          </div> -->
-          <div onclick="location.href='../modeGamePage/selectMode.html'" style="cursor:pointer;" id="test">
-            <img src="../images/home.png" style="height: 0.7cm;" alt="">
-          </div>
-      </section>
-      <!-- Put my image inside an envolop
-      <div id="image" class="aaa">
-          <img src="../images/Logo.png" alt="" width="60%">
-      </div> -->
-      <section class="right">
-          <div onclick="location.href='../friendsList/friendsList.html'" style="cursor:pointer;">
-            <img src="../images/ami.png" style="height: 0.7cm" alt="">
-            <!-- <img src="../images/moon.png" style="height: 0.7cm;" alt=""> -->
-          </div>
-          <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
-              <img src="../images/user.png" style="height: 0.7cm;" alt="">
-          </div>
-      </section>
-      <div id="line"></div>
-      <div id="line2"></div>
-    </header>
-
-    <div class="container">
-      <div class="back">
-        <h1 class="title">Welcome to your profile <span id="username"></span></h1>
-        <button class="button" onclick="window.location.href='/friendsList/friendsList.html'">
-          See my friends
-        </button>
-        <!-- <button onclick="window.plugins.socialsharing.shareViaFacebook('Message via Facebook', null /* img */, null /* url */, function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">msg via Facebook (with errcallback)</button> -->
-        <!-- <button onclick="window.plugins.socialsharing.shareViaFacebook('Come and play with me on the game of connect4 !',
-        null /* img /, null / url */,
-         function() {console.log('share ok')}, function(errormsg){alert(errormsg)})">Share your score on FB</button> -->
-        <!-- <button class = "button" id="share-button" >Share your score on facebook</button> -->
-        <br/>
-        <br/>
-        <h2 class="rank">Rank :</h2>
-        <span id="rank"></span>
-        <div id="recompense"></div>
-        <h2 class="stats">Stats</h2>
-        <p class="score">Score: <span id="score"></span></p>
-        <p class="wins">Wins: <span id="wins"></span></p>
-        <p class="losses">Losses: <span id="losses"></span></p>
-        <p class="winrate">Win Rate: <span id="winrate"></span></p>
-        <h2 class="globalRank">Global Rank: </h2>
-        <div id="ranking-container"></div>
-        
-      </div>
-    </div>
-    <script>
-
-const localHost = 'localhost';
-const url = '44.201.141.34';
-let localHostOrUrl = url;
-const shareButton = document.getElementById("share-button");
-shareButton.addEventListener("click", function() {
-  // Run the social sharing code when the button is clicked
-  window.plugins.socialsharing.shareViaFacebook(
-          "come on and check the game of connect4 !, here is the link : http://44.201.141.34:8000 ",
-          null,
-          null,
-          function() { console.log("Sharing success"); },
-          function(errormsg){ console.log("Sharing failed: " + errormsg)}
-  );
-});
-document.addEventListener('deviceready', function() {
-  // Social sharing plugin is now ready to use
-  window.plugins.socialsharing.available(function(isAvailable) {
-    if (isAvailable) {
-      console.log('Social sharing plugin is available');
-    } else {
-      console.log('Social sharing plugin is not available');
+<body>
+<header class="header" id="header">
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
     }
+
+    .header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      background-image: url("../images/Board-image.jpg");
+      color: antiquewhite;
+      position: absolute;
+      top: 0%;
+      width: 100%;
+    }
+
+    .left{
+      width: 30%;
+      background: rgb(114, 231, 225);
+      padding: 0px 20px;
+      display: flex;
+      border-top-right-radius: 20px;
+      justify-content: space-around;
+    }
+
+    .left a{
+      padding: 5px 10px;
+      text-decoration: none;
+      color: rgb(0, 26, 255);
+      font-size: 20px;
+      border-top-right-radius: 20px;
+      font-family: 'Cinzel', serif;
+    }
+
+    .middle img{
+      width: 167px;
+      height: 167px;
+      z-index: 1;
+    }
+
+    .right{
+      width: 30%;
+      background: rgb(114, 231, 225);
+      padding: 0px 20px;
+      display: flex;
+      border-top-left-radius: 20px;
+      justify-content: space-around;
+    }
+
+    .right a{
+      padding: 5px 10px;
+      text-decoration: none;
+      color: rgb(0, 26, 255);
+      font-size: 20px;
+      border-top-left-radius: 20px;
+      font-family: 'Cinzel', serif;
+    }
+
+    a{
+      transition: 0.2 linear;
+    }
+
+    a:hover{
+      background-color: #ffffff;
+      color: #1900ff;
+      border: 1px solid #7f52cc;
+    }
+
+    #line{
+      width: 20px;
+      height: 1px;
+      background-color: #7f52cc;
+      position: absolute;
+      left: 0%;
+      top: 60px;
+      transform: skew(15deg);
+      animation: moveLine 2s linear infinite alternate-reverse;
+    }
+
+    #line2{
+      width: 20px;
+      height: 1px;
+      background-color: #7f52cc;
+      position: absolute;
+      right: 0%;
+      top: 60px;
+      transform: skew(15deg);
+      animation: moveLine 2s linear infinite alternate-reverse;
+    }
+
+    @keyframes moveLine{
+      0%{
+        width: 0%;
+      }
+      100%{
+        width: 50%;
+      }
+    }
+
+    #image{
+      background: rgb(114, 231, 225);
+      justify-content: space-around;
+      /* put the div in the center */
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 8cm;
+      height: 1,7cm;
+      transform: translate(-50%, -50%);
+      overflow: hidden;
+      /* put the image in the center */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* set the border to solid and make them green */
+      border-top-right-radius: 20px;
+      border-top-left-radius: 20px;
+      border: 1px solid #ffffff;
+    }
+  </style>
+  <section class="left">
+    <div onclick="location.href='../authentificationPages/logIn.html'" style="cursor:pointer;" id="test">
+      <img src="../images/logout.png" style="height: 0.7cm;" alt="">
+    </div>
+    <!-- Uncomment if you want to add third option -->
+    <!-- <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+        <img src="../images/" style="height: 0.7cm;" alt="">
+    </div> -->
+    <div onclick="location.href='../modeGamePage/selectMode.html'" style="cursor:pointer;" id="test">
+      <img src="../images/home.png" style="height: 0.7cm;" alt="">
+    </div>
+  </section>
+  <!-- Put my image inside an envolop
+  <div id="image" class="aaa">
+      <img src="../images/Logo.png" alt="" width="60%">
+  </div> -->
+  <section class="right">
+    <div onclick="location.href='../friendsList/friendsList.html'" style="cursor:pointer;">
+      <img src="../images/ami.png" style="height: 0.7cm" alt="">
+      <!-- <img src="../images/moon.png" style="height: 0.7cm;" alt=""> -->
+    </div>
+    <div onclick="location.href='../profil/profil.html'" style="cursor:pointer;">
+      <img src="../images/user.png" style="height: 0.7cm;" alt="">
+    </div>
+  </section>
+  <div id="line"></div>
+  <div id="line2"></div>
+</header>
+
+<div class="container">
+  <div class="back">
+    <h1 class="title">Welcome to your profile <span id="username"></span></h1>
+    <button class="button" onclick="window.location.href='/friendsList/friendsList.html'">
+      See my friends
+    </button>
+    <button onclick="shareFb()"> Share on facebook</button>
+    <button class = "button" id="share-button" >Share your score on facebook</button>
+    <br/>
+    <br/>
+    <h2 class="rank">Rank :</h2>
+    <span id="rank"></span>
+    <div id="recompense"></div>
+    <h2 class="stats">Stats</h2>
+    <p class="score">Score: <span id="score"></span></p>
+    <p class="wins">Wins: <span id="wins"></span></p>
+    <p class="losses">Losses: <span id="losses"></span></p>
+    <p class="winrate">Win Rate: <span id="winrate"></span></p>
+    <h2 class="globalRank">Global Rank: </h2>
+    <div id="ranking-container"></div>
+
+  </div>
+</div>
+<script>
+
+  const localHost = 'localhost';
+  const url = '44.201.141.34';
+  let localHostOrUrl = url;
+  const shareButton = document.getElementById("share-button");
+  shareButton.addEventListener("click", function() {
+    // Run the social sharing code when the button is clicked
+    window.plugins.socialsharing.shareViaFacebook(
+            "come on and check the game of connect4 !, here is the link : http://44.201.141.34:8000 ",
+            null,
+            null,
+            function() { console.log("Sharing success"); },
+            function(errormsg){ console.log("Sharing failed: " + errormsg)}
+    );
   });
-}, false);
+  function console(){
+    // Social sharing plugin is now ready to use
+    window.plugins.socialsharing.available(function(isAvailable) {
+      if (isAvailable) {
+        console.log('Social sharing plugin is available');
+      } else {
+        console.log('Social sharing plugin is not available');
+      }
+    });
+  }, false);
+  function shareFb(){
+    window.plugins.socialsharing.shareViaFacebook(
+            "come on and check the game of connect4 !, here is the link : http://44.201.141.34:8000 ",
+            null,
+            null,
+            function() { console.log("Sharing success"); },
+            function(errormsg){ console.log("Sharing failed: " + errormsg)}
+    );
+
+  }
   async function getData(event) {
     event.preventDefault();
     const token = localStorage.getItem("token");
@@ -273,41 +280,41 @@ document.addEventListener('deviceready', function() {
     }
   }
   async function getPlayers2() {
-  console.log('loading players');
-  const token = localStorage.getItem('token').toString();
+    console.log('loading players');
+    const token = localStorage.getItem('token').toString();
 
-  const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/user', {
+    const response = await fetch('http://' + localHostOrUrl + ':8000/api/game/user', {
       method: 'POST',
       headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ token })
-  });
+    });
 
-  if (response.ok) {
+    if (response.ok) {
       const players = await response.json();
       console.log("players : ", players);
       const playerList = [];
 
       for (let i = 0; i < players.length; i++) {
-          const player = players[i];
-          playerList.push(player);
+        const player = players[i];
+        playerList.push(player);
       }
       console.log("playerList : ", playerList)
 
       return playerList;
-  } else {
+    } else {
       console.log('Failed to retrieve players');
       return [];
+    }
   }
-}
 
-async function displayPlayersRanking() {
-  const players = await getPlayers2();
-  players.sort((a, b) => b.score - a.score); // Tri des joueurs par score décroissant
-  const playerList = document.createElement('ol'); // Création d'une liste ordonnée pour afficher les joueurs
+  async function displayPlayersRanking() {
+    const players = await getPlayers2();
+    players.sort((a, b) => b.score - a.score); // Tri des joueurs par score décroissant
+    const playerList = document.createElement('ol'); // Création d'une liste ordonnée pour afficher les joueurs
 
-  players.map((player, index) => {
+    players.map((player, index) => {
       const listItem = document.createElement('li');
       listItem.textContent = `${index + 1}. ${player.username} - ${player.score} points`;
       if ( player.username === localStorage.getItem('username') ) {
@@ -317,14 +324,17 @@ async function displayPlayersRanking() {
       if ( !player.totalGames ) {
         listItem.style.display = "none";
       }
-  });
+    });
 
-}
+  }
 
-//displayPlayersRanking();
+  //displayPlayersRanking();
 
   window.addEventListener("load", getData);
   window.addEventListener("load", displayPlayersRanking);
+  window.addEventListener("device-ready",shareFb);
+  window.onDeviceReady=shareFb;
+  window.onDeviceReady=console;
 </script>
 
 </body>
