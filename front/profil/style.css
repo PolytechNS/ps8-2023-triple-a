@@ -174,3 +174,9 @@ li:first-child {
     font-size: 1em;
   }
 }
+
+@media screen and (max-width: 660px) {
+  .aaa {
+      display: none;
+  }
+}
