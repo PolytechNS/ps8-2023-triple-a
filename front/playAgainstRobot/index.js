@@ -612,6 +612,7 @@ async function restoreSavedGame(event) {
     if ( board.style.visibility === "hidden" ) {
         board.style.visibility = "visible";
     }
+    const bt1 = document.getElementById('toggle-btn');
 
     const gamee = document.getElementById('games-container') 
     gamee.style.visibility = "hidden";

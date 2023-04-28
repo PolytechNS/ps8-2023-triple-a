@@ -189,8 +189,10 @@
         <br>
         <br>
         <br>
+        <button id="share-button" onclick="shareOnFB()">Share On Facebook your win!!</button>
+        <button id="share-button2" onclick="op()">Share On Facebook your win!22!</button>
         <a href="../localOneVsOne/index.html">
-            <button class="button">  Replay  </button>
+            <button class="button"> Replay </button>
         </a>
     </div>
 
@@ -447,6 +449,60 @@ background: rgba(0, 235, 252, 0.877);
            }();
    // custom js
     confetti.start();
+
+    let shareButton = document.getElementById("share-button2");
+    let shareButton3 = document.getElementById("share-button");
+
+shareButton.addEventListener("click", function() {
+    // Run the social sharing code when the button is clicked
+    window.plugins.socialsharing.shareViaTwitter(
+        "I just won a game of Connect4! #Connect4 #GameOn",
+        null,
+        null,
+        function() { console.log("Sharing success"); },
+        function(errormsg){ console.log("Sharing failed: " + errormsg)}
+    );
+});
+
+function op() {
+        // Run the social sharing code when the button is clicked
+        window.plugins.socialsharing.shareViaTwitter(
+        "I just won a game of Connect4! #Connect4 #GameOn",
+        null,
+        null,
+        function() { console.log("Sharing success"); },
+        function(errormsg){ console.log("Sharing failed: " + errormsg)}
+    );
+}
+
+shareButton3.addEventListener("click", function() {
+    window.plugins.socialsharing.shareViaFacebook(
+        "I just won a game of Connect4! #Connect4 #GameOn",
+        null,
+        null,
+        function () {
+            console.log("Sharing success");
+        },
+        function (errormsg) {
+            console.log("Sharing failed: " + errormsg)
+        }
+    );
+});
+
+function shareOnFB() {
+    window.plugins.socialsharing.shareViaFacebook(
+        "I just won a game of Connect4! #Connect4 #GameOn",
+        null,
+        null,
+        function () {
+            console.log("Sharing success");
+        },
+        function (errormsg) {
+            console.log("Sharing failed: " + errormsg)
+        }
+    );
+}
    </script>
+
 </body>
 </html>
