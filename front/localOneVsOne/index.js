@@ -250,7 +250,7 @@ async function saveGame(event, gameType) {
     }
 }
 
-// document.getElementById("saveButton").addEventListener("click",function(){saveGame(event, "local")});
+document.getElementById("saveButton2").addEventListener("click",function(){saveGame(event, "local")});
 
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");

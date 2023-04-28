@@ -515,11 +515,11 @@ async function saveGame(event, gameType) {
     }
 }
 
-// document.getElementById("saveButton2").addEventListener("click",function(){saveGame(event, "IA")});
+document.getElementById("saveButton2").addEventListener("click",function(){saveGame(event, "IA")});
 
 async function resumeGame() {
     let redirect = document.getElementById("resume-link");
-    redirect.href ="../playAgainst/index.html" ;
+    redirect.href ="../playAgainstRobot/index.html";
 }
 
 async function getSavedGames() {
