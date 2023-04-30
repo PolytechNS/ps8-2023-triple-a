@@ -104,7 +104,8 @@ function fillTile(tile) {
     let r = parseInt(coords[0]);
     let c = parseInt(coords[1]);
     fillTileOfCoords(r, c);
-
+    // var media = new Audio('../sound/fill.mp3');
+    // media.play();
 }
 
 function fillTileOfCoords(i, j) {
